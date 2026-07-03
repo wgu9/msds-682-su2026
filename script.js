@@ -21,23 +21,6 @@ const pages = {
         <div class="meta-row"><strong>Submissions</strong><span>Canvas is the official submission platform; GitHub is used for code management and collaboration.</span></div>
       </div>
 
-      <h3>Course Themes</h3>
-      <ul>
-        <li><strong>Kafka ecosystem:</strong> topics, producers, consumers, Confluent tools, and demos.</li>
-        <li><strong>Python streaming workflows:</strong> producing, consuming, transforming, and interpreting message streams.</li>
-        <li><strong>Software engineering practice:</strong> GitHub repositories, issues, pull requests, and collaboration.</li>
-        <li><strong>Responsible technical work:</strong> testing, attribution, communication, and project presentation.</li>
-      </ul>
-
-      <h3>Learning Goals</h3>
-      <ul>
-        <li>Understand the Kafka ecosystem.</li>
-        <li>Produce and consume Kafka messages using Python.</li>
-        <li>Build real-time data ingestion and streaming analytics workflows.</li>
-        <li>Use Git and GitHub for repositories, issues, pull requests, and collaboration.</li>
-        <li>Use AI tools and open-source resources responsibly with proper credit.</li>
-        <li>Present and explain technical project work clearly.</li>
-      </ul>
     `
   },
   "/schedule": {
@@ -189,7 +172,11 @@ const pages = {
         <article class="assignment-card">
           <h3>Final Project</h3>
           <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%.</p>
-          <p><span class="tag">Proposal Aug 01 · Report/code Aug 14 · Presentation TBA</span></p>
+          <div class="milestone-list">
+            <div><strong>Proposal</strong><span>Due Aug 01, 2026 · 11:59pm</span></div>
+            <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59pm</span></div>
+            <div><strong>Presentation</strong><span>Date TBA</span></div>
+          </div>
         </article>
       </div>
 

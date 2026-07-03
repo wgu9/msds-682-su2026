@@ -326,6 +326,30 @@ tbody tr:hover {
   white-space: normal;
 }
 
+.milestone-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.milestone-list div {
+  display: grid;
+  grid-template-columns: 115px 1fr;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.milestone-list strong {
+  color: #3f4550;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.milestone-list span {
+  color: var(--ink);
+}
+
 .staff-card p:last-child,
 .assignment-card p:last-child {
   margin-bottom: 0;
