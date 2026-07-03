@@ -182,14 +182,6 @@ const pages = {
 // here. Markdown handouts (kind: "md") render in-page with syntax-highlighted
 // code blocks; PDF handouts (kind: "pdf") open the file directly.
 const handouts = [
-  {
-    slug: "example-markdown-handout",
-    title: "Example Handout: Reading a Kafka Topic",
-    kind: "md",
-    file: "handouts/example-markdown-handout.md",
-    date: "Template",
-    summary: "Template handout showing prose plus a syntax-highlighted code block."
-  }
   // PDF example (uncomment and add the file to publish):
   // {
   //   slug: "week1-slides",
@@ -224,8 +216,8 @@ function handoutsListBody() {
   }).join("");
 
   return `
-    <p class="lede">Lecture notes, reference sheets, and slides. Markdown handouts render here with highlighted code; PDF handouts open directly.</p>
-    <div class="handout-list">${cards || '<p>No handouts posted yet.</p>'}</div>
+    <p class="lede">Lecture notes, reference sheets, and slides will be posted here. Markdown handouts render in-page with highlighted code; PDF handouts open directly.</p>
+    <div class="handout-list">${cards || '<p>Handouts will be posted as the course progresses.</p>'}</div>
   `;
 }
 
