@@ -2,11 +2,11 @@ const pages = {
   "/": {
     title: "Course Overview",
     body: `
-      <p class="lede">MSDS 682 is a Summer 2026 graduate course site currently being designed. This draft establishes the course structure, schedule format, assignments page, syllabus page, and staff page before public release.</p>
-      <p>The course will emphasize clear technical thinking, hands-on work, and careful evaluation. Detailed topics, readings, due dates, and policies will be updated as the course design is finalized.</p>
+      <p class="lede">MSDS 682 introduces the foundations and practice of data streaming: ingesting, processing, analyzing, and operating real-time data systems at scale.</p>
+      <p>The course emphasizes clear technical thinking, hands-on implementation, and careful evaluation. Students will work with streaming data concepts, system design tradeoffs, and reproducible workflows for real-time analytics.</p>
 
       <div class="notice">
-        This is a private draft site. Course details are placeholders until the syllabus is finalized.
+        Course materials, readings, assignments, and due dates will be updated throughout the term.
       </div>
 
       <h3>Logistics</h3>
@@ -20,25 +20,25 @@ const pages = {
 
       <h3>Course Themes</h3>
       <ul>
-        <li><strong>Applied data science:</strong> turning open-ended problems into measurable workflows.</li>
-        <li><strong>Modern AI systems:</strong> using language models, retrieval, tools, and evaluation responsibly.</li>
-        <li><strong>Experimentation:</strong> designing comparisons, measuring impact, and communicating uncertainty.</li>
-        <li><strong>Production thinking:</strong> reliability, observability, reproducibility, and human review.</li>
+        <li><strong>Streaming foundations:</strong> events, logs, windows, state, ordering, and delivery guarantees.</li>
+        <li><strong>Streaming systems:</strong> ingestion, processing, storage, serving, and operational tradeoffs.</li>
+        <li><strong>Real-time analytics:</strong> monitoring, anomaly detection, experimentation, and decision workflows.</li>
+        <li><strong>Production thinking:</strong> reliability, observability, reproducibility, and failure handling.</li>
       </ul>
 
       <h3>Learning Goals</h3>
       <ul>
-        <li>Frame practical data and AI problems with clear assumptions and success metrics.</li>
-        <li>Build reproducible analysis and modeling workflows.</li>
-        <li>Evaluate model and system behavior with appropriate quantitative and qualitative evidence.</li>
-        <li>Communicate technical decisions clearly to technical and non-technical audiences.</li>
+        <li>Explain core streaming concepts and when streaming architectures are appropriate.</li>
+        <li>Build reproducible workflows for ingesting and processing real-time data.</li>
+        <li>Evaluate streaming applications using latency, throughput, correctness, and reliability evidence.</li>
+        <li>Communicate system design decisions clearly with assumptions and tradeoffs.</li>
       </ul>
     `
   },
   "/schedule": {
     title: "Schedule",
     body: `
-      <p class="lede">The schedule below is a working draft. Dates, readings, labs, and deadlines will be refined as the course design develops.</p>
+      <p class="lede">The schedule below will be updated with readings, labs, and assignment deadlines as the course progresses.</p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -52,43 +52,43 @@ const pages = {
           <tbody>
             <tr>
               <td>1</td>
-              <td>Course framing and technical workflow</td>
+              <td>Course framing and streaming data foundations</td>
               <td><span class="tag">TBD</span></td>
               <td>-</td>
             </tr>
             <tr>
               <td>2</td>
-              <td>Data pipelines, reproducibility, and measurement</td>
+              <td>Events, logs, ingestion, and reproducible workflows</td>
               <td><span class="tag">TBD</span></td>
               <td>Assignment 1 released</td>
             </tr>
             <tr>
               <td>3</td>
-              <td>Modeling baselines and evaluation design</td>
+              <td>Stream processing models, windows, and state</td>
               <td><span class="tag">TBD</span></td>
               <td>-</td>
             </tr>
             <tr>
               <td>4</td>
-              <td>Experimentation and causal thinking</td>
+              <td>Delivery guarantees, ordering, and correctness</td>
               <td><span class="tag">TBD</span></td>
               <td>Assignment 1 due</td>
             </tr>
             <tr>
               <td>5</td>
-              <td>LLM applications and retrieval workflows</td>
+              <td>Real-time analytics and monitoring</td>
               <td><span class="tag">TBD</span></td>
               <td>Assignment 2 released</td>
             </tr>
             <tr>
               <td>6</td>
-              <td>Agents, tools, and multi-step task evaluation</td>
+              <td>Scaling, partitioning, and backpressure</td>
               <td><span class="tag">TBD</span></td>
               <td>-</td>
             </tr>
             <tr>
               <td>7</td>
-              <td>Reliability, monitoring, and human-in-the-loop systems</td>
+              <td>Reliability, observability, and incident analysis</td>
               <td><span class="tag">TBD</span></td>
               <td>Assignment 2 due</td>
             </tr>
@@ -112,22 +112,22 @@ const pages = {
   "/assignments": {
     title: "Assignments",
     body: `
-      <p class="lede">Assignments are placeholders while the course is being designed. Final instructions, starter code, rubrics, and submission links will be added here.</p>
+      <p class="lede">Assignments combine implementation, analysis, and written interpretation. Final instructions, starter code, rubrics, and submission links will be posted here.</p>
       <div class="assignment-list">
         <article class="assignment-card">
-          <h3>Assignment 1: Reproducible Data Workflow</h3>
-          <p>Build a clean, documented analysis workflow with clear data assumptions, metrics, and reproducible outputs.</p>
-          <p><span class="tag">Draft</span></p>
+          <h3>Assignment 1: Streaming Data Workflow</h3>
+          <p>Build a clean, documented workflow for ingesting, transforming, and validating event data.</p>
+          <p><span class="tag">Coming soon</span></p>
         </article>
         <article class="assignment-card">
-          <h3>Assignment 2: Evaluation and Experiment Design</h3>
-          <p>Design and implement an evaluation plan for a model or AI-assisted workflow, including failure cases and tradeoffs.</p>
-          <p><span class="tag">Draft</span></p>
+          <h3>Assignment 2: Windowed Processing and Monitoring</h3>
+          <p>Implement streaming aggregations and evaluate latency, correctness, and operational failure cases.</p>
+          <p><span class="tag">Coming soon</span></p>
         </article>
         <article class="assignment-card">
           <h3>Final Project</h3>
-          <p>Develop a practical data or AI system, evaluate it rigorously, and present technical decisions with evidence.</p>
-          <p><span class="tag">Draft</span></p>
+          <p>Develop a practical streaming data application, evaluate it rigorously, and present technical decisions with evidence.</p>
+          <p><span class="tag">Coming soon</span></p>
         </article>
       </div>
     `
@@ -135,10 +135,10 @@ const pages = {
   "/syllabus": {
     title: "Syllabus",
     body: `
-      <p class="lede">This syllabus page is a structured placeholder. Final policies should be reviewed before the site is published or shared with students.</p>
+      <p class="lede">This page summarizes course expectations, prerequisites, assessment structure, and policies.</p>
 
       <h3>Course Description</h3>
-      <p>MSDS 682 focuses on applied data science and modern AI workflows. Students will practice building reliable technical systems, evaluating outcomes, and communicating decisions with evidence.</p>
+      <p>MSDS 682 focuses on data streaming systems and real-time analytics. Students will practice building reliable technical workflows, evaluating outcomes, and communicating design decisions with evidence.</p>
 
       <h3>Prerequisites</h3>
       <ul>
@@ -155,13 +155,13 @@ const pages = {
       </div>
 
       <h3>Policies</h3>
-      <p>Attendance, collaboration, late work, academic integrity, and accessibility policies will be added after course requirements are finalized.</p>
+      <p>Attendance, collaboration, late work, academic integrity, and accessibility policies will follow the final course syllabus.</p>
     `
   },
   "/staff": {
     title: "Staff",
     body: `
-      <p class="lede">Staff information is a draft and can be expanded with office hours, email, and support channels.</p>
+      <p class="lede">Course staff and support information will be posted here.</p>
       <div class="staff-grid">
         <article class="staff-card">
           <h3>Jeremy Gu</h3>
@@ -178,24 +178,79 @@ const pages = {
   }
 };
 
+// Handout manifest. To add a handout: drop a file in `handouts/` and add a row
+// here. Markdown handouts (kind: "md") render in-page with syntax-highlighted
+// code blocks; PDF handouts (kind: "pdf") open the file directly.
+const handouts = [
+  {
+    slug: "example-markdown-handout",
+    title: "Example Handout: Reading a Kafka Topic",
+    kind: "md",
+    file: "handouts/example-markdown-handout.md",
+    date: "Template",
+    summary: "Template handout showing prose plus a syntax-highlighted code block."
+  }
+  // PDF example (uncomment and add the file to publish):
+  // {
+  //   slug: "week1-slides",
+  //   title: "Week 1 Slides",
+  //   kind: "pdf",
+  //   file: "handouts/week1-slides.pdf",
+  //   date: "Sep 2026",
+  //   summary: "Lecture slides handout (PDF)."
+  // }
+];
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"]/g, (ch) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]
+  ));
+}
+
+function handoutsListBody() {
+  const cards = handouts.map((h) => {
+    const href = h.kind === "pdf" ? h.file : `#/handouts/${h.slug}`;
+    const target = h.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
+    const badge = h.kind === "pdf" ? "PDF" : "Markdown";
+    return `
+      <article class="handout-card">
+        <div class="handout-card-head">
+          <h3><a href="${href}"${target}>${escapeHtml(h.title)}</a></h3>
+          <span class="tag">${badge}</span>
+        </div>
+        <p>${escapeHtml(h.summary)}</p>
+        <p class="handout-meta">${escapeHtml(h.date)}</p>
+      </article>`;
+  }).join("");
+
+  return `
+    <p class="lede">Lecture notes, reference sheets, and slides. Markdown handouts render here with highlighted code; PDF handouts open directly.</p>
+    <div class="handout-list">${cards || '<p>No handouts posted yet.</p>'}</div>
+  `;
+}
+
 const fallbackRoute = "/";
 const content = document.querySelector("#content");
 const navLinks = [...document.querySelectorAll(".nav a")];
 
-function getRoute() {
-  const hash = window.location.hash.replace(/^#/, "");
-  return pages[hash] ? hash : fallbackRoute;
+function parseRoute() {
+  const hash = window.location.hash.replace(/^#/, "") || fallbackRoute;
+  const detail = hash.match(/^\/handouts\/(.+)$/);
+  if (detail) {
+    return { kind: "handout", slug: detail[1], nav: "/handouts" };
+  }
+  if (hash === "/handouts") {
+    return { kind: "static", route: "/handouts", nav: "/handouts" };
+  }
+  if (pages[hash]) {
+    return { kind: "static", route: hash, nav: hash };
+  }
+  return { kind: "static", route: fallbackRoute, nav: fallbackRoute };
 }
 
-function render() {
-  const route = getRoute();
-  const page = pages[route];
-
-  content.innerHTML = `<h2>${page.title}</h2>${page.body}`;
-  document.title = `${page.title} - MSDS 682`;
-
+function setActiveNav(navRoute) {
   navLinks.forEach((link) => {
-    const active = link.dataset.route === route;
+    const active = link.dataset.route === navRoute;
     link.classList.toggle("active", active);
     if (active) {
       link.setAttribute("aria-current", "page");
@@ -203,6 +258,54 @@ function render() {
       link.removeAttribute("aria-current");
     }
   });
+}
+
+function renderStatic(route) {
+  const page = route === "/handouts"
+    ? { title: "Handouts", body: handoutsListBody() }
+    : pages[route];
+  content.innerHTML = `<h2>${page.title}</h2>${page.body}`;
+  document.title = `${page.title} - MSDS 682`;
+}
+
+async function renderHandout(slug) {
+  const meta = handouts.find((h) => h.slug === slug);
+  const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
+
+  if (!meta || meta.kind !== "md") {
+    content.innerHTML = `${backLink}<h2>Handout not found</h2><p>This handout is not available.</p>`;
+    document.title = "Handout not found - MSDS 682";
+    return;
+  }
+
+  document.title = `${meta.title} - MSDS 682`;
+  content.innerHTML = `${backLink}<div class="handout"><p class="lede">Loading…</p></div>`;
+
+  try {
+    const res = await fetch(meta.file, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const md = await res.text();
+    const html = window.marked ? window.marked.parse(md) : `<pre>${escapeHtml(md)}</pre>`;
+    content.innerHTML = `${backLink}<article class="handout">${html}</article>`;
+    if (window.hljs) {
+      content.querySelectorAll("pre code").forEach((el) => window.hljs.highlightElement(el));
+    }
+  } catch (err) {
+    content.innerHTML = `${backLink}<h2>${escapeHtml(meta.title)}</h2>` +
+      `<div class="notice">Could not load this handout (${escapeHtml(String(err.message))}). ` +
+      `Markdown handouts require the site to be served over http (local server or GitHub Pages), not opened as a file.</div>`;
+  }
+}
+
+async function render() {
+  const parsed = parseRoute();
+  setActiveNav(parsed.nav);
+
+  if (parsed.kind === "handout") {
+    await renderHandout(parsed.slug);
+  } else {
+    renderStatic(parsed.route);
+  }
 
   content.focus({ preventScroll: true });
 }
