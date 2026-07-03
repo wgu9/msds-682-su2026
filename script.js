@@ -2,107 +2,167 @@ const pages = {
   "/": {
     title: "Course Overview",
     body: `
-      <p class="lede">MSDS 682 introduces the foundations and practice of data streaming: ingesting, processing, analyzing, and operating real-time data systems at scale.</p>
-      <p>The course emphasizes clear technical thinking, hands-on implementation, and careful evaluation. Students will work with streaming data concepts, system design tradeoffs, and reproducible workflows for real-time analytics.</p>
+      <p class="lede">MSDS 682 equips students to process continuous data streams at scale and in real time.</p>
+      <p>This hands-on course teaches students how to process and analyze real-time data streams using Apache Kafka, Python, Confluent tools, and related data engineering workflows. Students will produce and consume Kafka messages, build streaming workflows, interpret streaming outputs, and use GitHub for code management and collaboration.</p>
 
       <div class="notice">
-        Course materials, readings, assignments, and due dates will be updated throughout the term.
+        Each lecture meets 5:30–7:20pm PDT. Monday sessions meet on Zoom; Thursday sessions meet in person at 101 Howard, Classroom 529.
       </div>
 
       <h3>Logistics</h3>
       <div class="meta-list">
-        <div class="meta-row"><strong>Course</strong><span>MSDS 682</span></div>
+        <div class="meta-row"><strong>Course</strong><span>MSDS 682-01 (30398), Data Stream Processing</span></div>
         <div class="meta-row"><strong>Term</strong><span>Summer 2026</span></div>
-        <div class="meta-row"><strong>Format</strong><span>Graduate course with lectures, labs, assignments, and a final project</span></div>
-        <div class="meta-row"><strong>Meeting pattern</strong><span>To be announced</span></div>
-        <div class="meta-row"><strong>Course materials</strong><span>Readings, notebooks, slides, and assignment links will be posted here</span></div>
+        <div class="meta-row"><strong>Instructor</strong><span>Jeremy W. Gu · <a href="mailto:wgu9@usfca.edu">wgu9@usfca.edu</a></span></div>
+        <div class="meta-row"><strong>Course assistant</strong><span>Annie Chiu · <a href="mailto:ychiu14@usfca.edu">ychiu14@usfca.edu</a></span></div>
+        <div class="meta-row"><strong>Meeting pattern</strong><span>Mon Zoom · Thu in person, 101 Howard Classroom 529 · 5:30–7:20pm PDT</span></div>
+        <div class="meta-row"><strong>Submissions</strong><span>Canvas is the official submission platform; GitHub is used for code management and collaboration.</span></div>
       </div>
 
       <h3>Course Themes</h3>
       <ul>
-        <li><strong>Streaming foundations:</strong> events, logs, windows, state, ordering, and delivery guarantees.</li>
-        <li><strong>Streaming systems:</strong> ingestion, processing, storage, serving, and operational tradeoffs.</li>
-        <li><strong>Real-time analytics:</strong> monitoring, anomaly detection, experimentation, and decision workflows.</li>
-        <li><strong>Production thinking:</strong> reliability, observability, reproducibility, and failure handling.</li>
+        <li><strong>Kafka ecosystem:</strong> topics, producers, consumers, Confluent tools, and demos.</li>
+        <li><strong>Python streaming workflows:</strong> producing, consuming, transforming, and interpreting message streams.</li>
+        <li><strong>Software engineering practice:</strong> GitHub repositories, issues, pull requests, and collaboration.</li>
+        <li><strong>Responsible technical work:</strong> testing, attribution, communication, and project presentation.</li>
       </ul>
 
       <h3>Learning Goals</h3>
       <ul>
-        <li>Explain core streaming concepts and when streaming architectures are appropriate.</li>
-        <li>Build reproducible workflows for ingesting and processing real-time data.</li>
-        <li>Evaluate streaming applications using latency, throughput, correctness, and reliability evidence.</li>
-        <li>Communicate system design decisions clearly with assumptions and tradeoffs.</li>
+        <li>Understand the Kafka ecosystem.</li>
+        <li>Produce and consume Kafka messages using Python.</li>
+        <li>Build real-time data ingestion and streaming analytics workflows.</li>
+        <li>Use Git and GitHub for repositories, issues, pull requests, and collaboration.</li>
+        <li>Use AI tools and open-source resources responsibly with proper credit.</li>
+        <li>Present and explain technical project work clearly.</li>
       </ul>
     `
   },
   "/schedule": {
     title: "Schedule",
     body: `
-      <p class="lede">The schedule below will be updated with readings, labs, and assignment deadlines as the course progresses.</p>
+      <p class="lede">Each lecture meets 5:30–7:20pm PDT. Monday sessions are on Zoom; Thursday sessions are in person at 101 Howard, Classroom 529.</p>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Week</th>
-              <th>Topic</th>
-              <th>Materials</th>
-              <th>Due</th>
+              <th>#</th>
+              <th>Date</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Mode</th>
+              <th>Location</th>
+              <th>Notes</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>1</td>
-              <td>Course framing and streaming data foundations</td>
-              <td><span class="tag">TBD</span></td>
+              <td>Jul 06, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
               <td>-</td>
             </tr>
             <tr>
               <td>2</td>
-              <td>Events, logs, ingestion, and reproducible workflows</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Assignment 1 released</td>
+              <td>Jul 09, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>-</td>
             </tr>
             <tr>
               <td>3</td>
-              <td>Stream processing models, windows, and state</td>
-              <td><span class="tag">TBD</span></td>
+              <td>Jul 13, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
               <td>-</td>
             </tr>
             <tr>
               <td>4</td>
-              <td>Delivery guarantees, ordering, and correctness</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Assignment 1 due</td>
+              <td>Jul 16, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>Assignment 1 due Jul 18, 11:59pm</td>
             </tr>
             <tr>
               <td>5</td>
-              <td>Real-time analytics and monitoring</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Assignment 2 released</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Scaling, partitioning, and backpressure</td>
-              <td><span class="tag">TBD</span></td>
+              <td>Jul 20, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
               <td>-</td>
             </tr>
             <tr>
+              <td>6</td>
+              <td>Jul 23, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>Assignment 2 due Jul 25, 11:59pm</td>
+            </tr>
+            <tr>
               <td>7</td>
-              <td>Reliability, observability, and incident analysis</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Assignment 2 due</td>
+              <td>Jul 27, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
+              <td>-</td>
             </tr>
             <tr>
               <td>8</td>
-              <td>Final project workshops</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Project proposal due</td>
+              <td>Jul 30, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>Project proposal due Aug 01, 11:59pm</td>
             </tr>
             <tr>
               <td>9</td>
-              <td>Project presentations and review</td>
-              <td><span class="tag">TBD</span></td>
-              <td>Final project due</td>
+              <td>Aug 03, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Aug 06, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Aug 10, 2026</td>
+              <td>Monday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag zoom">Zoom</span></td>
+              <td>Zoom</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Aug 13, 2026</td>
+              <td>Thursday</td>
+              <td>5:30–7:20pm</td>
+              <td><span class="tag in-person">In person</span></td>
+              <td>101 Howard, Classroom 529</td>
+              <td>Report/code due Aug 14, 11:59pm; presentation date TBA</td>
             </tr>
           </tbody>
         </table>
@@ -112,66 +172,100 @@ const pages = {
   "/assignments": {
     title: "Assignments",
     body: `
-      <p class="lede">Assignments combine implementation, analysis, and written interpretation. Final instructions, starter code, rubrics, and submission links will be posted here.</p>
+      <p class="lede">There are two individual assignments and one final project. Canvas is the official submission platform; homework, projects, and final project materials must be submitted as ZIP files on Canvas.</p>
       <div class="assignment-list">
         <article class="assignment-card">
-          <h3>Assignment 1: Streaming Data Workflow</h3>
-          <p>Build a clean, documented workflow for ingesting, transforming, and validating event data.</p>
-          <p><span class="tag">Coming soon</span></p>
+          <h3>Assignment 1</h3>
+          <p>Individual assignment worth 20% of the course grade.</p>
+          <p><span class="tag">Due Jul 18, 2026 · 11:59pm</span></p>
         </article>
         <article class="assignment-card">
-          <h3>Assignment 2: Windowed Processing and Monitoring</h3>
-          <p>Implement streaming aggregations and evaluate latency, correctness, and operational failure cases.</p>
-          <p><span class="tag">Coming soon</span></p>
+          <h3>Assignment 2</h3>
+          <p>Individual assignment worth 20% of the course grade.</p>
+          <p><span class="tag">Due Jul 25, 2026 · 11:59pm</span></p>
         </article>
         <article class="assignment-card">
           <h3>Final Project</h3>
-          <p>Develop a practical streaming data application, evaluate it rigorously, and present technical decisions with evidence.</p>
-          <p><span class="tag">Coming soon</span></p>
+          <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%.</p>
+          <p><span class="tag">Proposal Aug 01 · Report/code Aug 14 · Presentation TBA</span></p>
         </article>
       </div>
+
+      <h3>Submission and collaboration</h3>
+      <ul>
+        <li>Late submissions are not accepted unless prior approval has been granted by the instructor.</li>
+        <li>GitHub is used for code management, collaboration, and portfolio development.</li>
+        <li>AI tools, coding agents, open-source resources, and online references are permitted with clear attribution and explanation.</li>
+      </ul>
     `
   },
   "/syllabus": {
     title: "Syllabus",
     body: `
-      <p class="lede">This page summarizes course expectations, prerequisites, assessment structure, and policies.</p>
+      <p class="lede">This page summarizes the final syllabus. <a href="assets/msds-682-syllabus.pdf" target="_blank" rel="noopener">Download the PDF syllabus</a>.</p>
 
       <h3>Course Description</h3>
-      <p>MSDS 682 focuses on data streaming systems and real-time analytics. Students will practice building reliable technical workflows, evaluating outcomes, and communicating design decisions with evidence.</p>
+      <p>This class equips students with the skills necessary to process continuous data streams at scale and in real time. Students will use Apache Kafka, Python, Confluent tools, Git, GitHub, and related data engineering tools.</p>
 
       <h3>Prerequisites</h3>
       <ul>
         <li>Working knowledge of Python.</li>
-        <li>Basic probability, statistics, and machine learning familiarity.</li>
+        <li>Basic knowledge of SQL, data pipelines, statistics, and data analysis.</li>
+        <li>Familiarity with pandas, data visualization, scikit-learn, and machine learning is helpful but not required.</li>
         <li>Comfort using notebooks, scripts, Git, and command-line tools.</li>
+      </ul>
+
+      <h3>Course Learning Outcomes</h3>
+      <ul>
+        <li>Understand the Kafka ecosystem.</li>
+        <li>Produce and consume Kafka messages using Python.</li>
+        <li>Use Confluent tools for Kafka topic management and demos.</li>
+        <li>Build real-time data ingestion and streaming analytics workflows.</li>
+        <li>Interpret streaming outputs and extract insights.</li>
+        <li>Use Git and GitHub for repositories, issues, pull requests, and collaboration.</li>
+        <li>Use AI tools and open-source resources responsibly with proper credit.</li>
+        <li>Present and explain technical project work clearly.</li>
       </ul>
 
       <h3>Assessment</h3>
       <div class="meta-list">
-        <div class="meta-row"><strong>Assignments</strong><span>TBD</span></div>
-        <div class="meta-row"><strong>Final project</strong><span>TBD</span></div>
-        <div class="meta-row"><strong>Participation</strong><span>TBD</span></div>
+        <div class="meta-row"><strong>Attendance and professionalism</strong><span>10%</span></div>
+        <div class="meta-row"><strong>Individual assignments</strong><span>40% total; two assignments worth 20% each</span></div>
+        <div class="meta-row"><strong>Final project</strong><span>50% total; proposal 10%, written report/code 20%, final presentation 20%</span></div>
+        <div class="meta-row"><strong>Exams</strong><span>There are no exams.</span></div>
       </div>
 
+      <h3>Recommended texts</h3>
+      <ul>
+        <li><em>Kafka in Action</em>, Dylan Scott, Viktor Gamov, Dave Klein.</li>
+        <li><em>Kafka: The Definitive Guide</em>, 2nd edition, Gwen Shapira, Todd Palino, Rajini Sivaram, Krit Petty.</li>
+      </ul>
+
       <h3>Policies</h3>
-      <p>Attendance, collaboration, late work, academic integrity, and accessibility policies will follow the final course syllabus.</p>
+      <div class="meta-list">
+        <div class="meta-row"><strong>Attendance</strong><span>Mandatory attendance for every lecture.</span></div>
+        <div class="meta-row"><strong>Laptops</strong><span>Please keep laptops closed for in-class lectures unless instructed otherwise, especially during demo or exercise sessions.</span></div>
+        <div class="meta-row"><strong>Late work</strong><span>Late submissions are not accepted unless prior approval has been granted by the instructor.</span></div>
+        <div class="meta-row"><strong>Generative AI</strong><span>Comprehensive use of generative AI tools is permitted with appropriate attribution and explanation.</span></div>
+      </div>
     `
   },
   "/staff": {
     title: "Staff",
     body: `
-      <p class="lede">Course staff and support information will be posted here.</p>
+      <p class="lede">Course staff and office hours.</p>
       <div class="staff-grid">
         <article class="staff-card">
-          <h3>Jeremy Gu</h3>
+          <h3>Jeremy W. Gu</h3>
           <p>Instructor</p>
-          <p>Office hours and contact information to be announced.</p>
+          <p><a href="mailto:wgu9@usfca.edu">wgu9@usfca.edu</a></p>
+          <p>Office hours: Mondays 7:20–7:50pm, right after class, on Zoom.</p>
         </article>
         <article class="staff-card">
-          <h3>Teaching Assistant</h3>
-          <p>To be announced</p>
-          <p>Course support details will be added before launch.</p>
+          <h3>Annie Chiu</h3>
+          <p>Course assistant</p>
+          <p><a href="mailto:ychiu14@usfca.edu">ychiu14@usfca.edu</a></p>
+          <p>Office hours: N/A.</p>
         </article>
       </div>
     `
@@ -182,6 +276,14 @@ const pages = {
 // here. Markdown handouts (kind: "md") render in-page with syntax-highlighted
 // code blocks; PDF handouts (kind: "pdf") open the file directly.
 const handouts = [
+  {
+    slug: "syllabus",
+    title: "Final Syllabus",
+    kind: "pdf",
+    file: "assets/msds-682-syllabus.pdf",
+    date: "Summer 2026",
+    summary: "Official Simple Syllabus PDF for MSDS 682-01 Data Stream Processing."
+  }
   // PDF example (uncomment and add the file to publish):
   // {
   //   slug: "week1-slides",
@@ -256,6 +358,7 @@ function renderStatic(route) {
   const page = route === "/handouts"
     ? { title: "Handouts", body: handoutsListBody() }
     : pages[route];
+  content.className = route === "/schedule" ? "content wide" : "content";
   content.innerHTML = `<h2>${page.title}</h2>${page.body}`;
   document.title = `${page.title} - MSDS 682`;
 }
@@ -263,6 +366,7 @@ function renderStatic(route) {
 async function renderHandout(slug) {
   const meta = handouts.find((h) => h.slug === slug);
   const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
+  content.className = "content";
 
   if (!meta || meta.kind !== "md") {
     content.innerHTML = `${backLink}<h2>Handout not found</h2><p>This handout is not available.</p>`;

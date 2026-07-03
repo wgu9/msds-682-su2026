@@ -1,6 +1,6 @@
-# MSDS 682 · Data Streaming — Summer 2026
+# MSDS 682 · Data Stream Processing — Summer 2026
 
-Course website for **MSDS 682 (Data Streaming)** at the University of San Francisco.
+Course website for **MSDS 682-01 (30398), Data Stream Processing** at the University of San Francisco.
 
 A lightweight static site — no framework, no build step — inspired by minimal
 academic course pages. Sections:
