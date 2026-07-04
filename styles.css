@@ -89,6 +89,9 @@ a:hover {
 
 /* Course header */
 .site-header {
+  max-width: var(--measure);
+  margin-right: auto;
+  margin-left: auto;
   padding: 8px 0 20px;
 }
 
@@ -101,9 +104,9 @@ h3 {
 
 h1 {
   margin: 0;
-  font-size: clamp(2.35rem, 6vw, 4rem);
+  font-size: clamp(2rem, 5vw, 3.15rem);
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
