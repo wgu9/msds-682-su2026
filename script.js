@@ -16,8 +16,9 @@ const pages = {
         <div class="meta-row"><strong>Instructor</strong><span>Jeremy W. Gu · <a href="mailto:wgu9@usfca.edu">wgu9@usfca.edu</a></span></div>
         <div class="meta-row"><strong>Course assistant</strong><span>Annie Chiu · <a href="mailto:ychiu14@usfca.edu">ychiu14@usfca.edu</a></span></div>
         <div class="meta-row"><strong>Meeting pattern</strong><span>Mon Zoom · Thu in person, 101 Howard Classroom 529 · 5:30–7:20pm PDT</span></div>
-        <div class="meta-row"><strong>Canvas link</strong><span>To be provided at the first class.</span></div>
-        <div class="meta-row"><strong>Zoom link</strong><span>Please see the calendar invite.</span></div>
+        <div class="meta-row"><strong>Canvas link</strong><span><a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Course Canvas page</a>; USF login may be required.</span></div>
+        <div class="meta-row"><strong>Zoom link</strong><span>Please see the calendar invite or Canvas.</span></div>
+        <div class="meta-row"><strong>Piazza</strong><span><a href="https://piazza.com/usfca/summer2026/msds682" target="_blank" rel="noopener">Course Q/A and discussion forum</a>.</span></div>
         <div class="meta-row"><strong>Submissions</strong><span>Canvas is the official submission platform; GitHub is used for code management and collaboration.</span></div>
       </div>
 
@@ -37,6 +38,7 @@ const pages = {
               <th>Time</th>
               <th>Mode</th>
               <th>Location</th>
+              <th>Topic</th>
               <th>Notes</th>
             </tr>
           </thead>
@@ -48,7 +50,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>Intro and data streaming</td>
+              <td>Course setup and Demo 01</td>
             </tr>
             <tr>
               <td>2</td>
@@ -57,7 +60,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>-</td>
+              <td>Apache Kafka Pt. 1</td>
+              <td>Architecture, setup, topics, producers</td>
             </tr>
             <tr>
               <td>3</td>
@@ -66,7 +70,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>Apache Kafka Pt. 2</td>
+              <td>Consumers</td>
             </tr>
             <tr>
               <td>4</td>
@@ -75,6 +80,7 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
+              <td>Apache Kafka Pt. 3</td>
               <td>Assignment 1 due Jul 18, 11:59pm</td>
             </tr>
             <tr>
@@ -84,7 +90,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>Data schemas Pt. 1</td>
+              <td>FastAPI, hands-on demo, Schema Registry concepts</td>
             </tr>
             <tr>
               <td>6</td>
@@ -93,6 +100,7 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
+              <td>Data schemas Pt. 2</td>
               <td>Assignment 2 due Jul 25, 11:59pm</td>
             </tr>
             <tr>
@@ -102,7 +110,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>Kafka Connect and stream processing</td>
+              <td>Connectors, demos, stream processing strategies</td>
             </tr>
             <tr>
               <td>8</td>
@@ -111,6 +120,7 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
+              <td>Stream processing and project requirements</td>
               <td>Project proposal due Aug 01, 11:59pm</td>
             </tr>
             <tr>
@@ -120,7 +130,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>ksqlDB, streams, tables, joins</td>
+              <td>Optional depth depends on project progress</td>
             </tr>
             <tr>
               <td>10</td>
@@ -129,7 +140,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>-</td>
+              <td>Data pipelines / Airflow</td>
+              <td>Orchestration concepts and optional demo</td>
             </tr>
             <tr>
               <td>11</td>
@@ -138,7 +150,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>-</td>
+              <td>Kafka + AI systems</td>
+              <td>RAG, memory, evals, guardrails, project examples</td>
             </tr>
             <tr>
               <td>12</td>
@@ -147,6 +160,7 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
+              <td>Final review and project workshop</td>
               <td>Report/code due Aug 14, 11:59pm; presentation date TBA</td>
             </tr>
           </tbody>
@@ -161,17 +175,17 @@ const pages = {
       <div class="assignment-list">
         <article class="assignment-card">
           <h3>Assignment 1</h3>
-          <p>Individual assignment worth 20% of the course grade.</p>
+          <p>Individual assignment worth 20% of the course grade. Focus: Kafka-style producer logic, event schemas, local replay, and performance benchmarking.</p>
           <p><span class="tag">Due Jul 18, 2026 · 11:59pm</span></p>
         </article>
         <article class="assignment-card">
           <h3>Assignment 2</h3>
-          <p>Individual assignment worth 20% of the course grade.</p>
+          <p>Individual assignment worth 20% of the course grade. Focus: FastAPI routes, Pydantic models, multiple logical streams, a replay or scheduler entrypoint, and a local processor output.</p>
           <p><span class="tag">Due Jul 25, 2026 · 11:59pm</span></p>
         </article>
         <article class="assignment-card">
           <h3>Final Project</h3>
-          <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%.</p>
+          <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%. Projects may be completed individually or in two-person teams; individual projects are always allowed.</p>
           <div class="milestone-list">
             <div><strong>Proposal</strong><span>Due Aug 01, 2026 · 11:59pm</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59pm</span></div>
@@ -186,6 +200,7 @@ const pages = {
         <li>Late submissions are not accepted unless prior approval has been granted by the instructor.</li>
         <li>GitHub is used for code management, collaboration, and portfolio development.</li>
         <li>AI tools, coding agents, open-source resources, and online references are permitted with clear attribution and explanation.</li>
+        <li>For two-person final projects, each student must document individual contributions and be able to explain the design, code, AI usage, and evaluation results.</li>
       </ul>
     `
   },
@@ -203,6 +218,7 @@ const pages = {
         <li>Basic knowledge of SQL, data pipelines, statistics, and data analysis.</li>
         <li>Familiarity with pandas, data visualization, scikit-learn, and machine learning is helpful but not required.</li>
         <li>Comfort using notebooks, scripts, Git, and command-line tools.</li>
+        <li>Familiarity with at least one AI coding assistant or coding agent is helpful; AI use must be documented and verified.</li>
       </ul>
 
       <h3>Course Learning Outcomes</h3>
@@ -234,7 +250,7 @@ const pages = {
       <h3>Policies</h3>
       <div class="meta-list">
         <div class="meta-row"><strong>Attendance</strong><span>Mandatory attendance for every lecture.</span></div>
-        <div class="meta-row"><strong>Laptops</strong><span>Please keep laptops closed for in-class lectures unless instructed otherwise, especially during demo or exercise sessions.</span></div>
+        <div class="meta-row"><strong>Laptops</strong><span>Please keep laptops closed during lecture unless instructed otherwise. During demos, exercises, or Python practice, laptops may be required.</span></div>
         <div class="meta-row"><strong>Late work</strong><span>Late submissions are not accepted unless prior approval has been granted by the instructor.</span></div>
         <div class="meta-row"><strong>Generative AI</strong><span>Comprehensive use of generative AI tools is permitted with appropriate attribution and explanation.</span></div>
       </div>

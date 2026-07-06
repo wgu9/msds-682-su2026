@@ -32,7 +32,7 @@ handouts/    .md and .pdf handouts
      title: "Week 2: Consumers",
      kind: "md",                    // "md" renders in-page, "pdf" opens the file
      file: "handouts/week2-consumers.md",
-     date: "Sep 2026",
+     date: "Jul 2026",
      summary: "One-line description."
    }
    ```
