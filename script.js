@@ -81,7 +81,7 @@ const pages = {
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
               <td>Apache Kafka Pt. 3</td>
-              <td>Assignment 1 due Jul 18, 11:59pm</td>
+              <td>FastAPI, hands-on demo, Data Schemas Pt. 1, Schema Registry; Assignment 1 due Jul 18, 11:59pm</td>
             </tr>
             <tr>
               <td>5</td>
@@ -90,8 +90,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>Data schemas Pt. 1</td>
-              <td>FastAPI, hands-on demo, Schema Registry concepts</td>
+              <td>Data Schemas Pt. 2</td>
+              <td>REST API, Avro, demo</td>
             </tr>
             <tr>
               <td>6</td>
@@ -100,8 +100,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>Data schemas Pt. 2</td>
-              <td>Assignment 2 due Jul 25, 11:59pm</td>
+              <td>Kafka Connect and stream processing</td>
+              <td>Connectors, demo; Assignment 2 due Jul 25, 11:59pm</td>
             </tr>
             <tr>
               <td>7</td>
@@ -110,8 +110,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>Kafka Connect and stream processing</td>
-              <td>Connectors, demos, stream processing strategies</td>
+              <td>Stream processing and final project requirements</td>
+              <td>Demo, ksqlDB Pt. 1, joins, tables, streams</td>
             </tr>
             <tr>
               <td>8</td>
@@ -120,8 +120,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>Stream processing and project requirements</td>
-              <td>Project proposal due Aug 01, 11:59pm</td>
+              <td>ksqlDB Pt. 2</td>
+              <td>Windowing, aggregation, querying basics; project proposal due Aug 01, 11:59pm</td>
             </tr>
             <tr>
               <td>9</td>
@@ -130,8 +130,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>ksqlDB, streams, tables, joins</td>
-              <td>Optional depth depends on project progress</td>
+              <td>Data pipelines / Airflow</td>
+              <td>Orchestration concepts and Airflow demo</td>
             </tr>
             <tr>
               <td>10</td>
@@ -140,8 +140,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>Data pipelines / Airflow</td>
-              <td>Orchestration concepts and optional demo</td>
+              <td>Kafka + AI systems</td>
+              <td>RAG, memory, evals, guardrails, project examples</td>
             </tr>
             <tr>
               <td>11</td>
@@ -150,8 +150,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>Kafka + AI systems</td>
-              <td>RAG, memory, evals, guardrails, project examples</td>
+              <td>Final review and project workshop</td>
+              <td>Course review, project troubleshooting, begin presentations if needed</td>
             </tr>
             <tr>
               <td>12</td>
@@ -160,8 +160,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
-              <td>Final review and project workshop</td>
-              <td>Report/code due Aug 14, 11:59pm; presentation date TBA</td>
+              <td>Project presentation</td>
+              <td>In-person presentations, concluding remarks; report/code due Aug 14, 11:59pm</td>
             </tr>
           </tbody>
         </table>
