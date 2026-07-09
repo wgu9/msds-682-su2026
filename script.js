@@ -405,6 +405,39 @@ function renderStatic(route) {
   document.title = `${page.title} - MSDS 682`;
 }
 
+function addCopyCodeButtons(root) {
+  root.querySelectorAll("pre").forEach((pre) => {
+    if (pre.querySelector(".copy-code-button")) return;
+    const code = pre.querySelector("code");
+    const source = code ? code.innerText : pre.innerText;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "copy-code-button";
+    button.textContent = "Copy Code";
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(source);
+        button.textContent = "Copied";
+      } catch (_) {
+        const textarea = document.createElement("textarea");
+        textarea.value = source;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        button.textContent = "Copied";
+      }
+      window.setTimeout(() => {
+        button.textContent = "Copy Code";
+      }, 1400);
+    });
+    pre.appendChild(button);
+  });
+}
+
 async function renderHandout(slug) {
   const meta = handouts.find((h) => h.slug === slug);
   const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
@@ -431,6 +464,7 @@ async function renderHandout(slug) {
     if (window.hljs) {
       content.querySelectorAll("pre code").forEach((el) => window.hljs.highlightElement(el));
     }
+    addCopyCodeButtons(content);
   } catch (err) {
     content.innerHTML = `${backLink}<h2>${escapeHtml(meta.title)}</h2>` +
       `<div class="notice">Could not load this handout (${escapeHtml(String(err.message))}). ` +

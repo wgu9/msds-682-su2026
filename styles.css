@@ -502,6 +502,7 @@ tbody tr:hover {
 }
 
 .handout pre {
+  position: relative;
   margin: 0 0 18px;
   padding: 16px 18px;
   overflow-x: auto;
@@ -516,6 +517,25 @@ tbody tr:hover {
   border: 0;
   background: none;
   font-size: 0.86rem;
+}
+
+.copy-code-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--usf-green-dark);
+  font: 700 0.74rem Inter, system-ui, sans-serif;
+  padding: 5px 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(22, 24, 29, .08);
+}
+
+.copy-code-button:hover {
+  border-color: var(--usf-green);
+  background: #f7faf7;
 }
 
 .handout-wide {

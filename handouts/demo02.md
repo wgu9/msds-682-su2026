@@ -105,6 +105,71 @@ The topic name is shared on purpose. The storage backend is different:
 | JSONL file | Lets students open the topic log and inspect messages directly |
 | Clean topic per strategy | Each strategy starts from an empty local topic so timing comparisons are isolated |
 
+## Producer Configuration in This Demo
+
+Producer configuration means: what topic to write to, what the key/value look like, how messages are serialized, and how sends are grouped.
+
+| Config item | In this demo | Why it matters |
+|---|---|---|
+| Topic | `msds682.demo01.trip-events.v1` | Same topic thread as Demo 01 and Demo 03 |
+| Key | Not written in the local JSONL transport | In real Kafka, use `trip_id` as key so one trip's lifecycle stays together |
+| Value | `TripEvent` converted to JSON-like dict | This is the message payload |
+| Serialization | `json.dumps(...)` inside local transport | Real Kafka sends bytes; JSONL keeps it visible |
+| Producer mode | Local append-only file writer | Reproducible without Confluent credentials |
+| Batch size | `--batch-size` | Controls how many events are grouped before `produce_many(...)` |
+| Delivery report | Not modeled locally | Real Confluent producers use callbacks to know success/failure |
+
+Real Kafka producer configuration would add connection settings from `.env`:
+
+```python
+producer_config = {
+    "bootstrap.servers": os.getenv("BOOTSTRAP_SERVERS"),
+    "security.protocol": "SASL_SSL",
+    "sasl.mechanisms": "PLAIN",
+    "sasl.username": os.getenv("SASL_USERNAME"),
+    "sasl.password": os.getenv("SASL_PASSWORD"),
+}
+```
+
+That config is not needed for this local handout because Demo 02 does not connect to Confluent.
+
+## Sync vs Async Producer
+
+Kafka producers are normally asynchronous.
+
+Direct meaning:
+
+| Term | Meaning |
+|---|---|
+| Async producer | `produce(...)` queues the message and returns quickly; delivery result arrives later by callback/poll/flush |
+| Sync-style producer | Code waits after each send or handles one message at a time; simpler to explain, usually slower |
+| Batch producer | Code groups multiple messages before sending/flushing; closer to how high-throughput producers work |
+
+In this handout:
+
+| Strategy | What it really is |
+|---|---|
+| `sync_style` | Teaching simplification: one local append per message |
+| `batched` | Teaching simplification: collect several local messages, then append them together |
+
+This is not a full Confluent async producer benchmark. It is a local model of producer behavior.
+
+In real `confluent-kafka`, the default producer pattern is async:
+
+```python
+producer.produce(
+    topic="msds682.demo01.trip-events.v1",
+    key=event.trip_id,
+    value=json.dumps(event.model_dump(exclude_none=True)).encode("utf-8"),
+    callback=delivery_report,
+)
+
+# Serve delivery callbacks and wait for queued messages before exiting.
+producer.flush()
+```
+
+So yes: `sync_style` here is simplified. The real Kafka producer is async by default; `flush()` is the explicit wait point.
+
 ## Read the Core Code First
 
 This is the important logic before you run anything.
