@@ -271,6 +271,14 @@ For the Confluent scripts, also use the same `.env` format from Demo 01.
 | 4 | `python demo02c_confluent_async_sync_compare.py --run-id lec2-demo02c --count 4` | Two rows: `async` and `sync_style_flush_each_message` |
 | 5 | `python demo02d_confluent_serialization_producer.py --run-id lec2-demo02d --count 4` | `serialized_type: UTF-8 JSON bytes`, `delivered: 4` |
 
+For a real speed comparison, run Demo 02C with a larger count:
+
+```bash
+python demo02c_confluent_async_sync_compare.py --run-id lec2-demo02c-speed --count 2000
+```
+
+This sends 2,000 async messages and 2,000 sync-style messages to the same topic. Total new topic messages: 4,000.
+
 ### 4.3 Output Files
 
 Confluent scripts write secret-free JSON reports under:
@@ -287,7 +295,7 @@ Use this table to understand what each run proves.
 |---|---|---|
 | Demo 02A | `producer_mode: sync_style_flush_each_message`, `delivered: 4` | Four messages were sent; script waited after each message |
 | Demo 02B | `producer_mode: async`, `delivered: 4`, `remaining_after_flush: 0` | Four messages were queued first, then the script waited at the end |
-| Demo 02C | Two result rows: `async` and `sync_style_flush_each_message` | Same message idea, different waiting strategy |
+| Demo 02C | Two result rows with `elapsed_seconds` and `messages_per_sec` | Same message idea, different waiting strategy and speed |
 | Demo 02D | `serialized_type: UTF-8 JSON bytes` plus delivery counts | A `TripEvent` Python object was validated and converted to bytes before Kafka stored it |
 
 All four demos use one topic. They create different messages and reports, not different topics.
@@ -338,11 +346,32 @@ Demo 02C comparison:
 ```json
 {
   "rows": [
-    {"strategy": "async", "attempted": 4, "delivered": 4},
-    {"strategy": "sync_style_flush_each_message", "attempted": 4, "delivered": 4}
+    {
+      "strategy": "async",
+      "attempted": 2000,
+      "delivered": 2000,
+      "elapsed_seconds": 2.1,
+      "messages_per_sec": 952.38
+    },
+    {
+      "strategy": "sync_style_flush_each_message",
+      "attempted": 2000,
+      "delivered": 2000,
+      "elapsed_seconds": 38.5,
+      "messages_per_sec": 51.95
+    }
   ]
 }
 ```
+
+The exact numbers depend on network and Confluent Cloud, but the expected pattern is direct:
+
+```text
+async messages_per_sec > sync_style_flush_each_message messages_per_sec
+async elapsed_seconds < sync_style_flush_each_message elapsed_seconds
+```
+
+Why: sync-style waits for network delivery after every message. Async queues many messages first, then waits once at the end.
 
 Demo 02D serialization:
 
