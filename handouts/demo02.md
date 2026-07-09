@@ -25,6 +25,8 @@ All Demo 02 scripts in this handout use `confluent-kafka` and write to Confluent
 
 Read this table first. It is the roadmap for the page.
 
+**Count:** Demo 02 has four producer demos: 02A, 02B, 02C, and 02D. They all use one Kafka topic: `msds682.demo01.trip-events.v1`.
+
 | Step | Demo | Script | Runs against | What students should learn |
 |---:|---|---|---|---|
 | 1 | Demo 01: create topic | `demo01_create_topic.py` | Confluent Cloud | A Kafka topic can exist before any messages exist |
@@ -56,7 +58,7 @@ create topic -> sync-style producer -> async producer -> compare sync/async -> s
 |---|---|---|
 | Demo 01 | Creates the empty Confluent topic | `msds682.demo01.trip-events.v1` |
 | Demo 02A/02B/02C/02D | Produce trip event messages in Confluent | `msds682.demo01.trip-events.v1` |
-| Demo 03 | Consumes/replays trip event messages from the same topic thread | `msds682.demo01.trip-events.v1` |
+| Demo 03 | Consumer/replay demo, released after Lec 3 | `msds682.demo01.trip-events.v1` |
 
 The topic name is shared on purpose:
 
@@ -335,7 +337,7 @@ After Demo 02A/02B/02C/02D:
 | Not included yet | Why |
 |---|---|
 | Creating the topic | Demo 01 covers topic creation |
-| Consuming messages | Demo 03 covers offset/replay behavior |
+| Consuming messages | Demo 03 covers offset/replay behavior after Lec 3 |
 | Schema Registry | Pydantic validation is local to Python; Schema Registry is later/optional |
 | Distributed Kafka performance testing | This is a concept demo, not a load test |
 | Python `asyncio` producer API | Lec 2 focuses on Kafka producer basics |
