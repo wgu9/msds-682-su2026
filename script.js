@@ -300,6 +300,14 @@ const handouts = [
     summary: "Step-by-step Confluent Cloud topic creation with Python AdminClient, .env credentials, idempotent topic creation, and a safe JSON report."
   },
   {
+    slug: "demo02",
+    title: "Demo 02: Producer Benchmark",
+    kind: "md",
+    file: "handouts/demo02.md",
+    date: "Jul 2026",
+    summary: "Local-first producer benchmark with trip lifecycle messages, shared Demo 01 topic name, JSONL topic log, and CSV/PNG throughput artifacts."
+  },
+  {
     slug: "lec2-topic-vs-table",
     title: "Lec 2: Kafka Topic vs Database Table",
     kind: "html",
