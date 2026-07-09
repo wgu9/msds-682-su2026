@@ -312,7 +312,9 @@ const handouts = [
     title: "Lec 2 Lab Supplemental Materials",
     kind: "html",
     file: "handouts/lec2-topic-vs-table.html",
-    date: "Jul 2026",
+    date: "Last updated at 11:17 AM PDT on July 9, 2026",
+    createdAt: "Created at 11:07 AM PDT on July 9, 2026",
+    lastUpdatedAt: "Last updated at 11:17 AM PDT on July 9, 2026",
     wide: true,
     standalone: true,
     summary: "Supplemental Lec 2 slide deck after Demo 02: topic vs table, topic creation, producer behavior, sync vs async, real Confluent results, and serialization."
@@ -342,6 +344,16 @@ function escapeHtml(value) {
   ));
 }
 
+function handoutMetaHtml(h) {
+  if (h.createdAt || h.lastUpdatedAt) {
+    return [h.createdAt, h.lastUpdatedAt]
+      .filter(Boolean)
+      .map((line) => `<span>${escapeHtml(line)}</span>`)
+      .join("");
+  }
+  return `<span>${escapeHtml(h.date)}</span>`;
+}
+
 function handoutsListBody() {
   const cards = handouts.map((h) => {
     const href = h.kind === "pdf" ? h.file : `#/handouts/${h.slug}`;
@@ -355,7 +367,7 @@ function handoutsListBody() {
           <span class="tag">${badge}</span>
         </div>
         <p>${escapeHtml(h.summary)}</p>
-        <p class="handout-meta">${escapeHtml(h.date)}</p>
+        <p class="handout-meta">${handoutMetaHtml(h)}</p>
         <p class="handout-actions"><a class="download-link" href="${href}"${target}>${action}</a></p>
       </article>`;
   }).join("");
@@ -456,7 +468,8 @@ async function renderHandout(slug) {
   try {
     if (meta.standalone) {
       content.innerHTML = `${backLink}<div class="standalone-handout-shell">` +
-        `<div class="standalone-handout-bar"><h2>${escapeHtml(meta.title)}</h2>` +
+        `<div class="standalone-handout-bar"><div><h2>${escapeHtml(meta.title)}</h2>` +
+        `<p class="handout-meta standalone-meta">${handoutMetaHtml(meta)}</p></div>` +
         `<a href="${escapeHtml(meta.file)}" target="_blank" rel="noopener">Open full page</a></div>` +
         `<iframe class="standalone-handout-frame" src="${escapeHtml(meta.file)}" title="${escapeHtml(meta.title)}"></iframe>` +
         `</div>`;

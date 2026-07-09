@@ -406,6 +406,10 @@ tbody tr:hover {
   font-size: 0.84rem;
 }
 
+.handout-meta span {
+  display: block;
+}
+
 .handout-actions {
   margin-top: 14px;
 }
@@ -557,6 +561,10 @@ tbody tr:hover {
 
 .standalone-handout-bar h2 {
   margin: 0;
+}
+
+.standalone-meta {
+  margin: 8px 0 0;
 }
 
 .standalone-handout-bar a {
