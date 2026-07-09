@@ -1,10 +1,32 @@
 # Demo 01: Create a Kafka Topic with Python
 
-This demo creates a real Kafka topic in Confluent Cloud. A producer needs a topic before it can send events, so this is the first cloud-side Kafka workflow in the course.
+**This demo creates a real Kafka topic in Confluent Cloud using Python.**
 
-> Key classroom point: get Kafka API keys from Confluent, keep them in `.env`, load them with `python-dotenv`, then use `AdminClient` to create the topic.
+Important: this demo creates the topic only. It does not produce Kafka messages yet.
+
+Messages/events are created later by producer demos. Demo 01 only creates the destination that future producers will write to.
+
+> Key classroom point: get Kafka API keys from Confluent, keep them in `.env`, load them with `python-dotenv`, then use `AdminClient` to create the topic. After this demo, Confluent should show one topic row, but production and consumption may still be empty.
+
+## Demo Goal
+
+| Question | Answer |
+|---|---|
+| What are we creating? | A Kafka topic named `msds682.demo01.trip-events.v1` |
+| Are we creating messages? | No. This demo creates no messages. |
+| Why create a topic first? | A producer needs a topic destination before it can send events. |
+| What should Confluent show? | One topic row with 3 partitions. Production/consumption can be empty. |
+| What comes later? | Producer code that writes event messages into this topic. |
 
 ## What You Should See at the End
+
+In Confluent Cloud, open your cluster and go to Topics. You should see a row like:
+
+| Topic name | Partitions | Production | Consumption |
+|---|---:|---|---|
+| `msds682.demo01.trip-events.v1` | `3` | empty or `--` | empty or `--` |
+
+That is the expected screenshot result. Empty production/consumption is correct because no producer has sent messages yet.
 
 Run:
 
@@ -43,14 +65,25 @@ We will create this ridesharing event topic:
 msds682.demo01.trip-events.v1
 ```
 
-Think of the topic as an event history for trips:
+Think of the topic as a future event history for trips. Right now the topic is empty; later producer demos will append event messages.
 
 | Topic concept | In this demo |
 |---|---|
 | Topic name | `msds682.demo01.trip-events.v1` |
-| Event examples | `trip_requested`, `driver_matched`, `trip_started`, `trip_completed` |
-| Key idea | Later producers will send trip events into this topic |
+| Future event examples | `trip_requested`, `driver_matched`, `trip_started`, `trip_completed` |
+| Key idea | Demo 01 creates the destination; later producers send trip events into it |
 | Why versioned | `v1` leaves room for a future schema/topic change |
+
+## High-Value Details to Notice
+
+| Detail | Why it matters |
+|---|---|
+| Topic name is lowercase and versioned | This follows a production-style naming convention and avoids vague names like `test` |
+| `partitions=3` | Kafka can split one topic into parallel logs; later this affects ordering and consumer scaling |
+| `replication_factor=3` | Confluent Cloud expects replicated data for fault tolerance |
+| `cleanup.policy=delete` | Old records expire by retention policy; this is the normal event-log behavior |
+| `topic_exists(...)` before `create_topics(...)` | The script is idempotent: running it twice does not break |
+| JSON report has no secret | You can show the result without exposing the API key or password |
 
 ## Read the Core Code First
 
@@ -63,6 +96,8 @@ import os
 
 
 def load_config():
+    # Reads .env and makes values available through os.getenv(...).
+    # This keeps API keys out of the Python source file.
     load_dotenv()
     return {
         "bootstrap.servers": os.getenv("BOOTSTRAP_SERVERS"),
@@ -74,6 +109,8 @@ def load_config():
 
 
 def topic_exists(admin_client, topic_name):
+    # Ask Kafka for cluster metadata.
+    # If the topic is already there, we do not create it again.
     return topic_name in admin_client.list_topics(timeout=10).topics
 
 
@@ -81,18 +118,23 @@ def create_topic(admin_client, topic_name):
     if topic_exists(admin_client, topic_name):
         return "already_exists"
 
+    # This creates only the topic metadata/log structure.
+    # It does not create any Kafka messages.
     topic = NewTopic(
         topic_name,
         num_partitions=3,
         replication_factor=3,
         config={"cleanup.policy": "delete"},
     )
+    # create_topics returns a future. result(...) waits for broker confirmation.
     futures = admin_client.create_topics([topic])
     futures[topic_name].result(timeout=30)
     return "created"
 
 
 conf = load_config()
+# AdminClient is for Kafka admin operations: create topic, list topics,
+# inspect cluster metadata. It is not a Producer.
 admin_client = AdminClient(conf)
 status = create_topic(admin_client, "msds682.demo01.trip-events.v1")
 print(status)
@@ -113,6 +155,16 @@ Download the complete runnable script:
 | `NewTopic` | Topic definition object | Specifies topic name, partitions, replication factor, and config |
 | `topic_exists` | Metadata check | Makes the script idempotent, so rerunning does not fail |
 | JSON report | Secret-free run evidence | TA can inspect result without seeing your API secret |
+
+## What This Demo Does Not Do
+
+| Not included yet | Why |
+|---|---|
+| Produce messages | Producer is the next concept after topic creation |
+| Consume messages | Consumer needs messages to read first |
+| Define a schema | Schema/serialization comes later |
+| Show nonzero production metrics | No messages are written in Demo 01 |
+| Prove topic ordering | Ordering matters after messages are produced into partitions |
 
 ## Step 1: Create a Working Folder
 
@@ -162,6 +214,14 @@ In Confluent Cloud:
 5. Copy your cluster bootstrap server, usually ending in `:9092`.
 
 > Use a Kafka cluster API key, not your Confluent website password.
+
+You need three values from Confluent:
+
+| `.env` field | Where it comes from |
+|---|---|
+| `BOOTSTRAP_SERVERS` | Kafka cluster endpoint / bootstrap server |
+| `SASL_USERNAME` | Kafka API key |
+| `SASL_PASSWORD` | Kafka API secret |
 
 ## Step 5: Create `.env`
 
@@ -222,6 +282,14 @@ If successful, you should see JSON with:
 - `has_password`: `true`
 
 The report deliberately does not print your API key or secret.
+
+Then check Confluent Cloud:
+
+1. Open the cluster.
+2. Click Topics.
+3. Search for `msds682.demo01.trip-events.v1`.
+4. Confirm it has 3 partitions.
+5. Do not worry if Production and Consumption are blank; that means no messages have been produced yet.
 
 ## Optional: Use Your Own Topic Name
 
