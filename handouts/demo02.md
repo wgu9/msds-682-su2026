@@ -1,8 +1,8 @@
-# Demo 02: Producer Benchmark with Trip Events
+# Demo 02: Kafka Producer with Trip Events
 
-**This demo produces local trip event messages into the same topic name created in Demo 01.**
+**This handout completes the Lec 2 producer path after Demo 01 topic creation.**
 
-Important: this demo is local-first. It does not send messages to Confluent Cloud by default.
+Important: the local benchmark is a warm-up. The Confluent scripts send real messages to the Kafka topic created in Demo 01.
 
 Demo 01 created the real Confluent topic:
 
@@ -10,9 +10,9 @@ Demo 01 created the real Confluent topic:
 msds682.demo01.trip-events.v1
 ```
 
-Demo 02 uses that same topic name, but writes to a local JSONL file so everyone can run it without cloud credentials.
+All producer scripts use that same topic name.
 
-> Key classroom point: a producer creates messages and appends them to a topic. Demo 01 created an empty topic; Demo 02 shows what produced messages look like.
+> Key classroom point: Demo 01 creates an empty topic. Producer demos create messages and append them to that topic. The real Kafka producer is asynchronous by default.
 
 ## Demo Goal
 
@@ -20,11 +20,24 @@ Demo 02 uses that same topic name, but writes to a local JSONL file so everyone 
 |---|---|
 | What are we producing? | Trip lifecycle event messages |
 | Which topic name? | `msds682.demo01.trip-events.v1` |
-| Does this hit Confluent Cloud? | No. This handout uses local JSONL transport. |
-| Why local? | Students can learn producer behavior without API keys, cloud credits, or network issues. |
+| Does this hit Confluent Cloud? | Local benchmark: no. Confluent scripts: yes. |
+| Why keep local first? | Students can inspect message shape before touching cloud Kafka. |
 | What comes next? | Demo 03 reads the same topic name and replays by offset. |
 
+## The Four Lec 2 Demos
+
+| Demo | Script | What students should learn |
+|---|---|---|
+| Demo 01: Create Topic | `demo01_create_topic.py` | A Kafka topic can exist before any messages exist |
+| Demo 02B: Async Producer | `demo02b_confluent_async_producer.py` | `produce(...)` is asynchronous; delivery comes back by callback |
+| Demo 02C: Async vs Sync-Style | `demo02c_confluent_async_sync_compare.py` | Async queues many messages; sync-style waits after each message and is a teaching simplification |
+| Demo 02D: Serialization Producer | `demo02d_confluent_serialization_producer.py` | A Python object must become bytes before Kafka stores it |
+
+The local script `demo02_producer_benchmark.py` is a no-cloud warm-up. It is useful, but it is not the full Confluent producer demo.
+
 ## What You Should See at the End
+
+Local warm-up:
 
 Run:
 
@@ -60,6 +73,105 @@ outputs/runs/lec2-demo02/demo02_producer_benchmark/producer_benchmark_report.jso
 ```
 
 The `.jsonl` file is the local topic log. Each line is one produced message.
+
+Real Confluent async producer:
+
+```bash
+python demo02b_confluent_async_producer.py --run-id lec2-demo02b --count 4
+```
+
+Expected output includes:
+
+```json
+{
+  "producer_mode": "async",
+  "topic": "msds682.demo01.trip-events.v1",
+  "attempted": 4,
+  "delivered": 4,
+  "remaining_after_flush": 0
+}
+```
+
+Async vs sync-style comparison:
+
+```bash
+python demo02c_confluent_async_sync_compare.py --run-id lec2-demo02c --count 4
+```
+
+Expected output includes two rows:
+
+```json
+[
+  {
+    "strategy": "async",
+    "delivered": 4
+  },
+  {
+    "strategy": "sync_style_flush_each_message",
+    "delivered": 4
+  }
+]
+```
+
+Serialization producer:
+
+```bash
+python demo02d_confluent_serialization_producer.py --run-id lec2-demo02d --count 4
+```
+
+Expected output includes:
+
+```json
+{
+  "serialized_type": "UTF-8 JSON bytes",
+  "delivered": 4
+}
+```
+
+## Verified Run Results
+
+These are example results from a local run with the instructor `.env`.
+
+| Script | Command shape | Result |
+|---|---|---|
+| Local warm-up | `python demo02_producer_benchmark.py --count 8 --batch-size 4` | wrote 8 local JSONL messages, CSV, PNG |
+| Async producer | `python demo02b_confluent_async_producer.py --count 4` | attempted 4, delivered 4, remaining after flush 0 |
+| Async vs sync-style | `python demo02c_confluent_async_sync_compare.py --count 4` | async delivered 4; sync-style delivered 4 |
+| Serialization producer | `python demo02d_confluent_serialization_producer.py --count 4` | serialized JSON bytes and delivered 4 |
+
+The Confluent reports look like this:
+
+```json
+{
+  "topic": "msds682.demo01.trip-events.v1",
+  "attempted": 4,
+  "delivered": 4,
+  "failed": [],
+  "remaining_after_flush": 0
+}
+```
+
+The async/sync comparison report looks like this:
+
+```json
+{
+  "rows": [
+    {
+      "strategy": "async",
+      "attempted": 4,
+      "delivered": 4
+    },
+    {
+      "strategy": "sync_style_flush_each_message",
+      "attempted": 4,
+      "delivered": 4
+    }
+  ],
+  "note": "sync_style is a teaching simplification; confluent-kafka produce() is asynchronous by default."
+}
+```
+
+Do not copy the exact timing numbers. They depend on network and machine state. The important check is delivered count equals attempted count.
 
 ## One Message Looks Like This
 
@@ -99,8 +211,10 @@ The topic name is shared on purpose. The storage backend is different:
 | `TripEvent` model | Defines the local message value shape for this producer |
 | `event_type` | Shows that one topic can carry related lifecycle event types |
 | `model_dump(exclude_none=True)` | Avoids writing fields like `driver_id: null` when the event does not have a driver yet |
-| `produce(...)` | Appends one message at a time |
-| `produce_many(...)` | Appends messages in batches |
+| `produce(...)` | Real Kafka: queues one message asynchronously |
+| `callback=delivery_report` | Tells whether Kafka accepted the message |
+| `producer.poll(0)` | Lets delivery callbacks run while the script continues |
+| `producer.flush()` | Explicit wait point before the script exits |
 | Benchmark CSV/PNG | Shows a simple way to compare producer strategies |
 | JSONL file | Lets students open the topic log and inspect messages directly |
 | Clean topic per strategy | Each strategy starts from an empty local topic so timing comparisons are isolated |
@@ -112,12 +226,12 @@ Producer configuration means: what topic to write to, what the key/value look li
 | Config item | In this demo | Why it matters |
 |---|---|---|
 | Topic | `msds682.demo01.trip-events.v1` | Same topic thread as Demo 01 and Demo 03 |
-| Key | Not written in the local JSONL transport | In real Kafka, use `trip_id` as key so one trip's lifecycle stays together |
+| Key | `trip_id` in Confluent scripts | Same trip lifecycle goes to the same partition while partition count is stable |
 | Value | `TripEvent` converted to JSON-like dict | This is the message payload |
-| Serialization | `json.dumps(...)` inside local transport | Real Kafka sends bytes; JSONL keeps it visible |
-| Producer mode | Local append-only file writer | Reproducible without Confluent credentials |
+| Serialization | `TripEvent -> JSON string -> UTF-8 bytes` | Kafka stores bytes |
+| Producer mode | Async by default in Confluent scripts | Higher-throughput producer pattern |
 | Batch size | `--batch-size` | Controls how many events are grouped before `produce_many(...)` |
-| Delivery report | Not modeled locally | Real Confluent producers use callbacks to know success/failure |
+| Delivery report | `callback=tracker.callback` | Records success/failure without printing secrets |
 
 Real Kafka producer configuration would add connection settings from `.env`:
 
@@ -131,7 +245,7 @@ producer_config = {
 }
 ```
 
-That config is not needed for this local handout because Demo 02 does not connect to Confluent.
+That config is required for the Confluent producer scripts. It is not required for the local warm-up script.
 
 ## Sync vs Async Producer
 
@@ -145,14 +259,19 @@ Direct meaning:
 | Sync-style producer | Code waits after each send or handles one message at a time; simpler to explain, usually slower |
 | Batch producer | Code groups multiple messages before sending/flushing; closer to how high-throughput producers work |
 
-In this handout:
+In the local warm-up:
 
 | Strategy | What it really is |
 |---|---|
 | `sync_style` | Teaching simplification: one local append per message |
 | `batched` | Teaching simplification: collect several local messages, then append them together |
 
-This is not a full Confluent async producer benchmark. It is a local model of producer behavior.
+In the Confluent compare script:
+
+| Strategy | What it really is |
+|---|---|
+| `async` | Queue all messages, then `flush()` once |
+| `sync_style_flush_each_message` | Produce one message, then `flush()` immediately |
 
 In real `confluent-kafka`, the default producer pattern is async:
 
@@ -168,11 +287,11 @@ producer.produce(
 producer.flush()
 ```
 
-So yes: `sync_style` here is simplified. The real Kafka producer is async by default; `flush()` is the explicit wait point.
+So yes: `sync_style` is simplified. The real Kafka producer is async by default; `flush()` is the explicit wait point.
 
 ## Read the Core Code First
 
-This is the important logic before you run anything.
+Shared event model and serialization:
 
 ```python
 TOPIC_NAME = "msds682.demo01.trip-events.v1"
@@ -206,6 +325,39 @@ def make_trip_event(index: int, rng: random.Random) -> TripEvent:
     )
 ```
 
+Confluent async producer core:
+
+```python
+producer = Producer(producer_config)
+tracker = DeliveryTracker()
+
+for event in events:
+    producer.produce(
+        topic=TOPIC_NAME,
+        key=event.trip_id.encode("utf-8"),
+        value=event.model_dump_json(exclude_none=True).encode("utf-8"),
+        callback=tracker.callback,
+    )
+    producer.poll(0)
+
+producer.flush()
+```
+
+Sync-style comparison core:
+
+```python
+for event in events:
+    producer.produce(
+        topic=TOPIC_NAME,
+        key=event.trip_id.encode("utf-8"),
+        value=event.model_dump_json(exclude_none=True).encode("utf-8"),
+        callback=tracker.callback,
+    )
+    producer.flush()  # teaching simplification: wait after each message
+```
+
+Local warm-up append:
+
 ```python
 def produce(self, topic: str, payload: dict) -> None:
     path = self.topic_path(topic)
@@ -224,9 +376,10 @@ The benchmark runs two strategies. Each strategy starts from a clean local topic
 |---|---|---|
 | `TripEvent` | Defines the local Python shape of message values | Makes producer output predictable |
 | `make_trip_event(...)` | Generates deterministic sample trip events | Same seed means reproducible messages |
-| `JsonlTransport` | Local append-only topic storage | Mimics Kafka behavior without cloud credentials |
-| `produce(...)` | Writes one message | Easy mental model for producer basics |
-| `produce_many(...)` | Writes a batch of messages | Introduces batching / throughput thinking |
+| `demo02_producer_common.py` | Shared topic, config, event model, serializer, callback | Keeps producer scripts DRY |
+| `Producer` | Confluent Kafka producer client | Sends messages to Kafka |
+| `DeliveryTracker` | Callback result collector | Shows delivered/failed counts |
+| `JsonlTransport` | Local append-only topic storage | Warm-up only; no cloud credentials |
 | `producer_benchmark.csv` | Structured benchmark result | Easy to inspect or grade |
 | `producer_benchmark.png` | Bar chart of messages/sec | Quick visual comparison |
 
@@ -235,9 +388,8 @@ The benchmark runs two strategies. Each strategy starts from a clean local topic
 | Not included yet | Why |
 |---|---|
 | Create the topic in Confluent | Demo 01 already covers topic creation |
-| Send messages to Confluent | This handout is local-first for reproducibility |
 | Consume messages | Demo 03 covers offset/replay behavior |
-| Enforce a Kafka schema | Pydantic validates locally; Schema Registry is a later/optional concept |
+| Schema Registry | Pydantic validates locally; Schema Registry is a later/optional concept |
 | Prove distributed Kafka performance | This is a local teaching benchmark, not a cloud load test |
 
 ## Step 1: Create a Working Folder
@@ -274,14 +426,24 @@ Windows PowerShell:
 
 ```bash
 python -m pip install --upgrade pip
-python -m pip install pydantic pandas matplotlib
+python -m pip install confluent-kafka python-dotenv pydantic pandas matplotlib
 ```
+
+The Confluent producer scripts use the same `.env` shape from Demo 01.
 
 ## Step 4: Download the Script
 
 Download:
 
+[demo02_producer_common.py](handouts/demo02_producer_common.py)
+
 [demo02_producer_benchmark.py](handouts/demo02_producer_benchmark.py)
+
+[demo02b_confluent_async_producer.py](handouts/demo02b_confluent_async_producer.py)
+
+[demo02c_confluent_async_sync_compare.py](handouts/demo02c_confluent_async_sync_compare.py)
+
+[demo02d_confluent_serialization_producer.py](handouts/demo02d_confluent_serialization_producer.py)
 
 Put it in your working folder.
 
@@ -289,11 +451,16 @@ Your folder should look like:
 
 ```text
 msds682-demos/
+  .env
+  demo02_producer_common.py
   demo02_producer_benchmark.py
+  demo02b_confluent_async_producer.py
+  demo02c_confluent_async_sync_compare.py
+  demo02d_confluent_serialization_producer.py
   .venv/
 ```
 
-No `.env` is required for this local demo.
+`.env` is required only for the Confluent producer scripts. The local warm-up can run without `.env`.
 
 ## Step 5: Run Demo 02
 
@@ -305,6 +472,24 @@ For a shorter classroom check:
 
 ```bash
 python demo02_producer_benchmark.py --run-id quick --count 20 --batch-size 5
+```
+
+Run the real async producer:
+
+```bash
+python demo02b_confluent_async_producer.py --run-id lec2-demo02b --count 4
+```
+
+Run the async vs sync-style comparison:
+
+```bash
+python demo02c_confluent_async_sync_compare.py --run-id lec2-demo02c --count 4
+```
+
+Run the serialization producer:
+
+```bash
+python demo02d_confluent_serialization_producer.py --run-id lec2-demo02d --count 4
 ```
 
 ## Step 6: Inspect the Local Topic Log
@@ -345,28 +530,23 @@ Do not over-interpret the absolute speed. The point is to compare patterns, not 
 | Error or symptom | Most likely cause | Fix |
 |---|---|---|
 | `ModuleNotFoundError: pydantic` | Packages not installed in the active environment | Activate `.venv`, then reinstall packages |
+| `Missing required .env values` | Running Confluent script without Demo 01 `.env` | Put `.env` in the same folder or current working directory |
+| `Local: Message timed out` | Topic missing, bad credentials, or network issue | Run Demo 01 first and verify topic exists |
 | No output files | Running from a different folder than expected | Check current directory with `pwd` |
 | Chart file missing | `matplotlib` was not installed correctly | Reinstall `matplotlib` in the active environment |
 | Topic file looks duplicated | You reused the same run folder and reran after editing | Use a new `--run-id` |
 | Confused why Confluent metrics do not change | This demo is local JSONL, not cloud Kafka | Use Demo 01 only to check Confluent topic existence |
 
-## Optional: How This Would Map to a Real Kafka Producer
+## What Students Need to Master
 
-The local demo writes:
+Keep this short:
 
-```python
-transport.produce(TOPIC_NAME, event.model_dump(exclude_none=True))
-```
+1. A topic can exist empty. Demo 01 creates it.
+2. A producer chooses topic, key, and value.
+3. Kafka stores bytes, so value serialization matters.
+4. `confluent-kafka` producer is async by default.
+5. Delivery success/failure comes from callback/poll/flush.
+6. `sync_style` means "wait after each message" and is a teaching simplification.
+7. Use `trip_id` as key when you want one trip lifecycle to stay ordered in one partition.
 
-A real Confluent producer would use the same topic name, but send bytes over the network:
-
-```python
-producer.produce(
-    topic="msds682.demo01.trip-events.v1",
-    key=event.trip_id,
-    value=json.dumps(event.model_dump(exclude_none=True)).encode("utf-8"),
-)
-producer.flush()
-```
-
-That cloud version is intentionally not the default here. First learn the message shape and producer flow locally; then connect it to Confluent.
+Do not over-focus on performance numbers. The point is the producer flow.

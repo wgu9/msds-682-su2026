@@ -5,29 +5,14 @@ import json
 import random
 import time
 from pathlib import Path
-from typing import Literal
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
-from pydantic import BaseModel, Field
 
-
-TOPIC_NAME = "msds682.demo01.trip-events.v1"
-
-
-class TripEvent(BaseModel):
-    # Local message value model for the ridesharing topic.
-    # Kafka itself stores bytes; this model keeps our sample payloads consistent.
-    trip_id: str
-    event_type: Literal["trip_requested", "driver_matched", "trip_started", "trip_completed"]
-    rider_id: str
-    event_time: str
-    zone: str
-    driver_id: str | None = None
-    fare: float | None = Field(default=None, ge=0)
+from demo02_producer_common import TOPIC_NAME, event_dict, make_trip_event
 
 
 class JsonlTransport:
@@ -56,22 +41,6 @@ class JsonlTransport:
             self.produce(topic, row)
 
 
-def make_trip_event(index: int, rng: random.Random) -> TripEvent:
-    # Deterministic fake events: same seed + same count = same local topic log.
-    event_types = ["trip_requested", "driver_matched", "trip_started", "trip_completed"]
-    event_type = event_types[index % len(event_types)]
-    trip_number = 981 + (index // len(event_types))
-    return TripEvent(
-        trip_id=f"trip_{trip_number}",
-        event_type=event_type,
-        rider_id=f"rider-{trip_number}",
-        driver_id=None if event_type == "trip_requested" else f"driver-{rng.randint(1, 8):03d}",
-        fare=round(rng.uniform(10.0, 90.0), 2) if event_type == "trip_completed" else None,
-        zone=["north", "south", "west"][index % 3],
-        event_time=f"2026-07-04T10:{index % 60:02d}:00Z",
-    )
-
-
 def run_strategy(strategy: str, count: int, batch_size: int, seed: int, run_id: str) -> dict:
     transport = JsonlTransport(run_id)
     # Each strategy starts from a clean local topic so the timing comparison is isolated.
@@ -84,14 +53,14 @@ def run_strategy(strategy: str, count: int, batch_size: int, seed: int, run_id: 
         # One produce call per event. Easy to understand, usually slower.
         for index in range(count):
             event = make_trip_event(index, rng)
-            transport.produce(TOPIC_NAME, event.model_dump(exclude_none=True))
+            transport.produce(TOPIC_NAME, event_dict(event))
     elif strategy == "batched":
         # Accumulate events in memory, then append a batch at once.
         # This mirrors the producer batching idea without requiring a broker.
         buffer: list[dict] = []
         for index in range(count):
             event = make_trip_event(index, rng)
-            buffer.append(event.model_dump(exclude_none=True))
+            buffer.append(event_dict(event))
             if len(buffer) >= batch_size:
                 transport.produce_many(TOPIC_NAME, buffer)
                 buffer = []
