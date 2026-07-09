@@ -10,12 +10,16 @@ from dotenv import load_dotenv
 
 
 def load_config() -> dict[str, str]:
+    # Credentials come from .env, never hardcoded in source code.
+    # Look next to where you run from first, then next to this script.
     cwd_env = Path.cwd() / ".env"
     script_env = Path(__file__).resolve().parent / ".env"
     if cwd_env.exists():
         load_dotenv(cwd_env)
     else:
         load_dotenv(script_env)
+    # librdkafka client config uses dot-notation keys ("bootstrap.servers"),
+    # while env vars use upper snake case; this dict is the translation layer.
     return {
         "bootstrap.servers": os.getenv("BOOTSTRAP_SERVERS", ""),
         "security.protocol": os.getenv("SECURITY_PROTOCOL", "SASL_SSL"),
@@ -26,6 +30,8 @@ def load_config() -> dict[str, str]:
 
 
 def missing_config(config: dict[str, str]) -> list[str]:
+    # Fail fast: name every missing env var up front,
+    # instead of a cryptic auth error after touching the network.
     env_by_client_key = {
         "bootstrap.servers": "BOOTSTRAP_SERVERS",
         "security.protocol": "SECURITY_PROTOCOL",
@@ -37,6 +43,8 @@ def missing_config(config: dict[str, str]) -> list[str]:
 
 
 def topic_exists(admin_client: AdminClient, topic_name: str) -> bool:
+    # list_topics() is a cluster metadata query. Checking first makes the
+    # whole demo idempotent: safe to re-run in class any number of times.
     return topic_name in admin_client.list_topics(timeout=10).topics
 
 
@@ -50,12 +58,19 @@ def create_topic(
     if topic_exists(admin_client, topic_name):
         return "already_exists"
 
+    # The three knobs of a topic:
+    #   num_partitions: parallelism (how many consumers can read at once)
+    #   replication_factor: fault tolerance (3 is required on Confluent Cloud)
+    #   cleanup.policy: how the log forgets. "delete" expires old segments
+    #                   by retention; "compact" keeps the latest per key.
     topic = NewTopic(
         topic_name,
         num_partitions=partitions,
         replication_factor=replication_factor,
         config={"cleanup.policy": cleanup_policy},
     )
+    # create_topics() is async: it returns {topic_name: Future}.
+    # result() blocks until the broker confirms, or raises on failure.
     futures = admin_client.create_topics([topic])
     futures[topic_name].result(timeout=30)
     return "created"
@@ -69,6 +84,8 @@ def safe_report(
     cleanup_policy: str,
     status: str,
 ) -> dict:
+    # Everything printed or saved is secret-free:
+    # host only, and booleans instead of the actual username/password.
     return {
         "status": status,
         "topic": topic_name,
@@ -83,6 +100,8 @@ def safe_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    # Default topic name follows the course convention:
+    # <course>.<demo>.<entity>.<version>: lowercase, descriptive, versioned.
     parser.add_argument("--topic", default=os.getenv("DEMO01_TOPIC_NAME", "msds682.demo01.trip-events.v1"))
     parser.add_argument("--partitions", type=int, default=3)
     parser.add_argument("--replication-factor", type=int, default=3)
@@ -112,6 +131,8 @@ def main() -> None:
         cleanup_policy=args.cleanup_policy,
         status=status,
     )
+    # Evidence file for reproducibility: every run leaves a JSON report
+    # under outputs/runs/<run-id>/ that can be checked without cluster access.
     output_dir = Path("outputs") / "runs" / args.run_id / "demo01_topic_creation"
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / "topic_report.json"

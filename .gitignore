@@ -5,3 +5,4 @@
 .local-guards/
 tmp/
 outputs/
+__pycache__/
