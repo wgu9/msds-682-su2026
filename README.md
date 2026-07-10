@@ -23,22 +23,24 @@ handouts/    .md and .pdf handouts
 
 ## Adding a handout
 
-1. Drop a file in `handouts/` — a Markdown file (`.md`) or a PDF.
+1. Drop a file in `handouts/` — a Markdown file (`.md`), HTML file (`.html`), or PDF.
 2. Add one row to the `handouts` array in `script.js`:
 
    ```js
    {
      slug: "week2-consumers",       // becomes #/handouts/week2-consumers
      title: "Week 2: Consumers",
-     kind: "md",                    // "md" renders in-page, "pdf" opens the file
+     kind: "md",                    // "md" renders in-page, "html" can render in-page or standalone, "pdf" opens the file
      file: "handouts/week2-consumers.md",
-     date: "Jul 2026",
+     createdAt: "Created at 9:00 AM PDT on July 10, 2026",
+     lastUpdatedAt: "Last updated at 9:00 AM PDT on July 10, 2026",
      summary: "One-line description."
    }
    ```
 
 Markdown handouts render in the page with syntax-highlighted code blocks
-(via marked + highlight.js, loaded from CDN). PDF handouts open directly.
+(via marked + highlight.js, loaded from CDN). Standalone HTML handouts can be
+embedded with `standalone: true`. PDF handouts open directly.
 
 ## Local preview
 

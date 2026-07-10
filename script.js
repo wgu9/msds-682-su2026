@@ -280,8 +280,8 @@ const pages = {
 
 // Handout manifest. To add a handout: drop a file in `handouts/` and add a row
 // here. Markdown handouts (kind: "md") render in-page with syntax-highlighted
-// code blocks; HTML handouts (kind: "html") render in-page without Markdown
-// parsing; PDF handouts (kind: "pdf") open the file directly.
+// code blocks; HTML handouts (kind: "html") render in-page or in a standalone
+// iframe; PDF handouts (kind: "pdf") open the file directly.
 const handouts = [
   {
     slug: "demo00",
