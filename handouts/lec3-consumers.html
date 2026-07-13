@@ -887,7 +887,240 @@
         </div>
       </div>
     </div>
-    <div class="pager">01 / 25</div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-02-recap">
+    <div class="frame narrow">
+      <p class="kicker">Recap · Lecture 2</p>
+      <h1>Kafka topics, partitions, and producers</h1>
+      <p class="subtitle">Reconnect the producer side before we begin the consumer side.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <p class="eyebrow">Kafka</p>
+          <h2>Topics and partitions</h2>
+          <ul class="compact-list">
+            <li>Topics organize related event streams.</li>
+            <li>Partitions provide ordered logs and parallelism.</li>
+            <li>Producers can use synchronous-style or asynchronous delivery patterns.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Lecture 2 materials</p>
+          <h2>Review the producer path</h2>
+          <ul class="compact-list">
+            <li><a href="https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0" target="_blank" rel="noreferrer">Lecture 2 slides ↗</a></li>
+            <li><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo01" target="_blank" rel="noreferrer">Demo 01: create the topic ↗</a></li>
+            <li><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo02" target="_blank" rel="noreferrer">Demo 02: produce events ↗</a></li>
+            <li><a href="https://wgu9.github.io/msds-682-su2026/handouts/lec2-topic-vs-table.html" target="_blank" rel="noreferrer">Additional material: topics, partitions, and tables ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-03-assignment">
+    <div class="frame narrow">
+      <p class="kicker">Course operation</p>
+      <h1>Assignment #1 is out</h1>
+      <p class="subtitle">Use the published assignment contract and submit the completed homework in Canvas.</p>
+
+      <div class="qa-two-col">
+        <div class="card">
+          <p class="eyebrow">Due date</p>
+          <h2>Tuesday, July 21, 2026</h2>
+          <p class="bodycopy"><strong>11:59 PM PDT</strong></p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Submission</p>
+          <h2>Canvas</h2>
+          <p class="bodycopy">Submit the required ZIP after completing the published checklist.</p>
+        </div>
+      </div>
+
+      <div class="source-row">
+        <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment01" target="_blank" rel="noreferrer">Open Assignment #1 ↗</a>
+      </div>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-04-ai-skills">
+    <div class="frame">
+      <p class="kicker">Selected Q/A on AI Engineering and AI Tools</p>
+      <h1>Q1. Do we need “Skills” in Codex or Claude Code?</h1>
+      <p class="subtitle">Thanks to everyone who asked questions related to our course.</p>
+
+      <div class="answer-banner"><strong>Short answer:</strong> not on day one; <strong>yes once you repeat yourself.</strong></div>
+
+      <div class="qa-two-col">
+        <div class="card">
+          <p class="eyebrow">Start with project context</p>
+          <p class="bodycopy">A skill is packaged guidance that an agent loads on demand. The highest-leverage first step is a useful <code class="inline">CLAUDE.md</code> or <code class="inline">AGENTS.md</code> explaining how the repository is built, tested, and structured.</p>
+          <div class="callout"><strong>Rule of thumb:</strong> the third time you paste the same instructions into a session, turn them into a skill.</div>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Choose what deserves reuse</p>
+          <ul class="qa-list">
+            <li><strong>Good candidates:</strong> stable, repeatable workflows.</li>
+            <li><strong>Bad candidates:</strong> one-off tasks; an unused skill becomes maintenance debt.</li>
+            <li><strong>For SOTA models:</strong> post-training has commoditized much of the “how.” Procedure-only skills can regress as models improve; skills that declare intent and facts appreciate.</li>
+            <li><strong>Evaluate the skill:</strong> evidence is how you distinguish the two.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout green"><strong>What remains yours:</strong> private context, contracts, constraints, and the judgment to verify the result.</div>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-05-ai-subagents">
+    <div class="frame">
+      <p class="kicker">Q/A on AI Engineering and AI Tools</p>
+      <h1>Q2. How should we manage subagents?</h1>
+      <div class="answer-banner"><strong>Rule of thumb:</strong> use isolated worktrees when multiple agents write to the same repository. Avoid conflicts.</div>
+
+      <p class="subtitle">Treat a subagent like an intern with no memory of your conversation: it starts cold, so the brief determines the result.</p>
+
+      <div class="qa-two-col">
+        <div class="card">
+          <p class="eyebrow">1–2 · Delegate deliberately</p>
+          <ul class="qa-list">
+            <li><strong>Define a deliverable.</strong> “Find every hardcoded topic name and report file:line” works; “help with the refactor” does not.</li>
+            <li><strong>Use fan-out selectively.</strong> Parallel searches, noisy test runs, and fresh review passes benefit; homework-scale work usually benefits more from one agent with strong context.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="eyebrow">3–4 · Control and verify</p>
+          <ul class="qa-list">
+            <li><strong>Keep write access visible.</strong> Let the main agent own writes; make research subagents read-only when possible.</li>
+            <li><strong>Verify before acting.</strong> A subagent summary is a claim, not a fact—the same evidence discipline required by <code class="inline">AI_USAGE.md</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout"><strong>Q3. Other coding tools?</strong> Try VS Code, OpenCode, and similar tools. Choose the one that works well with your workflow.</div>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-06-ai-tools">
+    <div class="frame narrow">
+      <p class="kicker">Q/A on AI Engineering and AI Tools</p>
+      <h1>Q3. What other coding tools should we try?</h1>
+
+      <div class="tool-answer">
+        <p>Try <strong>VS Code</strong>, <strong>OpenCode</strong>, and other tools.<br>Find the one that works well with <strong>your workflow</strong>.</p>
+      </div>
+
+      <p class="caption">The tool is a choice; understanding, verification, and control remain your responsibility.</p>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-07-ai-kafka">
+    <div class="frame">
+      <p class="kicker">Q/A on AI Engineering and AI Tools</p>
+      <h1>Q4. What is Kafka’s role in AI engineering?</h1>
+      <p class="subtitle">Every production AI system you will touch is fed by streams: events, documents, predictions, features, traces, and evaluations.</p>
+
+      <div class="ai-role-grid">
+        <div class="card">
+          <p class="eyebrow">RAG</p>
+          <h2>RAG indexes need freshness</h2>
+          <p class="bodycopy">Continuously ship new documents and events into indexing pipelines.</p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Monitoring</p>
+          <h2>Model monitoring</h2>
+          <p class="bodycopy">Stream prediction logs for quality, latency, and drift analysis.</p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Features</p>
+          <h2>Feature stores for online inference</h2>
+          <p class="bodycopy">Build feature-update paths on streaming pipelines.</p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Agents</p>
+          <h2>Agent systems emit streams</h2>
+          <p class="bodycopy">Capture tool calls, traces, and evaluation results for analysis.</p>
+        </div>
+      </div>
+
+      <div class="callout green"><strong>Kafka is the de facto backbone for all of that.</strong> AI engineering interviews and jobs test throughput versus latency, batching, backpressure, delivery guarantees, schema contracts, and idempotency.</div>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-08-uv-poetry">
+    <div class="frame narrow">
+      <p class="kicker">Q/A on AI Engineering and AI Tools</p>
+      <h1>Q5. Poetry or uv for homework?</h1>
+      <p class="subtitle">This question also came from the 2023 cohort. For this course, <strong>uv is the better default for student homework.</strong></p>
+
+      <table class="choice-table">
+        <thead><tr><th>Area</th><th>uv</th><th>Poetry</th></tr></thead>
+        <tbody>
+          <tr><td>Setup</td><td>Simpler</td><td>More concepts</td></tr>
+          <tr><td>Speed</td><td>Much faster</td><td>Slower</td></tr>
+          <tr><td>Python installation</td><td>Built in</td><td>Usually external</td></tr>
+          <tr><td>Virtual environments</td><td>Built in</td><td>Built in</td></tr>
+          <tr><td>Lockfile</td><td><code>uv.lock</code></td><td><code>poetry.lock</code></td></tr>
+          <tr><td>Packaging libraries</td><td>Good</td><td>More mature</td></tr>
+          <tr><td>Student homework</td><td>Better choice</td><td>Usually unnecessary</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pptx-09-course-overview">
+    <div class="frame">
+      <p class="kicker">Course roadmap</p>
+      <h1>Overview of Lectures 2–5</h1>
+      <p class="subtitle">Move from Python Kafka functions to shared, versioned data contracts.</p>
+
+      <div class="course-overview">
+        <div class="roadmap-phases">
+          <div class="roadmap-phase">
+            <h3>Lectures 2–3 · Kafka with Python</h3>
+            <p>Implement producers and consumers. Initial values may be free-form JSON or strings.</p>
+          </div>
+          <div class="roadmap-phase green">
+            <h3>Lecture 4 · Define data with Avro</h3>
+            <p><strong>Problem:</strong> how do applications share and coordinate a schema? <strong>Solution:</strong> Schema Registry, with a REST interface for storing and retrieving schemas by ID.</p>
+          </div>
+          <div class="roadmap-phase amber">
+            <h3>Lecture 5 · Deep dive into Schema Registry</h3>
+            <p>Produce Avro, store or fetch schemas, and use the registry to deserialize consumer data. Schema Registry integrates with Kafka and Kafka Connect.</p>
+          </div>
+        </div>
+
+        <div class="schema-map">
+          <div class="schema-app">
+            <h3>Producer application</h3>
+            <div class="schema-step">Basic Kafka Producer</div>
+            <div class="schema-down">↓</div>
+            <div class="schema-step">Serialize with Avro</div>
+            <div class="schema-down">↓</div>
+            <div class="schema-step">Fetch / store schema<br>Schema Registry</div>
+          </div>
+          <div class="schema-kafka">Kafka<br>Cluster<br>↔<br>Schema<br>Registry</div>
+          <div class="schema-app consumer">
+            <h3>Consumer application</h3>
+            <div class="schema-step">Basic Kafka Consumer</div>
+            <div class="schema-down">↓</div>
+            <div class="schema-step">Fetch schema<br>Schema Registry</div>
+            <div class="schema-down">↓</div>
+            <div class="schema-step">Deserialize with Avro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s02">
@@ -921,7 +1154,7 @@
 
       <div class="callout"><strong>Core question:</strong> who owns the next offset—and when is it safe to advance it?</div>
     </div>
-    <div class="pager">02 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s03">
@@ -959,7 +1192,7 @@
 
       <p class="caption"><strong>SSOT:</strong> <code class="inline">demo02_producer_common.py</code> owns the topic, event schema, serialization, and connection settings.</p>
     </div>
-    <div class="pager">03 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s04">
@@ -993,7 +1226,7 @@
         <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment01" target="_blank" rel="noreferrer">Open the Assignment 1 contract ↗</a>
       </div>
     </div>
-    <div class="pager">04 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s05">
@@ -1025,7 +1258,7 @@
         <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec2-topic-vs-table" target="_blank" rel="noreferrer">Lecture 2 deck — producer batching on the final slide ↗</a>
       </div>
     </div>
-    <div class="pager">05 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s06">
@@ -1055,7 +1288,7 @@
         <div class="card flat"><p class="eyebrow">Key connection</p><p class="bodycopy">A stable key can keep one entity on the same partition while partition count is unchanged.</p></div>
       </div>
     </div>
-    <div class="pager">06 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s07">
@@ -1084,7 +1317,7 @@
 
       <div class="callout green"><strong>Why AI engineers care:</strong> feature pipelines, monitoring, audit, and RAG-index updates can use separate groups to read the same event stream independently.</div>
     </div>
-    <div class="pager">07 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s08">
@@ -1115,7 +1348,7 @@
 
       <div class="callout"><strong>Python convenience:</strong> <code class="inline">consumer.commit(message=msg)</code> commits <code class="inline">msg.offset() + 1</code>.</div>
     </div>
-    <div class="pager">08 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s09">
@@ -1155,7 +1388,7 @@
         </div>
       </div>
     </div>
-    <div class="pager">09 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s10">
@@ -1181,7 +1414,7 @@
         </div>
       </div>
     </div>
-    <div class="pager">10 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s11">
@@ -1210,7 +1443,7 @@
 
       <div class="callout red"><strong>Direct rule:</strong> <code class="inline">earliest</code> is not a rewind button. Use explicit replay when you intend to override normal group progress.</div>
     </div>
-    <div class="pager">11 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s12">
@@ -1231,7 +1464,7 @@
 
       <p class="caption"><strong>Do not hide replay inside normal assignment callbacks.</strong> It destroys the distinction between resuming saved work and intentionally reprocessing history.</p>
     </div>
-    <div class="pager">12 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s13">
@@ -1264,7 +1497,7 @@
 
       <div class="callout green"><strong>Demo 03B contract:</strong> disable automatic offset storage, decode and validate first, then request the commit.</div>
     </div>
-    <div class="pager">13 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s14">
@@ -1305,7 +1538,7 @@
 
       <p class="caption"><strong>All three store the next offset to consume.</strong> The difference is when progress is selected and whether your code waits for confirmation.</p>
     </div>
-    <div class="pager">14 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s15">
@@ -1341,7 +1574,7 @@
         </div>
       </div>
     </div>
-    <div class="pager">15 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s16">
@@ -1383,7 +1616,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
 
       <div class="callout amber"><strong>Security boundary:</strong> use a Kafka cluster API key/secret. Never copy a historical credential, Confluent website password, or populated <code class="inline">.env</code> into slides, reports, or submissions.</div>
     </div>
-    <div class="pager">16 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s17">
@@ -1419,7 +1652,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
 
       <p class="caption">Keep <code class="inline">demo02_producer_common.py</code> beside the scripts; it remains the topic, schema, serialization, and connection owner.</p>
     </div>
-    <div class="pager">17 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s18">
@@ -1457,7 +1690,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
 
       <div class="callout"><strong>Rerun insight:</strong> the default group ID is stable. A later run may consume zero because the group already reached the end—that is saved progress, not necessarily a bug.</div>
     </div>
-    <div class="pager">18 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s19">
@@ -1490,7 +1723,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
         </div>
       </div>
     </div>
-    <div class="pager">19 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s20">
@@ -1519,7 +1752,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
 
       <div class="callout amber"><strong>Expected group evidence:</strong> active members have non-overlapping partition assignments; joining or leaving produces assignment/revocation history.</div>
     </div>
-    <div class="pager">20 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s21">
@@ -1552,7 +1785,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
       <div class="callout red"><strong>Never claim:</strong> putting blocking <code class="inline">Consumer.poll()</code> inside <code class="inline">async def</code> makes it nonblocking. Ordinary CLI consumers should use the standard API.</div>
       <p class="caption">For CPython 3.11, threads are mainly useful for blocking I/O or libraries that release the GIL; pure-Python CPU parallelism usually needs processes or native/vectorized code.</p>
     </div>
-    <div class="pager">21 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s22">
@@ -1589,7 +1822,7 @@ assignment_ready = asyncio.Event()
 
       <p class="caption">Confluent removed the AsyncIO experimental module designation in 2.13; this course pins 2.15.0 and imports from <code class="inline">confluent_kafka.aio</code>.</p>
     </div>
-    <div class="pager">22 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s23">
@@ -1612,7 +1845,7 @@ assignment_ready = asyncio.Event()
 
       <p class="caption">Reports live under <code class="inline">outputs/runs/&lt;run-id&gt;/...</code> and remain outside version control.</p>
     </div>
-    <div class="pager">23 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s24">
@@ -1634,7 +1867,7 @@ assignment_ready = asyncio.Event()
 
       <div class="callout amber"><strong>A waiting consumer is not necessarily hung.</strong> It may be correctly waiting for future records; the course scripts use visible time/message limits so the run still ends.</div>
     </div>
-    <div class="pager">24 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <section class="slide" id="s25">
@@ -1661,11 +1894,19 @@ assignment_ready = asyncio.Event()
         <a href="https://www.confluent.io/resources/ebook/kafka-the-definitive-guide/" target="_blank" rel="noreferrer">Further reading: Kafka — The Definitive Guide, Ch. 4 ↗</a>
       </div>
     </div>
-    <div class="pager">25 / 25</div>
+    <div class="pager"></div>
   </section>
 
   <script>
     const slides = [...document.querySelectorAll("section.slide")];
+    const pageWidth = String(slides.length).length;
+    slides.forEach((slide, pageIndex) => {
+      const pager = slide.querySelector(".pager");
+      if (pager) {
+        const current = String(pageIndex + 1).padStart(pageWidth, "0");
+        pager.textContent = `${current} / ${slides.length}`;
+      }
+    });
     let index = 0;
     const clamp = value => Math.max(0, Math.min(slides.length - 1, value));
     const go = value => {
