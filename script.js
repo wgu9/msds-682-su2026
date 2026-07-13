@@ -71,7 +71,7 @@ const pages = {
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
               <td>Apache Kafka Pt. 2</td>
-              <td>Consumers</td>
+              <td>Consumers; Demo 03A–03D on Confluent Cloud</td>
             </tr>
             <tr>
               <td>4</td>
@@ -319,6 +319,15 @@ const handouts = [
     createdAt: "Created at 3:49 AM PDT on July 9, 2026",
     lastUpdatedAt: "Last updated at 1:32 PM PDT on July 9, 2026",
     summary: "Producer core demos over the Demo 01 trip topic: sync-style producer, async producer, async-vs-sync comparison, and serialization."
+  },
+  {
+    slug: "demo03",
+    title: "Demo 03: Kafka Consumers on Confluent Cloud",
+    kind: "md",
+    file: "handouts/demo03.md",
+    createdAt: "Created at 1:57 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 1:57 PM PDT on July 13, 2026",
+    summary: "Real Confluent consumer sequence over the shared trip topic: bounded poll loop, manual offset commits and resume, consumer groups and replay, plus native asyncio producer/consumer clients."
   },
   {
     slug: "lec2-topic-vs-table",
