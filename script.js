@@ -175,8 +175,9 @@ const pages = {
       <div class="assignment-list">
         <article class="assignment-card">
           <h3>Assignment 1</h3>
-          <p>Individual assignment worth 20% of the course grade. Focus: Kafka-style producer logic, event schemas, local replay, and performance benchmarking.</p>
-          <p><span class="tag">Due Jul 18, 2026 · 11:59pm</span></p>
+          <p>Use real Confluent Cloud Kafka to complete Demo 02A–02D: sync-style producer, async producer, performance comparison, and serialization. The base assignment is 20 points, with up to 3 extra-credit points.</p>
+          <p><span class="tag">Due Jul 18, 2026 · 11:59pm PDT · 20 + up to 3 extra credit</span></p>
+          <p><a class="download-link" href="#/handouts/assignment01">Open Assignment 1</a></p>
         </article>
         <article class="assignment-card">
           <h3>Assignment 2</h3>
@@ -196,7 +197,7 @@ const pages = {
 
       <h3>Submission and collaboration</h3>
       <ul>
-        <li>Canvas link: to be provided at the first class.</li>
+        <li><a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Canvas course page</a>; USF login may be required.</li>
         <li>Late submissions are not accepted unless prior approval has been granted by the instructor.</li>
         <li>GitHub is used for code management, collaboration, and portfolio development.</li>
         <li>AI tools, coding agents, open-source resources, and online references are permitted with clear attribution and explanation.</li>
@@ -283,6 +284,15 @@ const pages = {
 // code blocks; HTML handouts (kind: "html") render in-page or in a standalone
 // iframe; PDF handouts (kind: "pdf") open the file directly.
 const handouts = [
+  {
+    slug: "assignment01",
+    title: "Assignment 1: Confluent Cloud Kafka Producer Performance Analysis",
+    kind: "md",
+    file: "handouts/assignment01.md",
+    createdAt: "Created at 12:24 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 12:31 PM PDT on July 13, 2026",
+    summary: "Required real-Confluent producer assignment covering Demo 02A–02D, a 20,000-message-per-strategy benchmark, and up to 3 extra-credit points."
+  },
   {
     slug: "demo00",
     title: "Demo 00: Environment Setup",
