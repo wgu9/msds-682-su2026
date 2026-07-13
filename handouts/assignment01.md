@@ -8,6 +8,25 @@
 
 > The required assignment runs on **real Confluent Cloud Kafka**. A local-only benchmark does not satisfy the 20-point base assignment.
 
+## Download the student starter
+
+[Download `assignment01-starter.zip`](handouts/assignment01-starter.zip), unzip
+it, and follow its `README.md`. The starter contains the required file layout,
+report and AI-assistance templates, credential-free tests, docstrings, comments,
+and clearly marked implementation blocks.
+
+Complete every block between these exact markers:
+
+```python
+# ==================== CODE START HERE ====================
+# Write your implementation here.
+# ===================== CODE ENDS HERE =====================
+```
+
+Do not remove the markers, docstrings, or explanatory comments. You may add
+small helper functions when they make your code clearer, but keep the provided
+interfaces so the included tests remain useful.
+
 ## Objective
 
 Use the complete Lecture 2 Demo 02 producer sequence to compare Kafka producer behavior and performance:
@@ -31,7 +50,9 @@ Complete these course materials first:
 - [Demo 02D serialization producer](handouts/demo02d_confluent_serialization_producer.py)
 - [Shared Demo 02 producer module](handouts/demo02_producer_common.py)
 
-You may start from the course Demo 02 code. Cite the course demo in your README and clearly explain the changes you made for the assignment.
+The starter is based on the course Demo 02 sequence. Cite Demo 02 in your
+README and clearly explain the implementation and benchmark extensions you
+completed for the assignment.
 
 ## Required work: 20 base points
 
@@ -141,6 +162,21 @@ Include secret-free evidence from all four producer parts:
 
 Reports must show the topic, attempted/delivered/failed counts, and completion status where applicable. A redacted Confluent UI screenshot is optional; secret-free code-generated reports are the preferred evidence.
 
+### 8. AI assistance disclosure
+
+In `report.md`, answer **Yes** or **No** to whether you used AI assistance for
+code, debugging, analysis, writing, or visualization.
+
+- If **No**, no separate AI log is required.
+- If **Yes**, copy `AI_USAGE_TEMPLATE.md` to `AI_USAGE.md`, complete it, and
+  include it in your ZIP. Document the tool, purpose, prompt or request, output
+  summary, what you accepted or rejected, your own changes, and verification.
+
+This disclosure is required whenever AI assistance was used. Completing the
+disclosure does **not** automatically earn extra credit. The optional AI review
+point below requires substantive engineering judgment and supporting evidence.
+You remain responsible for understanding and verifying everything submitted.
+
 ## Submission structure
 
 Submit one ZIP file named `assignment1_<usf_username>.zip` with a structure equivalent to:
@@ -162,8 +198,10 @@ assignment1_<usf_username>/
   evidence/
     demo02a_report.json
     demo02b_report.json
+    demo02c_config.json
     demo02d_report.json
   report.md
+  AI_USAGE.md              # required only if AI assistance was used
 ```
 
 Equivalent clear filenames are acceptable. `README.md` must contain setup and run commands. Do not include `.env`, credentials, `.venv`, cached packages, or unrelated large files.
@@ -178,7 +216,7 @@ Equivalent clear filenames are acceptable. `README.md` must contain setup and ru
 | Demo 02D schema and serialization | 3 | Validates an explicit event model, uses a stable key, serializes to UTF-8 JSON bytes, and proves successful delivery. |
 | Visualization and analysis | 3 | Provides a useful comparison graph and a data-supported analysis of performance, tradeoffs, noise, callbacks, polling, and flushing. |
 | Producer-code understanding | 2 | Correctly answers the four configuration, callback, `poll()`, and `flush()` questions. |
-| Submission quality | 1 | ZIP is organized, documented, runnable, readable, and free of credentials or unnecessary files. |
+| Submission quality | 1 | ZIP is organized, documented, runnable, readable, free of credentials/unnecessary files, and includes the required AI-use status and conditional disclosure. |
 | **Base total** | **20** | |
 
 ## Extra credit: up to 3 additional points
@@ -191,7 +229,10 @@ Add a credential-free local replay or dry-run mode using the same event contract
 
 ### +1: AI-assisted engineering review
 
-Submit an AI usage log containing the tool, prompt, concrete suggestions, accepted suggestions, rejected suggestions, your reasons, and benchmark or test evidence supporting your decisions. You remain responsible for the code and conclusions.
+Go beyond the required disclosure: use AI for a substantive engineering review,
+identify concrete suggestions, accept and reject at least one suggestion with
+reasons, and provide benchmark or test evidence supporting both decisions. A
+usage log without this decision-and-evidence trail earns no extra-credit point.
 
 ### +1: advanced evaluation and observability
 
@@ -211,4 +252,8 @@ Confluent Cloud resources may consume credits while running. Monitor usage, stop
 - Benchmark CSV has at least 80 rows: 40 async and 40 sync-style.
 - Every benchmark batch reports 500 delivered, zero failed, and zero remaining after flush.
 - `.env` and all credentials are excluded.
+- Every `CODE START HERE` / `CODE ENDS HERE` block is implemented, and no
+  `NotImplementedError` remains in required code.
+- `report.md` says whether AI assistance was used; a completed `AI_USAGE.md` is
+  included if the answer is Yes.
 - ZIP filename and folder structure are clear.

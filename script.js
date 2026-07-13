@@ -175,9 +175,9 @@ const pages = {
       <div class="assignment-list">
         <article class="assignment-card">
           <h3>Assignment 1</h3>
-          <p>Use real Confluent Cloud Kafka to complete Demo 02A–02D: sync-style producer, async producer, performance comparison, and serialization. The base assignment is 20 points, with up to 3 extra-credit points.</p>
+          <p>Use real Confluent Cloud Kafka to complete Demo 02A–02D: sync-style producer, async producer, performance comparison, and serialization. The base assignment is 20 points, with up to 3 extra-credit points. Disclose AI assistance if used.</p>
           <p><span class="tag">Due Jul 18, 2026 · 11:59pm PDT · 20 + up to 3 extra credit</span></p>
-          <p><a class="download-link" href="#/handouts/assignment01">Open Assignment 1</a></p>
+          <p><a class="download-link" href="#/handouts/assignment01">Open Assignment 1</a> · <a href="handouts/assignment01-starter.zip">Download student starter</a></p>
         </article>
         <article class="assignment-card">
           <h3>Assignment 2</h3>
@@ -290,8 +290,8 @@ const handouts = [
     kind: "md",
     file: "handouts/assignment01.md",
     createdAt: "Created at 12:24 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 12:31 PM PDT on July 13, 2026",
-    summary: "Required real-Confluent producer assignment covering Demo 02A–02D, a 20,000-message-per-strategy benchmark, and up to 3 extra-credit points."
+    lastUpdatedAt: "Last updated at 12:51 PM PDT on July 13, 2026",
+    summary: "Required real-Confluent producer assignment with a student starter, Demo 02A–02D, a 20,000-message-per-strategy benchmark, AI-use disclosure, and up to 3 extra-credit points."
   },
   {
     slug: "demo00",
