@@ -1,3 +1,10 @@
+"""Shared consumer contracts for the bounded Lecture 3 Confluent demos.
+
+Student note: this module deliberately reuses Demo 02's topic, TripEvent model,
+connection loader, and secret-free report helper. Consumer-specific behavior
+lives here so Demo 03A–03D do not duplicate configuration or offset rules.
+"""
+
 from __future__ import annotations
 
 import json

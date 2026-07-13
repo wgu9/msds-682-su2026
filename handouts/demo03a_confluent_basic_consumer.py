@@ -1,3 +1,10 @@
+"""Demo 03A: consume a bounded sample from the shared Confluent topic.
+
+Student focus: subscribe, poll, decode, validate, inspect partition/offset, and
+always close the consumer. The stable group ID makes saved progress observable
+when the script is run again.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -27,10 +34,13 @@ def main() -> dict:
     parser.add_argument("--idle-timeout", type=float, default=8.0)
     args = parser.parse_args()
 
+    # Student checkpoint: the default group ID is intentionally stable. With
+    # auto-commit enabled, rerunning can reach the current end of the topic.
     group_id = args.group_id or default_group_id("demo03a-basic")
     config = require_consumer_config(
         group_id=group_id,
         auto_offset_reset="earliest",
+        # close() commits the latest stored offsets when auto-commit is enabled.
         enable_auto_commit=True,
         client_id="msds682-demo03a-basic-consumer",
     )

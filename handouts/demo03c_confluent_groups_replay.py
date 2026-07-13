@@ -1,3 +1,10 @@
+"""Demo 03C: observe group assignments and request replay explicitly.
+
+Student focus: concurrent members of one group share partitions. Normal mode
+respects group progress; only --force-beginning overrides assigned offsets, and
+every run remains bounded by message and time limits.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -30,8 +37,9 @@ def main() -> dict:
     args = parser.parse_args()
 
     group_id = args.group_id or default_group_id("demo03c-shared-group")
-    # Normal group mode starts at latest when the group has no committed offset.
-    # Replay mode explicitly overrides assignment to OFFSET_BEGINNING.
+    # Student checkpoint: normal group mode and replay are different contracts.
+    # Normal mode starts at latest only when the group has no committed offset;
+    # replay explicitly overrides assignment to OFFSET_BEGINNING.
     auto_offset_reset = "earliest" if args.force_beginning else "latest"
     config = require_consumer_config(
         group_id=group_id,

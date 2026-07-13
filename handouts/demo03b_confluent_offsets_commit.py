@@ -1,3 +1,9 @@
+"""Demo 03B: process records, commit offsets, and prove same-group resume.
+
+Student focus: disable automatic offset storage, validate each record before
+committing, then run twice with the same group ID and compare offsets.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +35,8 @@ def main() -> dict:
     parser.add_argument("--idle-timeout", type=float, default=8.0)
     args = parser.parse_args()
 
-    # This default deliberately stays stable across runs to demonstrate resume.
+    # Student checkpoint: this default deliberately stays stable across runs.
+    # Change the group ID only when you intentionally want a separate history.
     group_id = args.group_id or default_group_id("demo03b-resume")
     commits = CommitTracker()
     config = require_consumer_config(
@@ -54,6 +61,7 @@ def main() -> dict:
             idle_timeout=args.idle_timeout,
             commit_mode=args.commit_mode,
         )
+        # consume_records() decodes and validates before requesting each commit.
         assert_expected_topic(result.records)
     finally:
         consumer.close()

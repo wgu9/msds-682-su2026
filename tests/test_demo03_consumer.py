@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import sys
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,7 @@ HANDOUTS = Path(__file__).resolve().parents[1] / "handouts"
 sys.path.insert(0, str(HANDOUTS))
 
 from demo02_producer_common import TOPIC_NAME, make_trip_events, serialize_event  # noqa: E402
+import demo03d_confluent_asyncio_produce_consume as demo03d  # noqa: E402
 from demo03_consumer_common import (  # noqa: E402
     AssignmentTracker,
     build_consumer_config,
@@ -81,6 +83,72 @@ class FakeConsumer:
 
     def assign(self, partitions: list[FakeTopicPartition]) -> None:
         self.assigned = partitions
+
+
+class FakeDeliveredMessage:
+    def __init__(self, key: bytes) -> None:
+        self._key = key
+
+    def topic(self) -> str:
+        return TOPIC_NAME
+
+    def partition(self) -> int:
+        return 0
+
+    def offset(self) -> int:
+        return 21
+
+    def key(self) -> bytes:
+        return self._key
+
+
+class FakeAIOProducer:
+    produce_calls: list[tuple[str, bytes, bytes]] = []
+
+    def __init__(self, _config: dict[str, str]) -> None:
+        pass
+
+    async def produce(self, topic: str, *, key: bytes, value: bytes) -> asyncio.Future[Any]:
+        self.produce_calls.append((topic, key, value))
+        future = asyncio.get_running_loop().create_future()
+        future.set_result(FakeDeliveredMessage(key))
+        return future
+
+    async def flush(self) -> None:
+        pass
+
+    async def close(self) -> None:
+        pass
+
+
+class FakeAIOConsumer:
+    def __init__(self, _config: dict[str, Any]) -> None:
+        event = make_trip_events(1, 682)[0]
+        self.message = FakeMessage(value=serialize_event(event), offset=20)
+        self.on_assign: Any = None
+        self.on_revoke: Any = None
+        self.assigned: list[FakeTopicPartition] = []
+
+    async def subscribe(self, _topics: list[str], *, on_assign: Any, on_revoke: Any) -> None:
+        self.on_assign = on_assign
+        self.on_revoke = on_revoke
+
+    async def assign(self, partitions: list[FakeTopicPartition]) -> None:
+        self.assigned = partitions
+
+    async def poll(self, timeout: float) -> FakeMessage | None:
+        del timeout
+        if self.message is None:
+            return None
+        await self.on_assign(self, [FakeTopicPartition(TOPIC_NAME, 0, 20)])
+        message, self.message = self.message, None
+        return message
+
+    async def unsubscribe(self) -> None:
+        await self.on_revoke(self, self.assigned)
+
+    async def close(self) -> None:
+        pass
 
 
 def kafka_connection_config() -> dict[str, str]:
@@ -187,3 +255,74 @@ def test_group_id_uses_one_environment_prefix(monkeypatch: pytest.MonkeyPatch) -
     monkeypatch.setenv("CONSUMER_GROUP_ID_PREFIX", "Student Name")
 
     assert default_group_id("demo03d asyncio", "run 1") == "Student-Name-demo03d-asyncio-run-1"
+
+
+def test_async_producer_waits_for_consumer_assignment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(demo03d, "AIOProducer", FakeAIOProducer)
+    FakeAIOProducer.produce_calls.clear()
+
+    async def scenario() -> tuple[list[dict[str, Any]], float]:
+        assignment_ready = asyncio.Event()
+        task = asyncio.create_task(
+            demo03d.produce_events(
+                {},
+                count=1,
+                seed=682,
+                assignment_ready=assignment_ready,
+                assignment_timeout=0.5,
+                interval=0,
+            )
+        )
+        await asyncio.sleep(0)
+        assert FakeAIOProducer.produce_calls == []
+        assignment_ready.set()
+        return await task
+
+    delivered, wait_seconds = asyncio.run(scenario())
+    assert len(delivered) == 1
+    assert len(FakeAIOProducer.produce_calls) == 1
+    assert wait_seconds >= 0
+
+
+def test_async_producer_assignment_timeout_is_actionable() -> None:
+    async def scenario() -> None:
+        with pytest.raises(RuntimeError, match="assignment.*not ready"):
+            await demo03d.produce_events(
+                {},
+                count=1,
+                seed=682,
+                assignment_ready=asyncio.Event(),
+                assignment_timeout=0.01,
+                interval=0,
+            )
+
+    asyncio.run(scenario())
+
+
+def test_async_consumer_signals_only_after_assignment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(demo03d, "AIOConsumer", FakeAIOConsumer)
+
+    async def scenario() -> tuple[
+        bool,
+        list[dict[str, Any]],
+        list[list[dict[str, int | str]]],
+        list[list[dict[str, int | str]]],
+    ]:
+        assignment_ready = asyncio.Event()
+        records, assignments, revocations = await demo03d.consume_events(
+            {},
+            expected_count=1,
+            timeout=0.5,
+            assignment_ready=assignment_ready,
+        )
+        return assignment_ready.is_set(), records, assignments, revocations
+
+    ready, records, assignments, revocations = asyncio.run(scenario())
+    assert ready is True
+    assert len(records) == 1
+    assert assignments[0][0]["partition"] == 0
+    assert revocations[0][0]["partition"] == 0

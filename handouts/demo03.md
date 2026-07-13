@@ -6,13 +6,13 @@
 
 **Kafka client:** `confluent-kafka[avro,schemaregistry]==2.15.0`
 
-**Kafka platform:** the course Confluent Cloud Kafka cluster
+**Kafka platform:** your Confluent Cloud Kafka cluster
 
 **Shared topic:** `msds682.demo01.trip-events.v1`
 
-> **Core classroom point:** Demo 01 creates one real topic, Demo 02 writes trip
-> events to it, and Demo 03 reads those same events. Consumers do not remove
-> Kafka records. Their group offsets record progress independently.
+> **Core classroom point:** Demo 03 reads and writes one real Kafka topic.
+> Consumers do not remove Kafka records; each consumer group records its own
+> progress with offsets.
 
 ## 1. What Demo 03 contains
 
@@ -25,47 +25,43 @@
 
 FastAPI is intentionally **not** part of Demo 03. It begins in Lecture 4.
 Demo 03A–03C are the consumer core; Demo 03D is the short asyncio extension
-promised in Lecture 3. Confluent removed the AsyncIO clients' experimental
-designation in version 2.13, so the pinned 2.15.0 API is not experimental.
+using the native AIO clients in the pinned 2.15.0 package.
 
-## 2. One continuous Demo 01 → Demo 02 → Demo 03 story
+## 2. Direct prerequisites
 
-```text
-Demo 01
-create msds682.demo01.trip-events.v1
-        |
-        v
-Demo 02A–02D
-serialize and produce TripEvent values
-        |
-        v
-Demo 03A–03D
-poll bytes -> decode UTF-8 JSON -> validate TripEvent -> process -> commit
-```
+You do **not** need to rerun every earlier demo. Check only these requirements:
 
-All producer and consumer scripts reuse the same topic and Pydantic `TripEvent`
-contract from `demo02_producer_common.py`. Demo 03 does not introduce a second
-topic constant or a duplicate event schema.
-
-This shared topic can already contain thousands of retained Demo 02 benchmark
-records. Keep the provided message/time limits: Demo 03 teaches consumer
-behavior with bounded samples rather than printing the entire retained log.
-
-## 3. Fall 2023 → Summer 2026 updates
-
-The teaching intent is preserved, but the implementation has been modernized.
-
-| Fall 2023 behavior | Summer 2026 update | Why |
+| Requirement | What Demo 03 needs | If it is missing |
 |---|---|---|
-| Credentials appeared in `config.ini` and slide/code examples. | Credentials exist only in ignored `.env`; reports contain booleans and the broker host, never API keys or secrets. | Published credentials must be treated as compromised. |
-| The consumer and producer ran in infinite loops. | Every demo has `--max-messages`, `--idle-timeout`, or `--run-seconds`. | Classroom runs finish predictably and produce inspectable evidence. |
-| The normal assignment callback forced every partition to `OFFSET_BEGINNING`. | Normal mode respects committed group offsets; only explicit replay mode requests `OFFSET_BEGINNING`. | Otherwise “resume” silently becomes “replay.” |
-| `Consumer.poll(1.0)` was placed inside `async def`, even though it blocked the event loop. | Demo 03A–03C use the standard synchronous `Consumer`; Demo 03D uses native `AIOConsumer`/`AIOProducer`. | `async def` alone does not make a blocking call nonblocking. |
-| Producer and consumer tasks were both infinite and awaited sequentially. | Demo 03D uses finite tasks and `asyncio.gather()`. | Concurrency and shutdown are visible and testable. |
-| The AsyncIO client originally carried an experimental designation. | Confluent removed that designation in 2.13; this course pins 2.15.0. | Students use the current native API while treating asyncio as a focused Lecture 3 extension. |
-| Consumer cleanup was incomplete. | Every consumer closes in `finally`; native async clients are awaited during shutdown. | Closing releases sockets and leaves the group promptly, triggering faster rebalance. |
-| Message values were printed as raw bytes. | UTF-8 JSON is decoded and validated against the same Pydantic v2 `TripEvent` used by Demo 02. | Serialization and deserialization become one explicit contract. |
-| Package versions floated. | Python 3.11.14 and the Summer 2026 requirements file are pinned, including `confluent-kafka==2.15.0`. | Instructor, TA, and student behavior stays reproducible. |
+| Python environment | Python 3.11.14 with `requirements.txt` installed | Follow [Demo 00](#/handouts/demo00), then return here. |
+| Kafka connection | An ignored `.env` containing your cluster endpoint and Kafka API key/secret | Follow the credential steps in [Demo 01](#/handouts/demo01). |
+| Kafka topic | `msds682.demo01.trip-events.v1` must exist with three partitions | Run `python demo01_create_topic.py --run-id lec3-topic-setup` once. |
+| Shared code | `demo02_producer_common.py` must be beside the Demo 03 scripts | Download it in Section 5.2; it owns the topic, `TripEvent`, serialization, and connection settings. |
+
+Data requirements are different for each demo:
+
+| Demo | Does it need existing data? | Exact action |
+|---|---|---|
+| 03A | Yes: a bounded sample of valid `TripEvent` records | If the topic is empty, run `python demo02b_confluent_async_producer.py --run-id lec3-seed --count 12`. |
+| 03B | Yes: enough records for two four-message runs | Run the same Demo 02B seed command above when needed. |
+| 03C group mode | It needs **fresh** records after both consumers have started | Start both 03C members, then run `python demo02b_confluent_async_producer.py --run-id lec3-group-input --count 12` in a third terminal. |
+| 03C replay | Yes: replay reads retained history | If the topic is empty, run the Demo 02B seed command first. |
+| 03D | No previous records are required | 03D waits for its consumer assignment and then produces its own six records. |
+
+The shared topic may contain thousands of retained records. Keep the provided
+message/time limits; the demos intentionally read bounded samples.
+
+## 3. Summer 2026 design choices
+
+Only these current rules matter for running the demos:
+
+- Credentials stay in ignored `.env`; reports never contain API keys or secrets.
+- Every consumer has visible message/time limits and always closes in `finally`.
+- Normal mode respects committed offsets; only `--force-beginning` requests replay.
+- Demo 03A–03C use the standard `Consumer`; Demo 03D uses the native 2.15.0
+  `AIOConsumer`/`AIOProducer` with a real assignment-ready signal.
+- Every message is decoded and validated with the shared Pydantic `TripEvent`
+  contract before manual commit.
 
 ## 4. Consumer concepts before running code
 
@@ -141,17 +137,7 @@ Offset behavior depends on configuration:
 
 ## 5. Setup
 
-### 5.1 Prerequisites
-
-Complete these first:
-
-- [Demo 00: Environment Setup](#/handouts/demo00)
-- [Demo 01: Create a Kafka Topic](#/handouts/demo01)
-- [Demo 02: Kafka Producer](#/handouts/demo02)
-
-Demo 03 expects the topic to exist and contain Demo 02 trip events.
-
-### 5.2 Download the exact environment
+### 5.1 Install the exact environment
 
 Download [requirements.txt](handouts/requirements.txt). It pins the Summer 2026
 environment, including:
@@ -189,11 +175,12 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-### 5.3 Download the code
+### 5.2 Download the code
 
 Keep these files in the same folder:
 
 - [demo02_producer_common.py](handouts/demo02_producer_common.py) — topic, event model, serialization, and Kafka connection SSOT
+- [demo01_create_topic.py](handouts/demo01_create_topic.py) — needed only if the shared topic does not exist
 - [demo02b_confluent_async_producer.py](handouts/demo02b_confluent_async_producer.py) — produces small live batches used by the consumer demos
 - [demo03_consumer_common.py](handouts/demo03_consumer_common.py) — consumer config, decode, commit, replay, and evidence helpers
 - [demo03a_confluent_basic_consumer.py](handouts/demo03a_confluent_basic_consumer.py)
@@ -201,7 +188,11 @@ Keep these files in the same folder:
 - [demo03c_confluent_groups_replay.py](handouts/demo03c_confluent_groups_replay.py)
 - [demo03d_confluent_asyncio_produce_consume.py](handouts/demo03d_confluent_asyncio_produce_consume.py)
 
-### 5.4 Reuse the Demo 01 `.env`
+Each script has a module docstring and focused `Student checkpoint` comments.
+Run `python <script-name>.py --help` before the demo to see its purpose and
+bounded command-line options.
+
+### 5.3 Configure `.env`
 
 Use the same Kafka cluster credentials as Demo 01 and Demo 02. Add only one
 consumer naming prefix:
@@ -219,9 +210,17 @@ CONSUMER_GROUP_ID_PREFIX=msds682-su2026
 Never submit or publish `.env`. `CONSUMER_GROUP_ID_PREFIX` is not secret; API
 keys and API secrets are.
 
-### 5.5 Put a small live batch on the topic
+### 5.4 Create the topic only if it is missing
 
-If needed, produce 12 fresh events before Demo 03A:
+```bash
+python demo01_create_topic.py --run-id lec3-topic-setup
+```
+
+Do not recreate or delete a working shared topic just to run Demo 03.
+
+### 5.5 Add a small input batch only when needed
+
+For 03A, 03B, or replay on an empty topic, produce 12 valid events:
 
 ```bash
 python demo02b_confluent_async_producer.py --run-id lec3-prerequisite --count 12
@@ -372,7 +371,8 @@ Run:
 ```bash
 python demo03d_confluent_asyncio_produce_consume.py \
   --run-id lec3-demo03d \
-  --count 6
+  --count 6 \
+  --assignment-timeout 15
 ```
 
 The script uses the native clients available in the pinned 2.15.0 environment:
@@ -385,18 +385,31 @@ Its structure is:
 
 ```text
 asyncio event loop
-|-- AIOConsumer task: await subscribe() and await poll()
-`-- AIOProducer task: await produce(), delivery futures, flush(), close()
+|-- AIOConsumer task
+|     subscribe() -> on_assign() -> assign partitions
+|     set assignment_ready -> poll and validate records
+`-- AIOProducer task
+      wait_for(assignment_ready) -> produce -> flush -> close
 
 await asyncio.gather(producer_task, consumer_task)
 ```
+
+> **Student checkpoint:** the producer does not guess that the consumer is
+> ready by sleeping for a fixed number of seconds. It waits for Kafka's real
+> partition-assignment callback. `--assignment-timeout` keeps that wait finite
+> and turns connection or authorization problems into a clear error.
 
 This is the appropriate time to use Kafka's asyncio clients: the application
 already has an event loop and needs Kafka work to coexist with other async I/O.
 For a normal command-line consumer, Demo 03A–03C's synchronous `Consumer` is
 simpler and appropriate.
 
-The Demo 03D report must show the requested count delivered and consumed:
+The Demo 03D report must show:
+
+- the requested count was both delivered and consumed;
+- at least one partition assignment was recorded;
+- `assignment_wait_seconds` records how long the group join took;
+- no credentials appear in the producer or consumer connection summary.
 
 ```text
 outputs/runs/lec3-demo03d/demo03d_confluent_asyncio_produce_consume/report.json
@@ -409,7 +422,7 @@ outputs/runs/lec3-demo03d/demo03d_confluent_asyncio_produce_consume/report.json
 | 03A | Stops after the requested sample or idle timeout; every value validates as a `TripEvent`. | Decoded records, assignments, offsets, and safe consumer config. |
 | 03B | The second sync run with the same group resumes after the first run's committed offsets; async mode records acknowledgements with no failures. | Records, commit mode, commit requests/results, and resume group ID. |
 | 03C | Concurrent members receive non-overlapping partition assignments; forced replay reads a bounded sample from retained history. | Assignment/revocation history, member ID, group ID, and explicit replay mode. |
-| 03D | The requested count is both delivered and consumed before the timeout. | Delivered Kafka metadata, consumed validated records, and safe producer/consumer config. |
+| 03D | Assignment completes before production; the requested count is then delivered and consumed before the timeout. | Assignment timing/partitions, delivered Kafka metadata, consumed validated records, and safe producer/consumer config. |
 
 The reports may include group IDs, client IDs, topic names, partitions, and
 offsets. They must never include `sasl.username`, `sasl.password`, `.env`, or
@@ -426,6 +439,7 @@ credential values.
 | Demo 03C members do not split work | The commands did not overlap, or the topic has only one partition | Run both for 20 seconds and confirm Demo 01 created three partitions. |
 | Replay reads old data | Expected behavior | `--force-beginning` explicitly requests retained history. |
 | `No module named confluent_kafka.aio` | Client version is older than the course pin | Install `requirements.txt` and verify version `2.15.0`. |
+| `Consumer assignment was not ready` | Topic access, cluster connection, or Kafka API credentials prevented group assignment | Check `.env`, confirm the topic exists, then rerun; increase the timeout only for a known slow network. |
 | Consumer appears to hang | A consumer normally waits for new records | These demos stop using visible time/message limits; wait for the printed report. |
 
 ## 12. Cost, cleanup, and safe shutdown
@@ -449,6 +463,8 @@ shutdown. This is part of the lesson, not optional cleanup boilerplate.
 7. Always close a consumer so resources and group membership are released.
 8. Use the standard Consumer for ordinary scripts; use native asyncio clients
    when Kafka must cooperate with an existing async application.
+9. In async code, coordinate readiness with an event/signal rather than a
+   guessed sleep.
 
 ## Official references
 
