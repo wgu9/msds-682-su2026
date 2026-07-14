@@ -198,6 +198,83 @@
 
     .caption strong { color: var(--ink); }
 
+    /* Generated tooltip targets are synchronized from the professor-only
+       LECTURE3_HOVER_GLOSSARY.yaml authoring registry. */
+    .fx-term {
+      position: relative;
+      border-radius: 3px;
+      color: inherit;
+      cursor: help;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      text-decoration-color: currentColor;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .18em;
+    }
+
+    .fx-term::after {
+      content: attr(data-def);
+      position: absolute;
+      z-index: 50;
+      left: 50%;
+      bottom: calc(100% + 9px);
+      width: max-content;
+      max-width: min(46ch, 70vw);
+      transform: translateX(-50%);
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      background: #111722;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+      color: #f7f8fb;
+      padding: 8px 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(12px, .76vw, 15px);
+      font-style: normal;
+      font-weight: 520;
+      letter-spacing: normal;
+      line-height: 1.35;
+      text-align: left;
+      text-transform: none;
+      white-space: normal;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .fx-term:hover::after,
+    .fx-term:focus::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .fx-term[data-tooltip-align="left"]::after {
+      left: 0;
+      transform: none;
+    }
+
+    .fx-term[data-tooltip-align="right"]::after {
+      right: 0;
+      left: auto;
+      transform: none;
+    }
+
+    .fx-term:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .fx-definitions {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .pager {
       position: absolute;
       right: 3vw;
@@ -1342,7 +1419,7 @@
         <div class="card">
           <p class="eyebrow">Warm-up · True or false?</p>
           <h2>“The producer sends messages one by one to the broker.”</h2>
-          <p class="bodycopy"><strong>False.</strong> <code class="inline">produce()</code> appends to a local buffer;
+          <p class="bodycopy"><strong>False.</strong> <code class="inline"><span class="fx-term" tabindex="0" role="term" data-term-id="produce" data-def="Non-blocking local append to the client buffer; the network send happens later in batches." aria-describedby="fx-def-produce">produce()</span></code> appends to a local buffer;
             the client ships whole batches across the network. That is why the Assignment 1 async strategy beats
             flushing after every message.</p>
         </div>
@@ -1415,7 +1492,7 @@ SASL_PASSWORD=</pre></div>
         </div>
       </div>
 
-      <div class="callout green"><strong>Why the sync-style benchmark is slow:</strong> calling <code class="inline">flush()</code> after every <code class="inline">produce()</code> prevents useful accumulation and forces the application to wait for each record’s network completion.</div>
+      <div class="callout green"><strong>Why the sync-style benchmark is slow:</strong> calling <code class="inline">flush()</code> after every <code class="inline"><span class="fx-term" tabindex="0" role="term" data-term-id="produce" data-def="Non-blocking local append to the client buffer; the network send happens later in batches." aria-describedby="fx-def-produce">produce()</span></code> prevents useful accumulation and forces the application to wait for each record’s network completion.</div>
     </div>
     <div class="pager"></div>
   </section>
@@ -1423,7 +1500,7 @@ SASL_PASSWORD=</pre></div>
   <section class="slide" id="restored-batching-mechanics">
     <div class="frame">
       <p class="kicker">Restored · producer batching 2 of 3</p>
-      <h1>Time, bytes, and count bound batch accumulation</h1>
+      <h1><span class="fx-term" tabindex="0" role="term" data-term-id="batch-limits" data-def="Limits batch accumulation by delay, bytes, and message count (defaults: 5 ms / 1 MB / 10,000)." aria-describedby="fx-def-batch-limits">Time, bytes, and count</span> bound batch accumulation</h1>
       <p class="subtitle">librdkafka waits up to 5 ms to accumulate records unless the size or count limit is reached first.</p>
 
       <div class="grid2 wide-left">
@@ -1442,7 +1519,7 @@ produce(3) ------&gt; [ partition buffer: 1 2 3   ]      |
    |                       | &lt;========== ack ========= |
    |                       |                           |
 poll(0)  serves callbacks that are already ready      |
-flush()  serves callbacks until drained or timeout    |</pre></div>
+<span class="fx-term" tabindex="0" role="term" data-term-id="flush" data-def="Producer-only wait: serves callbacks until every queued and in-flight message completes or times out." aria-describedby="fx-def-flush">flush()</span>  serves callbacks until drained or timeout    |</pre></div>
         <div class="stack">
           <div class="card flat"><p class="eyebrow">Time</p><p class="bodycopy"><code class="inline">linger.ms=5</code> allows a short accumulation window; more waiting may improve throughput but adds latency.</p></div>
           <div class="card flat"><p class="eyebrow">Bytes</p><p class="bodycopy"><code class="inline">batch.size=1,000,000</code> limits the MessageSet size, including protocol overhead.</p></div>
@@ -1489,7 +1566,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
       <p class="subtitle">Kafka stores bytes. Applications agree on how keys and values become bytes—and how those bytes become validated data again.</p>
 
       <div class="flowline">
-        <div class="flow-node">TripEvent object</div><div class="arrow">→</div>
+        <div class="flow-node"><span class="fx-term" tabindex="0" role="term" data-term-id="trip-event" data-def="The course Pydantic contract: validated fields, then serialized to UTF-8 JSON bytes." aria-describedby="fx-def-trip-event">TripEvent</span> object</div><div class="arrow">→</div>
         <div class="flow-node accent">Pydantic validation</div><div class="arrow">→</div>
         <div class="flow-node">JSON string</div><div class="arrow">→</div>
         <div class="flow-node green">UTF-8 bytes</div><div class="arrow">→</div>
@@ -1525,8 +1602,8 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s06">
     <div class="frame">
       <p class="kicker">Consumer mental model</p>
-      <h1>Every record has a partition address</h1>
-      <p class="subtitle">An offset is meaningful only inside one partition; there is no topic-wide offset sequence.</p>
+      <h1>Every record has a <span class="fx-term" tabindex="0" role="term" data-term-id="partition" data-def="An ordered, append-only slice of a topic; ordering and offsets exist only within it." aria-describedby="fx-def-partition">partition</span> address</h1>
+      <p class="subtitle">An <span class="fx-term" tabindex="0" role="term" data-term-id="offset" data-def="A record&#x27;s position inside one partition; there is no topic-wide sequence number." aria-describedby="fx-def-offset">offset</span> is meaningful only inside one partition; there is no topic-wide offset sequence.</p>
 
       <div class="topic-log" aria-label="Three Kafka partitions with independent offset sequences">
         <div class="partition">
@@ -1555,7 +1632,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s07">
     <div class="frame">
       <p class="kicker">Retention</p>
-      <h1>Consumers read; retention deletes</h1>
+      <h1>Consumers read; <span class="fx-term" tabindex="0" role="term" data-term-id="retention" data-def="Broker cleanup policy: time/size retention removes old segments; compaction removes superseded keys." aria-describedby="fx-def-retention">retention</span> deletes</h1>
       <p class="subtitle">Reading a record does not remove it from Kafka. Multiple applications can read the same retained history.</p>
 
       <div class="grid3">
@@ -1584,7 +1661,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s08">
     <div class="frame">
       <p class="kicker">Two positions</p>
-      <h1>Position and committed offset are different</h1>
+      <h1><span class="fx-term" tabindex="0" role="term" data-term-id="position" data-def="The next offset this consumer will return from a partition; local runtime state, not durable group progress." aria-describedby="fx-def-position">Position</span> and <span class="fx-term" tabindex="0" role="term" data-term-id="committed-offset" data-def="The group&#x27;s durable recovery point on the broker: the next offset to read after a restart." aria-describedby="fx-def-committed-offset">committed offset</span> are different</h1>
       <p class="subtitle">One describes the current process; the other is the group’s durable recovery point.</p>
 
       <div class="topic-log">
@@ -1615,7 +1692,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s09">
     <div class="frame">
       <p class="kicker">Progress ownership</p>
-      <h1><code class="mono">group.id</code> owns progress</h1>
+      <h1><code class="mono"><span class="fx-term" tabindex="0" role="term" data-term-id="group-id" data-def="Names one logical consuming application; progress is stored per (group.id, topic, partition)." aria-describedby="fx-def-group-id">group.id</span></code> owns progress</h1>
       <p class="subtitle">The same topic can support multiple logical applications without sharing a cursor.</p>
 
       <div class="grid2 wide-left">
@@ -1644,7 +1721,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
             <li>Different groups <strong>read independently</strong>.</li>
             <li>Changing <code class="inline">group.id</code> creates a new progress history.</li>
             <li>Kafka stores committed offsets durably in an internal broker topic:
-              <code class="inline">__consumer_offsets</code>.</li>
+              <code class="inline"><span class="fx-term" tabindex="0" role="term" data-term-id="consumer-offsets-topic" data-def="Internal broker topic where Kafka durably stores every group&#x27;s committed offsets." aria-describedby="fx-def-consumer-offsets-topic">__consumer_offsets</span></code>.</li>
           </ul>
         </div>
       </div>
@@ -1654,9 +1731,9 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
 
   <section class="slide" id="s10">
     <div class="frame">
-      <p class="kicker">Assignment &amp; rebalance</p>
+      <p class="kicker">Assignment &amp; <span class="fx-term" tabindex="0" role="term" data-term-id="rebalance" data-def="Kafka reassigns partitions after group membership or subscribed-partition changes." aria-describedby="fx-def-rebalance">rebalance</span></p>
       <h1>Partitions cap group parallelism</h1>
-      <p class="subtitle">At a stable assignment, one partition belongs to at most one active member of the same group.</p>
+      <p class="subtitle">At a stable <span class="fx-term" tabindex="0" role="term" data-term-id="assignment" data-def="The set of partitions the broker gives one member; delivered through the on_assign callback." aria-describedby="fx-def-assignment">assignment</span>, one partition belongs to at most one active member of the same group.</p>
 
       <div class="grid2">
         <div class="card">
@@ -1681,12 +1758,12 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s11">
     <div class="frame narrow">
       <p class="kicker">Starting position</p>
-      <h1><code class="mono">auto.offset.reset</code> is only a fallback</h1>
+      <h1><code class="mono"><span class="fx-term" tabindex="0" role="term" data-term-id="auto-offset-reset" data-def="Fallback used only when no valid committed offset exists: earliest, latest, or error." aria-describedby="fx-def-auto-offset-reset">auto.offset.reset</span></code> is only a fallback</h1>
       <p class="subtitle">Kafka checks for a valid committed position first.</p>
 
       <div class="decision">
         <div class="decision-question">
-          <b>Valid committed offset?</b>
+          <b>Valid <span class="fx-term" tabindex="0" role="term" data-term-id="committed-offset" data-def="The group&#x27;s durable recovery point on the broker: the next offset to read after a restart." aria-describedby="fx-def-committed-offset">committed offset</span>?</b>
           <span class="bodycopy">For this group, topic, and partition</span>
         </div>
         <div class="arrow">→</div>
@@ -1719,7 +1796,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
           <tr><td><strong>Normal resume</strong></td><td>Same group with a valid commit</td><td>At the committed next offset</td><td><code>03B</code></td></tr>
           <tr><td><strong>Read retained history independently</strong></td><td>New group + <code>earliest</code></td><td>Oldest retained offset</td><td><code>03A</code> with a fresh group</td></tr>
           <tr><td><strong>Read only future records</strong></td><td>New group + <code>latest</code></td><td>Current log end</td><td><code>03C</code> group mode</td></tr>
-          <tr><td><strong>Explicit replay</strong></td><td>Visible replay command</td><td><code>OFFSET_BEGINNING</code> on assignment</td><td><code>03C --force-beginning</code></td></tr>
+          <tr><td><strong>Explicit replay</strong></td><td>Visible replay command</td><td><code><span class="fx-term" tabindex="0" role="term" data-term-id="offset-beginning" data-def="Explicit request to start a partition from its oldest retained record; replay mode only." aria-describedby="fx-def-offset-beginning">OFFSET_BEGINNING</span></code> on assignment</td><td><code>03C --force-beginning</code></td></tr>
         </tbody>
       </table>
 
@@ -1771,14 +1848,14 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
         <div class="card commit-card">
           <span class="pill">Auto commit</span>
           <ul>
-            <li><code class="inline">enable.auto.commit=true</code></li>
+            <li><code class="inline"><span class="fx-term" tabindex="0" role="term" data-term-id="enable-auto-commit" data-def="true: commits stored offsets periodically and on close(); false: no automatic commit occurs." aria-describedby="fx-def-enable-auto-commit">enable.auto.commit</span>=true</code></li>
             <li>Stored offsets commit periodically in the background.</li>
             <li>Simple, but processing may still be unfinished.</li>
             <li><strong>Demo 03A</strong> makes this behavior observable.</li>
           </ul>
         </div>
         <div class="card commit-card green">
-          <span class="pill green">Manual sync</span>
+          <span class="pill green"><span class="fx-term" tabindex="0" role="term" data-term-id="sync-commit" data-def="commit() waits for the broker&#x27;s acknowledgement before your loop continues." aria-describedby="fx-def-sync-commit">Manual sync</span></span>
           <ul>
             <li>Disable auto commit and auto offset store.</li>
             <li><code class="inline">commit(..., asynchronous=False)</code></li>
@@ -1787,7 +1864,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
           </ul>
         </div>
         <div class="card commit-card amber">
-          <span class="pill amber">Manual async</span>
+          <span class="pill amber"><span class="fx-term" tabindex="0" role="term" data-term-id="async-commit" data-def="commit() returns immediately; the result arrives later through the on_commit callback." aria-describedby="fx-def-async-commit">Manual async</span></span>
           <ul>
             <li>Same post-processing commit point.</li>
             <li><code class="inline">commit(..., asynchronous=True)</code></li>
@@ -1805,7 +1882,7 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
   <section class="slide" id="s15">
     <div class="frame">
       <p class="kicker">Consumer lifecycle</p>
-      <h1>The poll loop is small—but the order matters</h1>
+      <h1>The <span class="fx-term" tabindex="0" role="term" data-term-id="poll" data-def="Returns one message, None, or an error event; also serves callbacks and satisfies max.poll.interval." aria-describedby="fx-def-poll">poll</span> loop is small—but the order matters</h1>
       <p class="subtitle">The course demos are intentionally bounded so every run finishes and writes inspectable evidence.</p>
 
       <div class="grid2 wide-left">
@@ -1847,10 +1924,10 @@ flush()  serves callbacks until drained or timeout    |</pre></div>
       <table>
         <thead><tr><th>Operation</th><th>What it does</th><th>Demo 03 contract</th></tr></thead>
         <tbody>
-          <tr><td><strong><code>subscribe()</code></strong></td><td>Joins the group and lets Kafka assign partitions for an exact topic list or a topic pattern.</td><td>03A–03D subscribe to the exact shared topic; assignment/revocation callbacks become evidence.</td></tr>
+          <tr><td><strong><code><span class="fx-term" tabindex="0" role="term" data-term-id="subscribe" data-def="Declares wanted topics; actual partitions arrive later via the assignment callback." data-tooltip-align="left" aria-describedby="fx-def-subscribe">subscribe()</span></code></strong></td><td>Joins the group and lets Kafka assign partitions for an exact topic list or a topic pattern.</td><td>03A–03D subscribe to the exact shared topic; assignment/revocation callbacks become evidence.</td></tr>
           <tr><td><strong><code>poll(timeout)</code></strong></td><td>Returns one message, <code>None</code> on timeout, or an error/event that the application must inspect.</td><td>Preferred for the demos because every record and stop condition remains visible.</td></tr>
           <tr><td><strong><code>consume(n, timeout)</code></strong></td><td>Returns a list of up to <code>n</code> messages and is useful when application code wants a batch-shaped retrieval call.</td><td>Valid API, but not used in Demo 03; do not confuse it with producer batching.</td></tr>
-          <tr><td><strong><code>close()</code></strong></td><td>Stops consuming, leaves the group, and releases resources; auto-commit behavior depends on configuration.</td><td>Always called in <code>finally</code>. It is not producer <code>flush()</code>.</td></tr>
+          <tr><td><strong><code><span class="fx-term" tabindex="0" role="term" data-term-id="close" data-def="Stops consuming, leaves the group, frees resources, and commits stored offsets only when auto-commit is enabled." data-tooltip-align="left" aria-describedby="fx-def-close">close()</span></code></strong></td><td>Stops consuming, leaves the group, and releases resources; auto-commit behavior depends on configuration.</td><td>Always called in <code>finally</code>. It is not producer <code>flush()</code>.</td></tr>
         </tbody>
       </table>
 
@@ -1944,7 +2021,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
     <div class="frame">
       <p class="kicker">Demo 03A</p>
       <h1>03A proves the basic consumer lifecycle</h1>
-      <p class="subtitle">Can you trace one bounded record from group assignment to validated application data?</p>
+      <p class="subtitle">Can you trace one <span class="fx-term" tabindex="0" role="term" data-term-id="bounded-run" data-def="Course scripts use visible message and time limits so normal demo runs end predictably." aria-describedby="fx-def-bounded-run">bounded record</span> from group assignment to validated application data?</p>
 
       <div class="flowline">
         <div class="flow-node">config</div><div class="arrow">→</div>
@@ -2031,7 +2108,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
           <p class="eyebrow">Replay mode · visible override</p>
           <div class="command">python demo03c_confluent_groups_replay.py<br><strong>--force-beginning --max-messages 8 --run-seconds 10</strong></div>
           <ul class="compact-list">
-            <li>assignment explicitly requests <code class="inline">OFFSET_BEGINNING</code>;</li>
+            <li>assignment explicitly requests <code class="inline"><span class="fx-term" tabindex="0" role="term" data-term-id="offset-beginning" data-def="Explicit request to start a partition from its oldest retained record; replay mode only." aria-describedby="fx-def-offset-beginning">OFFSET_BEGINNING</span></code>;</li>
             <li>auto commit is disabled for the replay;</li>
             <li>the run remains bounded.</li>
           </ul>
@@ -2057,7 +2134,7 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
             <div class="lane-step green">background<br>I/O threads</div><div class="arrow">→</div>
             <div class="lane-step">broker +<br>delivery result</div>
           </div>
-          <p class="bodycopy" style="margin-top: 13px;"><code class="inline">poll()</code>/<code class="inline">flush()</code> serve Python delivery callbacks. No event loop is required.</p>
+          <p class="bodycopy" style="margin-top: 13px;"><code class="inline">poll()</code>/<code class="inline">flush()</code> serve Python <span class="fx-term" tabindex="0" role="term" data-term-id="delivery-callback" data-def="Function the client calls with success or failure per message; it runs during poll() or flush()." aria-describedby="fx-def-delivery-callback">delivery callbacks</span>. No event loop is required.</p>
         </div>
         <div class="lane">
           <h3>Python application <span class="pill green">asyncio</span></h3>
@@ -2079,13 +2156,13 @@ CONSUMER_GROUP_ID_PREFIX=<span class="str">msds682-su2026</span></pre>
   <section class="slide" id="s22">
     <div class="frame">
       <p class="kicker">Demo 03D · Native AIO</p>
-      <h1>03D waits for assignment, not a guessed sleep</h1>
+      <h1>03D waits for <span class="fx-term" tabindex="0" role="term" data-term-id="assignment" data-def="The set of partitions the broker gives one member; delivered through the on_assign callback." aria-describedby="fx-def-assignment">assignment</span>, not a guessed sleep</h1>
       <p class="subtitle">The producer starts only after Kafka confirms the consumer’s partition assignment.</p>
 
       <div class="grid2 wide-right">
         <div class="codecard tight">
 <pre><span class="kw">from</span> confluent_kafka.aio <span class="kw">import</span> \
-    AIOConsumer, AIOProducer
+    <span class="fx-term" tabindex="0" role="term" data-term-id="aio-clients" data-def="Native asyncio Kafka clients (non-experimental since 2.13) for apps that already run an event loop." data-tooltip-align="left" aria-describedby="fx-def-aio-clients">AIOConsumer, AIOProducer</span>
 
 assignment_ready = asyncio.Event()
 
@@ -2184,6 +2261,35 @@ assignment_ready = asyncio.Event()
     </div>
     <div class="pager"></div>
   </section>
+  <!-- LEC3_GLOSSARY_DEFINITIONS_START -->
+  <!-- Generated from LECTURE3_HOVER_GLOSSARY.yaml; do not hand-edit. -->
+  <div class="fx-definitions">
+    <span id="fx-def-offset">A record's position inside one partition; there is no topic-wide sequence number.</span>
+    <span id="fx-def-partition">An ordered, append-only slice of a topic; ordering and offsets exist only within it.</span>
+    <span id="fx-def-retention">Broker cleanup policy: time/size retention removes old segments; compaction removes superseded keys.</span>
+    <span id="fx-def-position">The next offset this consumer will return from a partition; local runtime state, not durable group progress.</span>
+    <span id="fx-def-committed-offset">The group's durable recovery point on the broker: the next offset to read after a restart.</span>
+    <span id="fx-def-group-id">Names one logical consuming application; progress is stored per (group.id, topic, partition).</span>
+    <span id="fx-def-consumer-offsets-topic">Internal broker topic where Kafka durably stores every group's committed offsets.</span>
+    <span id="fx-def-rebalance">Kafka reassigns partitions after group membership or subscribed-partition changes.</span>
+    <span id="fx-def-assignment">The set of partitions the broker gives one member; delivered through the on_assign callback.</span>
+    <span id="fx-def-auto-offset-reset">Fallback used only when no valid committed offset exists: earliest, latest, or error.</span>
+    <span id="fx-def-offset-beginning">Explicit request to start a partition from its oldest retained record; replay mode only.</span>
+    <span id="fx-def-enable-auto-commit">true: commits stored offsets periodically and on close(); false: no automatic commit occurs.</span>
+    <span id="fx-def-sync-commit">commit() waits for the broker's acknowledgement before your loop continues.</span>
+    <span id="fx-def-async-commit">commit() returns immediately; the result arrives later through the on_commit callback.</span>
+    <span id="fx-def-poll">Returns one message, None, or an error event; also serves callbacks and satisfies max.poll.interval.</span>
+    <span id="fx-def-close">Stops consuming, leaves the group, frees resources, and commits stored offsets only when auto-commit is enabled.</span>
+    <span id="fx-def-subscribe">Declares wanted topics; actual partitions arrive later via the assignment callback.</span>
+    <span id="fx-def-produce">Non-blocking local append to the client buffer; the network send happens later in batches.</span>
+    <span id="fx-def-delivery-callback">Function the client calls with success or failure per message; it runs during poll() or flush().</span>
+    <span id="fx-def-batch-limits">Limits batch accumulation by delay, bytes, and message count (defaults: 5 ms / 1 MB / 10,000).</span>
+    <span id="fx-def-flush">Producer-only wait: serves callbacks until every queued and in-flight message completes or times out.</span>
+    <span id="fx-def-trip-event">The course Pydantic contract: validated fields, then serialized to UTF-8 JSON bytes.</span>
+    <span id="fx-def-aio-clients">Native asyncio Kafka clients (non-experimental since 2.13) for apps that already run an event loop.</span>
+    <span id="fx-def-bounded-run">Course scripts use visible message and time limits so normal demo runs end predictably.</span>
+  </div>
+  <!-- LEC3_GLOSSARY_DEFINITIONS_END -->
 
   <script>
     const slides = [...document.querySelectorAll("section.slide")];
@@ -2197,13 +2303,24 @@ assignment_ready = asyncio.Event()
     });
     let index = 0;
     const clamp = value => Math.max(0, Math.min(slides.length - 1, value));
+    const dismissGlossary = () => {
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && active.classList.contains("fx-term")) {
+        active.blur();
+      }
+    };
     const go = value => {
+      dismissGlossary();
       index = clamp(value);
       slides[index].scrollIntoView({ behavior: "smooth", block: "start" });
       history.replaceState(null, "", `#${slides[index].id}`);
     };
 
     document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        dismissGlossary();
+        return;
+      }
       if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(event.key)) go(index + 1);
       else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(event.key)) go(index - 1);
       else if (event.key === "Home") go(0);
