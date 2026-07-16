@@ -97,7 +97,8 @@ a:hover {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   color: var(--ink);
   line-height: 1.12;
 }
@@ -359,10 +360,55 @@ tbody tr:hover {
 }
 
 /* Handouts */
+.handout-sections {
+  margin-top: 26px;
+}
+
+.handout-section {
+  padding: 4px 0 30px;
+}
+
+.handout-section + .handout-section {
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+
+.handout-section-head {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.handout-section-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--usf-green-dark);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.handout-section-head h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.handout-section-head p {
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+
 .handout-list {
   display: grid;
   gap: 12px;
-  margin-top: 22px;
+  margin-top: 16px;
 }
 
 .handout-card {
@@ -383,17 +429,26 @@ tbody tr:hover {
   gap: 12px;
 }
 
-.handout-card h3 {
+.handout-card h4 {
   margin: 0;
   font-size: 1.1rem;
 }
 
-.handout-card h3 a {
+.handout-card h4 a {
   text-decoration: none;
 }
 
-.handout-card h3 a:hover {
+.handout-card h4 a:hover {
   text-decoration: underline;
+}
+
+.handout-card .handout-order {
+  margin: 0 0 6px;
+  color: var(--usf-green);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .handout-card p {
@@ -843,6 +898,15 @@ tbody tr:hover {
   .meta-row {
     grid-template-columns: 1fr;
     gap: 2px;
+  }
+
+  .handout-section-head {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .handout-section-label {
+    justify-self: start;
   }
 
   .concept-slide {

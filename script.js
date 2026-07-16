@@ -283,18 +283,55 @@ const pages = {
 // here. Markdown handouts (kind: "md") render in-page with syntax-highlighted
 // code blocks; HTML handouts (kind: "html") render in-page or in a standalone
 // iframe; PDF handouts (kind: "pdf") open the file directly.
+// Course-order registry for the Handouts page. This is the single owner of the
+// section order and labels; each handout below references one section ID.
+const handoutSections = [
+  {
+    id: "course",
+    label: "Start here",
+    title: "Course Information",
+    summary: "Read the official syllabus before following the lecture materials in order."
+  },
+  {
+    id: "lec1",
+    label: "Lecture 1",
+    title: "Environment Setup",
+    summary: "Prepare and verify the local Python environment used throughout the course."
+  },
+  {
+    id: "lec2",
+    label: "Lecture 2",
+    title: "Kafka Topics and Producers",
+    summary: "Create a topic, produce records, review the lecture slides, and then complete Assignment 1."
+  },
+  {
+    id: "lec3",
+    label: "Lecture 3",
+    title: "Kafka Consumers",
+    summary: "Learn the consumer model first, then run the bounded Confluent Cloud consumer sequence."
+  },
+  {
+    id: "lec4",
+    label: "Lecture 4",
+    title: "Data Contracts and Streaming Architecture",
+    summary: "Work through Pydantic, Avro, and Schema Registry, followed by the architecture supplement."
+  }
+];
+
 const handouts = [
   {
-    slug: "assignment01",
-    title: "Assignment 1: Confluent Cloud Kafka Producer Performance Analysis",
-    kind: "md",
-    file: "handouts/assignment01.md",
-    createdAt: "Created at 12:24 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 1:23 PM PDT on July 13, 2026",
-    summary: "Required real-Confluent producer assignment with a student starter, Demo 02A–02D, a 2,000-message-per-strategy benchmark designed for a shorter run, strategic AI-use disclosure, and up to 3 extra-credit points."
+    slug: "syllabus",
+    section: "course",
+    title: "Final Syllabus",
+    kind: "pdf",
+    file: "assets/msds-682-syllabus.pdf",
+    createdAt: "Created at 4:36 PM PDT on July 3, 2026",
+    lastUpdatedAt: "Last updated at 4:36 PM PDT on July 3, 2026",
+    summary: "Official Simple Syllabus PDF for MSDS 682-01 Data Stream Processing."
   },
   {
     slug: "demo00",
+    section: "lec1",
     title: "Demo 00: Environment Setup",
     kind: "md",
     file: "handouts/demo00.md",
@@ -304,6 +341,7 @@ const handouts = [
   },
   {
     slug: "demo01",
+    section: "lec2",
     title: "Demo 01: Create a Kafka Topic",
     kind: "md",
     file: "handouts/demo01.md",
@@ -313,6 +351,7 @@ const handouts = [
   },
   {
     slug: "demo02",
+    section: "lec2",
     title: "Demo 02: Kafka Producer",
     kind: "md",
     file: "handouts/demo02.md",
@@ -321,35 +360,8 @@ const handouts = [
     summary: "Producer core demos over the Demo 01 trip topic: sync-style producer, async producer, async-vs-sync comparison, and serialization."
   },
   {
-    slug: "demo03",
-    title: "Demo 03: Kafka Consumers on Confluent Cloud",
-    kind: "md",
-    file: "handouts/demo03.md",
-    createdAt: "Created at 1:57 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
-    summary: "Real Confluent consumer sequence over the shared trip topic: bounded poll loop, manual offset commits and resume, consumer groups and replay, plus native asyncio producer/consumer clients."
-  },
-  {
-    slug: "demo04",
-    title: "Demo 04: Data Contracts, Avro, and Schema Registry",
-    kind: "md",
-    file: "handouts/demo04.md",
-    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
-    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
-    summary: "Pydantic validation, local Avro and mock Registry resolution, plus bounded real-Confluent standard-client and native-async extensions."
-  },
-  {
-    slug: "lec4-ridesharing-architecture",
-    title: "Lecture 4 Supplement: Ridesharing Streaming Architecture",
-    kind: "md",
-    file: "handouts/lec4-ridesharing-architecture-supplement.md",
-    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
-    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
-    wide: true,
-    summary: "Optional architecture case study connecting consumer groups, data contracts, derived topics, stateful joins, replay, and production trade-offs."
-  },
-  {
     slug: "lec2-topic-vs-table",
+    section: "lec2",
     title: "Lecture 2: Kafka Topics and Producers",
     kind: "html",
     file: "handouts/lec2-topic-vs-table.html",
@@ -360,7 +372,18 @@ const handouts = [
     summary: "Canonical Summer 2026 Lecture 2 HTML slides: topic vs table, topic creation, producer behavior, sync vs async, real Confluent results, serialization, inherited producer options, and client-side batching."
   },
   {
+    slug: "assignment01",
+    section: "lec2",
+    title: "Assignment 1: Confluent Cloud Kafka Producer Performance Analysis",
+    kind: "md",
+    file: "handouts/assignment01.md",
+    createdAt: "Created at 12:24 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 1:23 PM PDT on July 13, 2026",
+    summary: "Required real-Confluent producer assignment with a student starter, Demo 02A–02D, a 2,000-message-per-strategy benchmark designed for a shorter run, strategic AI-use disclosure, and up to 3 extra-credit points."
+  },
+  {
     slug: "lec3-consumers",
+    section: "lec3",
     title: "Lecture 3: Kafka Consumers",
     kind: "html",
     file: "handouts/lec3-consumers.html",
@@ -371,13 +394,35 @@ const handouts = [
     summary: "Canonical Summer 2026 Lecture 3 HTML slides: consumer offsets and groups, commit and replay, Demo 03A–03D alignment, AI engineering Q&A, environment layers, producer batching, and native asyncio."
   },
   {
-    slug: "syllabus",
-    title: "Final Syllabus",
-    kind: "pdf",
-    file: "assets/msds-682-syllabus.pdf",
-    createdAt: "Created at 4:36 PM PDT on July 3, 2026",
-    lastUpdatedAt: "Last updated at 4:36 PM PDT on July 3, 2026",
-    summary: "Official Simple Syllabus PDF for MSDS 682-01 Data Stream Processing."
+    slug: "demo03",
+    section: "lec3",
+    title: "Demo 03: Kafka Consumers on Confluent Cloud",
+    kind: "md",
+    file: "handouts/demo03.md",
+    createdAt: "Created at 1:57 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    summary: "Real Confluent consumer sequence over the shared trip topic: bounded poll loop, manual offset commits and resume, consumer groups and replay, plus native asyncio producer/consumer clients."
+  },
+  {
+    slug: "demo04",
+    section: "lec4",
+    title: "Demo 04: Data Contracts, Avro, and Schema Registry",
+    kind: "md",
+    file: "handouts/demo04.md",
+    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    summary: "Pydantic validation, local Avro and mock Registry resolution, plus bounded real-Confluent standard-client and native-async extensions."
+  },
+  {
+    slug: "lec4-ridesharing-architecture",
+    section: "lec4",
+    title: "Lecture 4 Supplement: Ridesharing Streaming Architecture",
+    kind: "md",
+    file: "handouts/lec4-ridesharing-architecture-supplement.md",
+    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    wide: true,
+    summary: "Optional architecture case study connecting consumer groups, data contracts, derived topics, stateful joins, replay, and production trade-offs."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -404,27 +449,52 @@ function handoutMetaHtml(h) {
     .join("");
 }
 
-function handoutsListBody() {
-  const cards = handouts.map((h) => {
-    const href = h.kind === "pdf" ? h.file : `#/handouts/${h.slug}`;
-    const target = h.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
-    const badge = h.kind === "pdf" ? "PDF" : h.kind === "html" ? "HTML" : "Markdown";
-    const action = h.kind === "pdf" ? "Download PDF" : "Open handout";
-    return `
-      <article class="handout-card">
-        <div class="handout-card-head">
-          <h3><a href="${href}"${target}>${escapeHtml(h.title)}</a></h3>
-          <span class="tag">${badge}</span>
+function handoutCardHtml(h, section, position, total) {
+  const href = h.kind === "pdf" ? h.file : `#/handouts/${h.slug}`;
+  const target = h.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
+  const badge = h.kind === "pdf" ? "PDF" : h.kind === "html" ? "HTML" : "Markdown";
+  const action = h.kind === "pdf" ? "Download PDF" : "Open handout";
+  const orderLabel = section.id === "course"
+    ? "Course document"
+    : `${section.label} · ${position + 1} of ${total}`;
+  return `
+    <article class="handout-card">
+      <p class="handout-order">${escapeHtml(orderLabel)}</p>
+      <div class="handout-card-head">
+        <h4><a href="${href}"${target}>${escapeHtml(h.title)}</a></h4>
+        <span class="tag">${badge}</span>
+      </div>
+      <p>${escapeHtml(h.summary)}</p>
+      <p class="handout-meta">${handoutMetaHtml(h)}</p>
+      <p class="handout-actions"><a class="download-link" href="${href}"${target}>${action}</a></p>
+    </article>`;
+}
+
+function handoutSectionHtml(section) {
+  const sectionHandouts = handouts.filter((h) => h.section === section.id);
+  if (!sectionHandouts.length) return "";
+  const cards = sectionHandouts
+    .map((h, index) => handoutCardHtml(h, section, index, sectionHandouts.length))
+    .join("");
+  return `
+    <section class="handout-section" aria-labelledby="handout-section-${escapeHtml(section.id)}">
+      <header class="handout-section-head">
+        <span class="handout-section-label">${escapeHtml(section.label)}</span>
+        <div>
+          <h3 id="handout-section-${escapeHtml(section.id)}">${escapeHtml(section.title)}</h3>
+          <p>${escapeHtml(section.summary)}</p>
         </div>
-        <p>${escapeHtml(h.summary)}</p>
-        <p class="handout-meta">${handoutMetaHtml(h)}</p>
-        <p class="handout-actions"><a class="download-link" href="${href}"${target}>${action}</a></p>
-      </article>`;
-  }).join("");
+      </header>
+      <div class="handout-list">${cards}</div>
+    </section>`;
+}
+
+function handoutsListBody() {
+  const sections = handoutSections.map(handoutSectionHtml).join("");
 
   return `
-    <p class="lede">Lecture notes, reference sheets, and slides will be posted here. Markdown handouts render in-page with highlighted code; PDF handouts open directly.</p>
-    <div class="handout-list">${cards || '<p>Handouts will be posted as the course progresses.</p>'}</div>
+    <p class="lede">Materials are grouped in course order. Start with the final syllabus, then follow each lecture section from top to bottom.</p>
+    <div class="handout-sections">${sections || '<p>Handouts will be posted as the course progresses.</p>'}</div>
   `;
 }
 

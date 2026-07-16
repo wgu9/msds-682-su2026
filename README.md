@@ -24,11 +24,14 @@ handouts/    .md and .pdf handouts
 ## Adding a handout
 
 1. Drop a file in `handouts/` — a Markdown file (`.md`), HTML file (`.html`), or PDF.
-2. Add one row to the `handouts` array in `script.js`:
+2. Add one row to the `handouts` array in `script.js` and assign its existing
+   course-order section. The `handoutSections` registry is the single owner of
+   section order and labels; add to it only when introducing a new lecture.
 
    ```js
    {
      slug: "week2-consumers",       // becomes #/handouts/week2-consumers
+     section: "lec2",               // ID from handoutSections
      title: "Week 2: Consumers",
      kind: "md",                    // "md" renders in-page, "html" can render in-page or standalone, "pdf" opens the file
      file: "handouts/week2-consumers.md",
@@ -40,7 +43,8 @@ handouts/    .md and .pdf handouts
 
 Markdown handouts render in the page with syntax-highlighted code blocks
 (via marked + highlight.js, loaded from CDN). Standalone HTML handouts can be
-embedded with `standalone: true`. PDF handouts open directly.
+embedded with `standalone: true`. PDF handouts open directly. Within each
+section, cards follow their order in the `handouts` array.
 
 ## Local preview
 
