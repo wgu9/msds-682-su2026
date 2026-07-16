@@ -1,8 +1,8 @@
 """Demo 04D: native asyncio Avro round trip on Confluent Cloud.
 
-Student focus: use AIOProducer/AIOConsumer together with AsyncSchemaRegistryClient,
-AsyncAvroSerializer, and AsyncAvroDeserializer. The producer waits for Kafka's
-real assignment callback instead of guessing readiness with a fixed sleep.
+Student focus: run a finite producer and consumer concurrently on one asyncio
+event loop. The producer waits for Kafka's real assignment callback instead of
+guessing readiness with a fixed sleep.
 
 Run Demo 04C with --create-topic first, or create the dedicated Avro topic in
 Confluent Cloud. This is an optional extension for applications that already
@@ -401,6 +401,11 @@ def main() -> dict[str, Any]:
             f"Topic {topic!r} does not exist. Run Demo 04C with --create-topic first."
         )
 
+    # ====================================================================
+    # STUDENT CHECKPOINT
+    # What other nonblocking I/O needs to share this event loop? If there is
+    # none, why is the standard synchronous Demo 04C the simpler design?
+    # ====================================================================
     report = asyncio.run(run_demo(args))
     output_file = write_json_report(args.run_id, "demo04d_asyncio_avro_roundtrip", report)
     print(json.dumps(report, indent=2, default=str))

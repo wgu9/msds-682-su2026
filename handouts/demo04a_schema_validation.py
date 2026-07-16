@@ -122,6 +122,11 @@ def main() -> dict[str, Any]:
         parser.error(str(exc))
 
     cases = run_validation()
+    # ====================================================================
+    # STUDENT CHECKPOINT
+    # Which failures are shape/type violations, and which are business-rule
+    # violations? Name one business rule that Avro alone would not enforce.
+    # ====================================================================
     report = {
         "demo": "demo04a_schema_validation",
         "purpose": "application/domain validation before serialization",

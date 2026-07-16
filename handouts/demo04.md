@@ -288,6 +288,19 @@ Confirm all eight expectations pass. Inspect UTC normalization, strict-type and
 unknown-field rejection, nonnegative fare, and lifecycle rules. Evidence:
 `outputs/runs/lec4-demo04a/demo04a_schema_validation/report.json`.
 
+> ##### STUDENT CHECKPOINT — 45-SECOND THINK
+>
+> Name one record that the Avro field types could encode but the application
+> must still reject. Which layer owns that decision?
+>
+> **Common mistakes**
+>
+> - ❌ A Python dictionary is already a valid event.
+>   ✓ It becomes trusted only after `TripEventV1` validation.
+> - ❌ Avro replaces business validation.
+>   ✓ Avro can encode a negative `double`; Pydantic rejects negative fare and
+>   invalid lifecycle combinations.
+
 ## 10. Demo 04B — local Avro + mock Registry
 
 > ##### IMPORTANT NOTE — LOCAL PROOF BOUNDARY
@@ -308,6 +321,18 @@ Confirm:
 - Avro structure does not replace Pydantic business validation.
 
 Evidence: `outputs/runs/lec4-demo04b/demo04b_local_avro_roundtrip/report.json`.
+
+> ##### STUDENT CHECKPOINT — 45-SECOND THINK
+>
+> Which information travels in each Kafka value, and which information remains
+> in Schema Registry?
+>
+> **Common mistakes**
+>
+> - ❌ The Avro payload is JSON because the Avro schema is written as JSON.
+>   ✓ The payload is Confluent framing plus binary Avro.
+> - ❌ Schema Registry stores event records.
+>   ✓ It stores schemas, IDs, versions, and compatibility configuration.
 
 ## 11. Configure Confluent Cloud for 04C/04D
 
@@ -337,6 +362,18 @@ commits and writes secret-free evidence. Confirm
 `requested = delivered = consumed = 4` in:
 `outputs/runs/lec4-demo04c/demo04c_confluent_avro_roundtrip/report.json`.
 
+> ##### STUDENT CHECKPOINT — 45-SECOND THINK
+>
+> If the consumer committed before validation and processing, what would a
+> restart incorrectly assume?
+>
+> **Common mistakes**
+>
+> - ❌ Producer delivery proves that the consumer processed the record.
+>   ✓ Delivery and consumption are separate results; verify both.
+> - ❌ A consumer commit acknowledges producer delivery.
+>   ✓ It records the consumer group's processing progress.
+
 ## 13. Demo 04D — optional native asyncio extension
 
 > ##### KEY CONCEPT — REAL READINESS, NOT A SLEEP GUESS
@@ -361,6 +398,18 @@ one asyncio event loop
 Use AIO when Kafka must share an existing event loop with other nonblocking I/O;
 for a normal command-line program, 04C is simpler.
 
+> ##### STUDENT CHECKPOINT — 45-SECOND THINK
+>
+> For a bounded command-line program with no other async I/O, would you choose
+> 04C or 04D? Why?
+>
+> **Common mistakes**
+>
+> - ❌ Kafka needs `asyncio` to produce asynchronously.
+>   ✓ The standard producer already manages asynchronous delivery internally.
+> - ❌ A fixed sleep proves that a consumer is ready.
+>   ✓ Demo 04D waits for Kafka's real assignment signal.
+
 ## 14. Registry and evolution quick reference
 
 | Term | Meaning in this demo |
@@ -376,7 +425,7 @@ without a default or changing to an incompatible type fails resolution. A type
 compatible change can still alter business meaning, so Registry checks do not
 replace application validation.
 
-## 15. Common errors
+## 15. Troubleshooting
 
 | Symptom | Likely cause | Direct action |
 |---|---|---|

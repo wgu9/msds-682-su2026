@@ -1,8 +1,8 @@
 """Demo 04C: real Confluent Cloud Avro producer/consumer round trip.
 
-Student focus: use direct AvroSerializer/AvroDeserializer instances, register the
-schema under <topic>-value, wait for the consumer's real assignment, produce a
-bounded set of records, validate after deserialization, then commit progress.
+Student focus: follow one bounded Cloud cycle from validated objects to Avro
+bytes and back. Wait for real assignment, validate after deserialization, then
+commit only after successful processing.
 
 Prerequisite: copy .env.example to .env and supply both Kafka and Schema
 Registry credentials. Use the dedicated Demo 04 Avro topic.
@@ -212,6 +212,11 @@ def run_cloud_roundtrip(
             timeout=args.assignment_timeout,
         )
 
+        # ====================================================================
+        # STUDENT CHECKPOINT
+        # Why must assignment be confirmed before producing when this new group
+        # uses auto.offset.reset="latest"? What failure would a fixed sleep risk?
+        # ====================================================================
         seed_offset = zlib.crc32(args.run_id.encode("utf-8")) % 850
         events = deterministic_events(args.count, seed_offset=seed_offset)
         for event in events:

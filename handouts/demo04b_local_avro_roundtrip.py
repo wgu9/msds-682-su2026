@@ -143,6 +143,11 @@ def run_demo(
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         json_mismatch_error = {"type": type(exc).__name__, "message": str(exc)}
 
+    # ====================================================================
+    # STUDENT CHECKPOINT
+    # For each result below, identify the owner: Pydantic business rules,
+    # Avro wire structure, or Schema Registry lookup and evolution.
+    # ====================================================================
     report = {
         "demo": "demo04b_local_avro_roundtrip",
         "registry": "mock://msds682-demo04",
