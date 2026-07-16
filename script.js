@@ -81,7 +81,7 @@ const pages = {
               <td><span class="tag in-person">In person</span></td>
               <td>101 Howard, Classroom 529</td>
               <td>Apache Kafka Pt. 3</td>
-              <td>FastAPI, hands-on demo, Data Schemas Pt. 1, Schema Registry; Assignment 1 extended deadline Jul 21, 11:59pm</td>
+              <td>Data contracts, Pydantic validation, Avro, Schema Registry, and Demo 04A–04D; Assignment 1 extended deadline Jul 21, 11:59pm</td>
             </tr>
             <tr>
               <td>5</td>
@@ -90,8 +90,8 @@ const pages = {
               <td>5:30–7:20pm</td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Zoom</td>
-              <td>Data Schemas Pt. 2</td>
-              <td>REST API, Avro, demo</td>
+              <td>Streaming APIs and Data Schemas Pt. 2</td>
+              <td>FastAPI, REST API, and schema-aware producer/consumer integration</td>
             </tr>
             <tr>
               <td>6</td>
@@ -326,8 +326,27 @@ const handouts = [
     kind: "md",
     file: "handouts/demo03.md",
     createdAt: "Created at 1:57 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 2:33 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
     summary: "Real Confluent consumer sequence over the shared trip topic: bounded poll loop, manual offset commits and resume, consumer groups and replay, plus native asyncio producer/consumer clients."
+  },
+  {
+    slug: "demo04",
+    title: "Demo 04: Data Contracts, Avro, and Schema Registry",
+    kind: "md",
+    file: "handouts/demo04.md",
+    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    summary: "Pydantic validation, local Avro and mock Registry resolution, plus bounded real-Confluent standard-client and native-async extensions."
+  },
+  {
+    slug: "lec4-ridesharing-architecture",
+    title: "Lecture 4 Supplement: Ridesharing Streaming Architecture",
+    kind: "md",
+    file: "handouts/lec4-ridesharing-architecture-supplement.md",
+    createdAt: "Created at 2:35 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    wide: true,
+    summary: "Optional architecture case study connecting consumer groups, data contracts, derived topics, stateful joins, replay, and production trade-offs."
   },
   {
     slug: "lec2-topic-vs-table",
@@ -346,7 +365,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec3-consumers.html",
     createdAt: "Created at 4:09 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 5:20 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
     wide: true,
     standalone: true,
     summary: "Canonical Summer 2026 Lecture 3 HTML slides: consumer offsets and groups, commit and replay, Demo 03A–03D alignment, AI engineering Q&A, environment layers, producer batching, and native asyncio."
