@@ -388,7 +388,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec3-consumers.html",
     createdAt: "Created at 4:09 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 2:48 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 4:33 PM PDT on July 16, 2026",
     wide: true,
     standalone: true,
     summary: "Canonical Summer 2026 Lecture 3 HTML slides: consumer offsets and groups, commit and replay, Demo 03A–03D alignment, AI engineering Q&A, environment layers, producer batching, and native asyncio."
