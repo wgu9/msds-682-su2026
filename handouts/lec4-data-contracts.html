@@ -1113,6 +1113,7 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: clamp(11px, 1.2vw, 18px);
     }
+    .module-outcomes.single { grid-template-columns: 1fr; }
     .module-outcome {
       border: 1px solid color-mix(in srgb, var(--module-color) 22%, var(--line));
       border-radius: 11px;
@@ -2214,15 +2215,12 @@ process(event)
           <div class="module-label" data-module-label>Module</div>
         </div>
         <div>
-          <p class="kicker">Lecture 4 learning path</p>
           <h1 id="module-5-title" data-module-heading>Module title</h1>
           <p class="subtitle module-question" data-module-question-text>Module question</p>
-          <div class="module-outcomes">
-            <div class="module-outcome"><strong>Groups</strong>One consumer group is one logical application; its members run the same logic.</div>
-            <div class="module-outcome"><strong>Boundaries</strong>Compare one-stage, combined-metrics, and separate-topic join designs.</div>
-            <div class="module-outcome"><strong>Decision</strong>Explain why subscribe does not mean join, then select Proposal 2 for classroom simplicity.</div>
+          <div class="module-outcomes single">
+            <div class="module-outcome"><strong>Goal</strong>Compare three pipeline designs; recommend Proposal 2 without a stateful join.</div>
           </div>
-          <div class="callout amber"><strong>Scope:</strong> this is a conceptual architecture extension. Demo 04A–04D proves data contracts and does not implement the full pipeline.</div>
+          <div class="callout amber"><strong>Scope:</strong> Architecture discussion only. Demo 04A–04D does not implement this pipeline.</div>
         </div>
       </div>
     </div>

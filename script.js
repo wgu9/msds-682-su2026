@@ -381,7 +381,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec4-data-contracts.html",
     createdAt: "Created at 5:06 PM PDT on July 16, 2026",
-    lastUpdatedAt: "Last updated at 5:06 PM PDT on July 16, 2026",
+    lastUpdatedAt: "Last updated at 5:18 PM PDT on July 16, 2026",
     wide: true,
     standalone: true,
     summary: "Schemas, validation layers, Avro, Schema Registry, compatible evolution, Demo 04, and a ridesharing architecture case study."
