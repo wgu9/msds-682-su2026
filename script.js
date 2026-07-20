@@ -277,6 +277,12 @@ const handoutSections = [
     label: "Lecture 4",
     title: "Data Contracts and Streaming Architecture",
     summary: "Work through Pydantic, Avro, and Schema Registry, followed by the architecture supplement."
+  },
+  {
+    id: "lec5",
+    label: "Lecture 5",
+    title: "Streaming APIs with FastAPI and Kafka",
+    summary: "Review FastAPI, then connect a validated HTTP request to an independent schema-aware Kafka round trip."
   }
 ];
 
@@ -408,6 +414,29 @@ const handouts = [
     lastUpdatedAt: "Last updated at 2:55 PM PDT on July 16, 2026",
     wide: true,
     summary: "Ridesharing case study on groups, derived topics, joins, replay, and trade-offs."
+  },
+  {
+    slug: "fastapi-recap",
+    section: "lec5",
+    category: "Recap",
+    title: "FastAPI Recap for Demo 05",
+    kind: "md",
+    file: "handouts/fastapi-recap.md",
+    createdAt: "Created at 4:48 PM PDT on July 20, 2026",
+    lastUpdatedAt: "Last updated at 4:48 PM PDT on July 20, 2026",
+    summary: "A concise review of routes, Pydantic request and response models, status codes, lifespan, and OpenAPI."
+  },
+  {
+    slug: "demo05",
+    section: "lec5",
+    category: "Demo",
+    title: "Demo 05: FastAPI and Schema-aware Kafka Integration",
+    kind: "md",
+    file: "handouts/demo05.md",
+    createdAt: "Created at 4:48 PM PDT on July 20, 2026",
+    lastUpdatedAt: "Last updated at 4:48 PM PDT on July 20, 2026",
+    wide: true,
+    summary: "Local FastAPI contracts plus a bounded, independent Confluent Cloud Avro round trip with expected-result screenshots."
   }
   // PDF example (uncomment and add the file to publish):
   // {
