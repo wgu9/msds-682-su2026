@@ -78,6 +78,13 @@ __pycache__/
 .DS_Store
 """
 
+README_REPLACEMENTS = {
+    "(#/handouts/fastapi-recap)": "(fastapi-recap.md)",
+    "- [Download `demo05-student.zip`](handouts/demo05-student.zip)": (
+        "- This extracted package already contains all Demo 05 student files."
+    ),
+}
+
 
 def _zip_info(name: str, *, is_dir: bool = False) -> ZipInfo:
     normalized = name.rstrip("/") + ("/" if is_dir else "")
@@ -111,6 +118,19 @@ def _validate_package_inputs() -> None:
         )
 
 
+def _source_bytes(archive_name: str, source_path: Path) -> bytes:
+    """Read one SSOT source and adapt website-only README links for the ZIP."""
+
+    if archive_name != "README.md":
+        return source_path.read_bytes()
+    content = source_path.read_text(encoding="utf-8")
+    for website_text, package_text in README_REPLACEMENTS.items():
+        if website_text not in content:
+            raise ValueError(f"Missing expected README text: {website_text}")
+        content = content.replace(website_text, package_text)
+    return content.encode("utf-8")
+
+
 def build_student_zip(output_path: Path = OUTPUT_PATH) -> Path:
     """Create one deterministic ZIP without a second source tree."""
 
@@ -131,7 +151,7 @@ def build_student_zip(output_path: Path = OUTPUT_PATH) -> Path:
         for archive_name, source_path in SOURCE_MAP.items():
             archive.writestr(
                 _zip_info(f"{PACKAGE_ROOT}/{archive_name}"),
-                source_path.read_bytes(),
+                _source_bytes(archive_name, source_path),
             )
     return output_path
 

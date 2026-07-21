@@ -71,6 +71,19 @@ def test_handout_includes_every_expected_screenshot() -> None:
     assert all((asset_root / reference).is_file() for reference in references)
 
 
+def test_packaged_readme_uses_package_local_links() -> None:
+    package_root = Path(__file__).resolve().parents[1]
+    packaged_readme = package_root / "README.md"
+    if not packaged_readme.is_file():
+        pytest.skip("Run this contract against the extracted student ZIP.")
+
+    readme = packaged_readme.read_text(encoding="utf-8")
+    assert "](#/handouts/" not in readme
+    assert "(handouts/demo05-student.zip)" not in readme
+    assert "[FastAPI recap](fastapi-recap.md)" in readme
+    assert (package_root / "fastapi-recap.md").is_file()
+
+
 def test_deterministic_requests_are_independent_and_reproducible() -> None:
     first = deterministic_requests(3, seed_offset=7)
     second = deterministic_requests(3, seed_offset=7)

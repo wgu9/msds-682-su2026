@@ -109,7 +109,7 @@ topic data, offsets, or running processes.
 
 ## 4. FastAPI recap
 
-Read the concise [FastAPI recap](fastapi-recap.md) before running 05A. Focus on
+Read the concise [FastAPI recap](#/handouts/fastapi-recap) before running 05A. Focus on
 seven ideas: application, path operation, request model, response model, status
 code, lifespan, and OpenAPI.
 
