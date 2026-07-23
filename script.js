@@ -293,6 +293,22 @@ const handoutSections = [
   }
 ];
 
+function lectureNumber(section) {
+  const match = /^lec(\d+)$/.exec(section.id);
+  return match ? Number(match[1]) : null;
+}
+
+const lectureSectionsNewestFirst = handoutSections
+  .filter((section) => lectureNumber(section) !== null)
+  .sort((a, b) => lectureNumber(b) - lectureNumber(a));
+
+const latestLectureSectionId = lectureSectionsNewestFirst[0]?.id || "";
+
+const handoutSectionsForDisplay = [
+  ...lectureSectionsNewestFirst,
+  ...handoutSections.filter((section) => lectureNumber(section) === null)
+];
+
 const handouts = [
   {
     slug: "syllabus",
@@ -576,13 +592,17 @@ function handoutCardHtml(h) {
 function handoutSectionHtml(section) {
   const sectionHandouts = handouts.filter((h) => h.section === section.id);
   if (!sectionHandouts.length) return "";
+  const isLatestLecture = section.id === latestLectureSectionId;
   const cards = sectionHandouts
     .map(handoutCardHtml)
     .join("");
   return `
-    <section class="handout-section" aria-labelledby="handout-section-${escapeHtml(section.id)}">
+    <section class="handout-section${isLatestLecture ? " handout-section-latest" : ""}" aria-labelledby="handout-section-${escapeHtml(section.id)}">
       <header class="handout-section-head">
-        <span class="handout-section-label">${escapeHtml(section.label)}</span>
+        <div class="handout-section-badges">
+          <span class="handout-section-label">${escapeHtml(section.label)}</span>
+          ${isLatestLecture ? '<span class="handout-latest-badge">Latest lecture</span>' : ""}
+        </div>
         <div>
           <h3 id="handout-section-${escapeHtml(section.id)}">${escapeHtml(section.title)}</h3>
           <p>${escapeHtml(section.summary)}</p>
@@ -593,10 +613,10 @@ function handoutSectionHtml(section) {
 }
 
 function handoutsListBody() {
-  const sections = handoutSections.map(handoutSectionHtml).join("");
+  const sections = handoutSectionsForDisplay.map(handoutSectionHtml).join("");
 
   return `
-    <p class="lede">Materials are grouped in course order. Start with the final syllabus, then follow each lecture section from top to bottom.</p>
+    <p class="lede">Lectures are listed newest first. Within each lecture, follow the materials from top to bottom; course information appears after the lecture sections.</p>
     <div class="handout-sections">${sections || '<p>Handouts will be posted as the course progresses.</p>'}</div>
   `;
 }
