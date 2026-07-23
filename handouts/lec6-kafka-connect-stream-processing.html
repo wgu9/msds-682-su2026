@@ -426,6 +426,49 @@
 
     .final-list li:last-child { border-bottom: 0; }
 
+    /* ---- course map ---- */
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 2.5vh;
+    }
+
+    .map-grid .rail-node { position: relative; }
+
+    .map-grid .rail-node:not(:nth-child(7))::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a9adb6;
+      font-size: clamp(13px, 1vw, 18px);
+      z-index: 1;
+    }
+
+    .rail-node.sm { min-height: clamp(74px, 10vh, 104px); padding: 12px 8px; }
+    .rail-node.sm b { font-size: clamp(15px, 1.05vw, 20px); }
+    .rail-node.sm span { margin-top: 4px; font-size: clamp(12px, .82vw, 15px); }
+
+    .map-span {
+      margin-top: 2px;
+      border-top: 3px solid var(--accent);
+      padding-top: 7px;
+      text-align: center;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: clamp(11px, .75vw, 14px);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .map-span.a { grid-column: 1 / span 3; }
+    .map-span.b { grid-column: 4 / span 3; }
+    .map-span.c { grid-column: 7 / span 1; border-top-color: #c9cdd8; color: var(--muted); }
+
     /* ---- links + chrome ---- */
 
     .links {
@@ -606,6 +649,10 @@
       .rail { flex-direction: column; }
       .rail-arrow { transform: rotate(90deg); }
       .module-divider-shell { grid-template-columns: 120px 1fr; }
+
+      .map-grid { grid-template-columns: 1fr; }
+      .map-grid .rail-node::after { content: ""; }
+      .map-span.a, .map-span.b, .map-span.c { grid-column: auto; }
     }
 
     @media (max-width: 680px) {
@@ -855,7 +902,7 @@
         <div>
           <h1>Observe data movement before writing a processor</h1>
           <ul class="module-points">
-            <li><strong>Create</strong> one dedicated topic and source connector.</li>
+            <li><strong>Create</strong> one source connector for the input topic.</li>
             <li><strong>Inspect</strong> status, records, schema, and key.</li>
             <li><strong>Read</strong> a bounded sample with the Python client.</li>
           </ul>
@@ -878,7 +925,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node n-proc"><b>06D · Prove</b><span>Resume, then forced replay</span></div>
       </div>
-      <p class="factline">Four bounded steps in about 40 minutes.</p>
+      <p class="factline">Four bounded steps in about 40-50 minutes.</p>
       <div class="takeaway caveat"><strong>No connector permission?</strong> Seed once with the fallback; 06B to 06D unchanged.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -912,14 +959,14 @@
       <div class="rail">
         <div class="rail-node"><b>Datagen</b><span>Synthetic ORDERS data</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-connect"><b>Source connector</b><span><code>tasks.max = 1</code></span></div>
+        <div class="rail-node n-connect"><b>Source task</b><span><code>tasks.max = 1</code></span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-reg"><b>Schema Registry</b><span>Registered AVRO value schema</span></div>
+        <div class="rail-node n-connect"><b>Avro converter</b><span>Serialize + register schema</span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Input topic</b><span>Keyed, ordered records</span></div>
       </div>
       <p class="factline">Console fields: <strong>ORDERS</strong> · <strong>AVRO</strong> · key <code>orderid</code> · max interval <strong>2000 ms</strong></p>
-      <div class="takeaway caveat"><strong>Pause the connector after 8+ records.</strong> Delete it after the exercise.</div>
+      <div class="takeaway caveat"><strong>Records → Kafka. Schema → Schema Registry.</strong> Pause at 8+; delete.</div>
       <div class="links">Reference: <a href="https://docs.confluent.io/cloud/current/connectors/cc-datagen-source.html" target="_blank" rel="noreferrer">Confluent Cloud Datagen Source Connector</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -1066,7 +1113,7 @@ consumer.close()</pre></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Output ack</b><span>Broker confirms delivery</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Commit</b><span>Store next input offset</span></div>
+        <div class="rail-node n-proc"><b>Commit</b><span>Broker confirms next offset</span></div>
       </div>
       <div class="takeaway point"><strong>Commit means <span class="term" tabindex="0" data-def="Storing the group's next read position durably in Kafka.">consumer offset commit</span>.</strong> Not producer delivery. Not Git.</div>
     </div>
@@ -1090,7 +1137,7 @@ consumer.close()</pre></div>
         </div>
       </div>
       <div class="takeaway caveat"><strong>Do not promise <span class="term" tabindex="0" data-def="Each input affects the output exactly once; needs transactional support, not just commit order.">exactly-once</span> from commit order alone.</strong> Transactions have extra requirements.</div>
-      <div class="links">Reference: <a href="https://kafka.apache.org/43/kafka-connect/user-guide/#exactly-once-support" target="_blank" rel="noreferrer">Kafka Connect exactly-once support</a></div>
+      <div class="links">Reference: <a href="https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html#transactional-api" target="_blank" rel="noreferrer">Confluent Python transactional API</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1125,7 +1172,7 @@ consumer.close()</pre></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Output ack</b><span>Derived event delivered</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Commit</b><span>Input group progress</span></div>
+        <div class="rail-node n-proc"><b>Commit</b><span>Confirmed group progress</span></div>
       </div>
       <div class="takeaway point"><strong>Stable derived key:</strong> input topic, partition, offset. Replayed identity stays observable.</div>
     </div>
@@ -1148,7 +1195,32 @@ consumer.close()</pre></div>
           <p><code>OFFSET_BEGINNING</code> in <code>on_assign</code>; the base group is untouched.</p>
         </div>
       </div>
-      <div class="takeaway caveat"><strong>This demo is stateless.</strong> Stateful replay must also rebuild derived state.</div>
+      <div class="takeaway caveat"><strong>This transformation has no application state.</strong> Stateful replay must also rebuild derived state.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="course-map">
+    <div class="frame">
+      <p class="kicker">Course map · demos and assignments</p>
+      <h1>Ideas chain; data stays isolated</h1>
+      <div class="map-grid">
+        <div class="rail-node sm"><b>00</b><span>Environment</span></div>
+        <div class="rail-node sm n-kafka"><b>01</b><span>Topics</span></div>
+        <div class="rail-node sm"><b>02</b><span>Produce</span></div>
+        <div class="rail-node sm n-proc"><b>03</b><span>Consume</span></div>
+        <div class="rail-node sm n-reg"><b>04</b><span>Contracts</span></div>
+        <div class="rail-node sm"><b>05</b><span>API</span></div>
+        <div class="rail-node sm n-connect"><b>06</b><span>Connect</span></div>
+        <div class="map-span a">HW1 · producer</div>
+        <div class="map-span b">HW2 · consumer</div>
+        <div class="map-span c">Lecture 6 extension</div>
+      </div>
+      <div class="duo" style="margin-top: 2.4vh;">
+        <div class="card"><span class="tag">Shared chain</span><p>Demo 02 and HW1 write the Demo 01 topic; Demo 03 reads it.</p></div>
+        <div class="card"><span class="tag">Self-contained</span><p>04, 05, HW2, and 06 each create their own topics.</p></div>
+      </div>
+      <div class="takeaway point"><strong>HW2 reuses patterns from Demos 03 to 05,</strong> never their topics or data.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
