@@ -601,7 +601,7 @@ function handoutSectionHtml(section) {
       <header class="handout-section-head">
         <div class="handout-section-badges">
           <span class="handout-section-label">${escapeHtml(section.label)}</span>
-          ${isLatestLecture ? '<span class="handout-latest-badge">Latest lecture</span>' : ""}
+          ${isLatestLecture ? '<span class="handout-latest-badge" aria-label="Latest lecture">Latest</span>' : ""}
         </div>
         <div>
           <h3 id="handout-section-${escapeHtml(section.id)}">${escapeHtml(section.title)}</h3>
@@ -616,7 +616,7 @@ function handoutsListBody() {
   const sections = handoutSectionsForDisplay.map(handoutSectionHtml).join("");
 
   return `
-    <p class="lede">Lectures are listed newest first. Within each lecture, follow the materials from top to bottom; course information appears after the lecture sections.</p>
+    <p class="lede">Newest lecture first. Open the slides, then follow the remaining materials in order.</p>
     <div class="handout-sections">${sections || '<p>Handouts will be posted as the course progresses.</p>'}</div>
   `;
 }
