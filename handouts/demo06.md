@@ -31,19 +31,13 @@ managed source
   -> verified resume and replay
 ```
 
-The final objective is not merely to run four scripts. It is to prove that data
-can enter Kafka through a managed integration, become a validated derived fact,
-and be processed with an explainable recovery boundary.
-
 By the end of Demo 06, you should be able to:
 
-1. distinguish Kafka Connect, Kafka, and a stream processor;
-2. explain source connector, worker, connector, task, and converter;
-3. inspect schema-aware records written by a managed source connector;
-4. follow `consume -> validate -> derive -> produce -> output ack -> commit`;
-5. prove same-group resume and explicit new-group replay; and
-6. explain why this baseline is at-least-once, not an automatic exactly-once
-   guarantee.
+1. use Kafka Connect to place schema-aware source records in Kafka;
+2. validate connector-created records before processing them;
+3. enforce `consume -> validate -> derive -> produce -> output ack -> commit`;
+4. prove same-group resume and explicit replay; and
+5. explain why this baseline is at-least-once.
 
 | Step | Demo | Main question | Time |
 |---:|---|---|---:|
@@ -59,28 +53,6 @@ By the end of Demo 06, you should be able to:
 - No managed connector permission: Section 4 -> Section 6 -> Section 7 ->
   Section 8 -> Section 9 -> Section 12 -> Section 13.
 
-The whole route, including the no-permission fallback branch:
-
-```text
-   06A managed Datagen connector          fallback seed (only if the
-   ORDERS / AVRO / orderid / 2000 ms      account cannot create a
-              |                           managed connector; run once)
-              +------------+------------------------+
-                           v
-        input topic  msds682.demo06.connector-orders-avro.v1
-                           |
-                           v
-   06B inspect   read 3 records, validate, commit nothing
-                           |
-                           v
-   06C process   consume -> validate -> derive -> produce
-                 -> output ack -> commit input offset
-                           |
-                           v
-   06D prove     resume: same group continues after commits
-                 replay: new group forced to OFFSET_BEGINNING
-```
-
 ## 2. Relationship to Demo 05
 
 Demo 05 and Demo 06 are connected conceptually, but Demo 06 is self-contained.
@@ -94,37 +66,15 @@ No Demo 05 topic, data, offsets, server, or process is required.
 | A bounded consumer processes before commit | Output acknowledgement occurs before input commit |
 | One API request becomes one durable event | One durable input event becomes one derived event |
 
-The system boundary is:
-
-```text
-External source
-  -> Kafka Connect source connector
-  -> input topic
-  -> Python consumer processor
-  -> Pydantic validation
-  -> derived event
-  -> output topic
-  -> output broker acknowledgement
-  -> input consumer offset commit
-```
-
 `commit` in this demo always means a **Kafka consumer offset commit**. It is
 not a producer acknowledgement and it is unrelated to a Git commit.
 
 ### Bridge to Demo 07
 
 Demo 06 is the conceptual foundation for Demo 07, but it is not a runtime
-prerequisite. Both use the same correctness spine:
-
-```text
-consume -> validate -> compute -> produce -> output ack -> commit input offset
-```
-
-Demo 06 applies that spine to a stateless order-metric transformation and then
-proves resume and replay. Demo 07 applies it to versioned fare estimation, then
-adds delayed outcomes, a bounded stateful join, and model evaluation. Demo 07
-creates its own topics, schemas, data, groups, and offsets, so no Demo 06 cloud
-resource is reused.
+prerequisite. Demo 07 reuses the same acknowledgement-before-commit discipline,
+then adds model versions, delayed outcomes, a bounded join, and evaluation. It
+creates its own topics, schemas, data, groups, and offsets.
 
 ## 3. Direct prerequisites
 
@@ -186,18 +136,22 @@ python demo06a_connect_source_plan.py \
 Then open Confluent Cloud:
 
 1. Select your current Kafka cluster.
-2. Open **Connectors** and choose **Datagen Source**.
-3. Use the fields written in the 06A report:
-   - output topic: `msds682.demo06.connector-orders-avro.v1`;
+2. Open **Connectors**, then choose **Sample Data / Datagen Source**.
+3. If the one-click **Launch Sample Data** dialog appears, choose
+   **Additional configuration** so you can select the published topic.
+4. Select `msds682.demo06.connector-orders-avro.v1`, then continue:
+
+![Demo 06A topic selection in the Datagen wizard](assets/demo06/demo06a-topic-selection.jpg)
+
+5. Use the remaining fields written in the 06A report:
    - output data format: `AVRO`;
    - quickstart: `ORDERS`;
    - schema key field: `orderid`;
    - tasks: `1`;
    - maximum interval: `2000 ms`.
-4. Let Confluent Cloud manage or create the connector credentials.
-5. Wait until the connector and its task report `RUNNING`.
-6. Confirm at least 8 records in the input topic.
-7. **Pause the connector before continuing.** Delete it after the exercise.
+6. Let Confluent Cloud manage or create the connector credentials.
+7. Wait for `RUNNING`, confirm at least 8 records, and then pause the
+   connector. Delete it after the exercise.
 
 The advanced configuration should look like this. No API key or secret is
 visible in the screenshot:
@@ -215,16 +169,8 @@ set, and the dedicated input topic:
 > exercise but is not a production source. A production source connector would
 > read from an external database, object store, or service.
 
-### What 06A proves
-
-- the integration runtime can create source records without a custom Python
-  producer;
-- the connector owns one or more tasks;
-- the Avro converter registers the value schema in Schema Registry;
-- connector/task status is operational evidence.
-
-It does not prove that your Python processing logic is correct. That begins in
-06B and 06C.
+`RUNNING` proves that the integration is active. Record validation and
+processing correctness are verified separately in 06B and 06C.
 
 ## 6. Connector-permission fallback
 
@@ -237,14 +183,9 @@ python demo06_seed_source.py \
   --create-topics
 ```
 
-The fallback writes finite deterministic values with the managed Datagen
-`ORDERS` value schema. Its report identifies itself as a Python fallback. It
-does not claim that Kafka Connect ran.
-
-The two source modes share the value contract, but not necessarily the raw key
-encoding. The managed connector encodes its configured `orderid` key; the
-fallback uses readable UTF-8 decimal bytes. Do not mix both source modes in one
-exercise or infer the value schema from key length.
+The fallback writes finite deterministic `ORDERS` values and clearly identifies
+itself as Python-generated, not Kafka Connect. The two source modes share the
+value contract but may encode keys differently, so do not mix them in one run.
 
 Use a fresh Demo 06 topic. Do not first register a different schema under the
 same `<topic>-value` subject and then point Datagen at that topic. Do not weaken
@@ -271,12 +212,8 @@ python demo06b_confluent_source_consumer.py \
   --max-messages 3
 ```
 
-06B uses a new isolated group, starts at `earliest`, reads exactly three
-records, resolves their writer schema IDs through Schema Registry, and validates
-the decoded values with `DatagenOrderV1`.
-
-It deliberately makes zero commits. The inspection group must not alter the
-processor group's progress.
+06B uses an isolated group, reads exactly three records, resolves writer schemas
+through Schema Registry, validates `DatagenOrderV1`, and commits nothing.
 
 Expected result:
 
@@ -400,19 +337,10 @@ The script runs three processor passes:
 | Resume | Same base group | Next three records |
 | Replay | Distinct replay group with forced beginning | First three records again |
 
-The script fails unless:
-
-- first and resume source coordinates are disjoint;
-- replay covers the same first-pass source-coordinate identities, without
-  assuming a global order across partitions;
-- first and resume use the same group;
-- replay uses a distinct group; and
-- replay overrides every assigned partition to `OFFSET_BEGINNING`.
-
-`auto.offset.reset=earliest` is only a fallback when a group has no committed
-position. It is not a reset command. Demo 06D forces the replay position in
-`on_assign`, so reusing the replay group cannot silently turn replay into
-resume.
+The run fails unless resume is disjoint from the first pass and replay covers
+the first-pass coordinates. `auto.offset.reset=earliest` is only a fallback,
+not a reset command, so 06D forces every replay assignment to
+`OFFSET_BEGINNING`.
 
 Replay intentionally republishes derived events. The report makes those stable
 duplicate keys visible.

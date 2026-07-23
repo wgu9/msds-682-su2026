@@ -14,12 +14,16 @@
 > provides the label needed to evaluate the prediction, compare model versions,
 > and decide whether a candidate should be promoted.
 
-## 1. Goal and 55 to 70 minute route
+## 1. Objective, expected outcome, and 55 to 70 minute route
 
 Demo 07 answers one business question:
 
 > How can we set a fare so that profit per trip is close to a 20% markup on
 > realized cost?
+
+The finished pipeline turns four trip requests into two comparable quote
+versions, joins those quotes with delayed outcomes, and produces one
+evidence-based teaching promotion decision.
 
 By the end of Demo 07, you should be able to:
 
@@ -279,21 +283,38 @@ two quote versions, and four outcomes. It has no production service guarantee.
 
 ### 07A: train ridge-v2
 
+**Objective:** Train and export one transparent, versioned cost model.
+
+**Why:** Online inference needs a validated artifact whose inputs, coefficients,
+training lineage, and held-out error can be inspected.
+
+**Done when:** `ridge-cost-v2.json` and a secret-free report exist, and the
+artifact contains the two named route features plus validation MAE.
+
 ```bash
 python demo07a_train_cost_model.py --run-id "$RUN_ID"
 ```
 
-Expected artifact:
+Expected terminal lines:
 
 ```text
-outputs/runs/$RUN_ID/demo07a/ridge-cost-v2.json
+Trained ridge-v2 on 120 records; validation MAE=... cents
+Model artifact: outputs/runs/$RUN_ID/demo07a/ridge-cost-v2.json
+Secret-free report: outputs/runs/$RUN_ID/demo07a/report.json
 ```
 
-Expected: one validated JSON artifact containing two named features,
-coefficients, an intercept, model version, and validation MAE. It is not an
-executable pickle.
+The artifact is validated JSON, not an executable pickle.
 
 ### 07B: create topics and publish requests
+
+**Objective:** Create the four Demo 07 topics and publish the same four
+deterministic trip requests used by both pricing versions.
+
+**Why:** A fair model comparison begins with identical input events and visible
+broker acknowledgements.
+
+**Done when:** All four requests are acknowledged and all four topics are
+verified.
 
 ```bash
 python demo07b_produce_trip_requests.py \
@@ -302,9 +323,25 @@ python demo07b_produce_trip_requests.py \
   --create-topics
 ```
 
-Expected: four acknowledged requests and four verified Demo 07 topics.
+Expected terminal lines:
 
-### 07C: publish rule-v1 quotes
+```text
+Published 4 requests to msds682.demo07.ml-trip-requests-avro.v1
+Secret-free report: outputs/runs/$RUN_ID/demo07b/report.json
+```
+
+### 07C: publish two comparable quote versions
+
+**Objective:** Consume every request once per model version and publish one
+governed fare quote per version.
+
+**Why:** Separate consumer groups let the baseline and candidate see the same
+requests while preserving the acknowledgement-before-commit boundary.
+
+**Done when:** `rule-v1` and `ridge-v2` each acknowledge four quotes, for eight
+quotes total, and each processor commits only after its output acknowledgement.
+
+#### Run 1: rule-v1 baseline
 
 ```bash
 python demo07c_confluent_fare_quote_processor.py \
@@ -314,9 +351,14 @@ python demo07c_confluent_fare_quote_processor.py \
   --routing-mode "$ROUTING_MODE"
 ```
 
-Expected: four acknowledged `rule-v1` quotes.
+Expected terminal lines:
 
-### 07C: publish ridge-v2 quotes
+```text
+rule-v1 published 4 quotes to msds682.demo07.ml-fare-quotes-avro.v1
+Secret-free report: outputs/runs/$RUN_ID/demo07c-rule-v1/report.json
+```
+
+#### Run 2: ridge-v2 candidate
 
 ```bash
 python demo07c_confluent_fare_quote_processor.py \
@@ -327,7 +369,12 @@ python demo07c_confluent_fare_quote_processor.py \
   --routing-mode "$ROUTING_MODE"
 ```
 
-Expected: four acknowledged `ridge-v2` quotes for the same four requests.
+Expected terminal lines:
+
+```text
+ridge-v2 published 4 quotes to msds682.demo07.ml-fare-quotes-avro.v1
+Secret-free report: outputs/runs/$RUN_ID/demo07c-ridge-v2/report.json
+```
 
 Each quote processor follows:
 
@@ -346,7 +393,15 @@ commit, and a Kafka producer does not commit these input offsets.
 
 ### 07D: publish delayed outcomes
 
-Run this after both quote versions to simulate labels arriving later:
+**Objective:** Publish the realized trip outcomes that arrive after pricing.
+
+**Why:** A quote is a prediction. Only a later outcome supplies the label needed
+to measure realized markup.
+
+**Done when:** Four outcomes are acknowledged for the same four `trip_id`
+values and the same routing mode used by 07C.
+
+Run this after both quote versions:
 
 ```bash
 python demo07d_produce_trip_outcomes.py \
@@ -355,9 +410,23 @@ python demo07d_produce_trip_outcomes.py \
   --routing-mode "$ROUTING_MODE"
 ```
 
-Expected: four acknowledged outcomes using the same route boundary as 07C.
+Expected terminal lines:
+
+```text
+Published 4 delayed outcomes to msds682.demo07.ml-trip-outcomes-avro.v1
+Secret-free report: outputs/runs/$RUN_ID/demo07d/report.json
+```
 
 ### 07E: join and evaluate
+
+**Objective:** Join quotes with delayed outcomes by `trip_id` and publish one
+evaluation event per trip and model version.
+
+**Why:** Subscribing to two topics does not perform a join. The evaluator must
+hold bounded keyed state until both sides arrive.
+
+**Done when:** Eight pairs produce eight acknowledged evaluations, then the
+evaluator commits progress for both input topics.
 
 ```bash
 python demo07e_confluent_quote_outcome_evaluator.py \
@@ -365,17 +434,36 @@ python demo07e_confluent_quote_outcome_evaluator.py \
   --expected-trips 4
 ```
 
-Expected: the evaluator joins 8 quotes with 4 outcomes, publishes 8 evaluation
-events, and only then commits both input topics.
+Expected terminal lines:
+
+```text
+Published 8 evaluations to msds682.demo07.ml-pricing-evaluations-avro.v1
+Model summary: {...}
+Secret-free report: outputs/runs/$RUN_ID/demo07e/report.json
+```
 
 ### 07F: compare and decide
+
+**Objective:** Compare both versions against the 20% realized-markup target and
+make a reproducible teaching promotion decision.
+
+**Why:** A model version should be selected from shared outcome evidence and a
+declared business metric, not from its name or training status.
+
+**Done when:** The comparison uses the same four outcomes, reports both errors,
+and selects `ridge-v2` under the published promotion rule.
 
 ```bash
 python demo07f_compare_models.py --run-id "$RUN_ID"
 ```
 
-Expected: one comparison using mean absolute deviation from the 20% markup
-target on the same four outcomes, plus a teaching promotion decision.
+Expected terminal lines:
+
+```text
+Winner: ridge-v2 | baseline error=... pp | candidate error=... pp
+Decision: promote ridge-v2
+Secret-free report: outputs/runs/$RUN_ID/demo07f/report.json
+```
 
 ## 10. Classroom boundary and production gaps
 

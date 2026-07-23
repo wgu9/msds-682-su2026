@@ -39,6 +39,10 @@ SOURCE_MAP: dict[str, Path] = {
     / "demo06c_confluent_stream_processor.py",
     "demo06d_confluent_resume_replay.py": HANDOUTS_DIR
     / "demo06d_confluent_resume_replay.py",
+    "assets/demo06/demo06a-topic-selection.jpg": HANDOUTS_DIR.parent
+    / "assets"
+    / "demo06"
+    / "demo06a-topic-selection.jpg",
     "assets/demo06/demo06a-connector-configuration.jpg": HANDOUTS_DIR.parent
     / "assets"
     / "demo06"

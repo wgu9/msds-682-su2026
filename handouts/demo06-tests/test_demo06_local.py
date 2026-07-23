@@ -446,6 +446,7 @@ def test_handout_screenshots_exist_and_are_referenced() -> None:
         handout = package_root / "README.md"
     text = handout.read_text(encoding="utf-8")
     expected = {
+        "assets/demo06/demo06a-topic-selection.jpg",
         "assets/demo06/demo06a-connector-configuration.jpg",
         "assets/demo06/demo06a-connector-running.jpg",
         "assets/demo06/demo06b-topic-messages.jpg",
