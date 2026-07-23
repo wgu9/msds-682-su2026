@@ -98,6 +98,10 @@ independent.
 | Outbound HTTPS | No | Only 07C and 07D in OSRM mode |
 | Demo 06 topic, data, or process | No | No |
 
+07A is standalone. 07F is credential-free but not standalone: by default it
+reads `outputs/runs/<run-id>/demo07e/report.json`. Run 07B–07E first, or pass
+`--evaluation-report` explicitly.
+
 ## 4. Download and setup
 
 - [Download `demo07-student.zip`](handouts/demo07-student.zip)
@@ -116,7 +120,9 @@ credentials. `.env` is ignored and must never be published or submitted.
 
 ## 5. Data and scale
 
-All data is synthetic and deterministic.
+All inputs are synthetic. Training and validation examples, trip requests, and
+fixture routes are deterministic. Live OSRM route measurements may change with
+the public service's map data.
 
 | Data | Count | Purpose |
 |---|---:|---|
@@ -219,6 +225,9 @@ validation MAE.
 > + 20\left(\frac{T_{\text{actual}}}{60}\right)
 > + \varepsilon
 > $$
+>
+> Here, $\varepsilon$ is small deterministic noise generated from the fixed
+> course seed.
 >
 > The distance component is intentional. If the label used only fixed cost and
 > hourly time, the correct learned distance coefficient would be approximately
@@ -482,6 +491,8 @@ $$
 = \frac{1}{N}\sum_{i=1}^{N}
 \left|\text{realized markup}_{i} - 20\%\right|
 $$
+
+The report expresses this error in percentage points.
 
 **Done when:** The comparison uses the same four outcomes, reports both errors,
 and selects `ridge-v2` under the published promotion rule.
