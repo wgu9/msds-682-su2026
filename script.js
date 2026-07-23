@@ -290,6 +290,12 @@ const handoutSections = [
     label: "Lecture 6",
     title: "Kafka Connect and Stream Processing",
     summary: "Move data into Kafka with Connect, then validate, derive, acknowledge, commit, resume, and replay."
+  },
+  {
+    id: "lec7",
+    label: "Lecture 7",
+    title: "State, Features, and Real-time ML",
+    summary: "Train a cost model, quote trips, join delayed outcomes, evaluate versions, and make a promotion decision."
   }
 ];
 
@@ -482,7 +488,7 @@ const handouts = [
     kind: "md",
     file: "handouts/assignment02.md",
     createdAt: "Created at 11:01 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 12:03 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 2:06 AM PDT on July 23, 2026",
     summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {
@@ -506,7 +512,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec6-kafka-connect-stream-processing.html",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 12:03 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Choose the right integration boundary, operate a managed connector, and prove bounded processing, commit, resume, and replay."
@@ -519,9 +525,21 @@ const handouts = [
     kind: "md",
     file: "handouts/demo06.md",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 11:32 PM PDT on July 22, 2026",
+    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
     wide: true,
     summary: "Managed source integration, schema-aware inspection, output-before-commit processing, resume, and replay."
+  },
+  {
+    slug: "demo07",
+    section: "lec7",
+    category: "Demo",
+    title: "Demo 07: Real-Time Pricing and Delayed Outcomes",
+    kind: "md",
+    file: "handouts/demo07.md",
+    createdAt: "Created at 3:38 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
+    wide: true,
+    summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
   // PDF example (uncomment and add the file to publish):
   // {

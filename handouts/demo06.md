@@ -14,7 +14,7 @@
 > processor validates input, computes a new fact, publishes a derived event,
 > and records its consumer progress.
 
-## 1. Goal and 50-minute route
+## 1. Goal and 40-50-minute route
 
 By the end of Demo 06, you should be able to:
 
@@ -85,6 +85,21 @@ External source
 `commit` in this demo always means a **Kafka consumer offset commit**. It is
 not a producer acknowledgement and it is unrelated to a Git commit.
 
+### Bridge to Demo 07
+
+Demo 06 is the conceptual foundation for Demo 07, but it is not a runtime
+prerequisite. Both use the same correctness spine:
+
+```text
+consume -> validate -> compute -> produce -> output ack -> commit input offset
+```
+
+Demo 06 applies that spine to a stateless order-metric transformation and then
+proves resume and replay. Demo 07 applies it to versioned fare estimation, then
+adds delayed outcomes, a bounded stateful join, and model evaluation. Demo 07
+creates its own topics, schemas, data, groups, and offsets, so no Demo 06 cloud
+resource is reused.
+
 ## 3. Direct prerequisites
 
 > **Start directly with Demo 06.** No Demo 01-05 resource is required.
@@ -93,7 +108,8 @@ not a producer acknowledgement and it is unrelated to a Git commit.
 |---|---:|---:|---:|---:|
 | Python 3.11.14 and the published requirements | Required | Required | Required | Required |
 | Confluent Cloud Kafka cluster | Required | Required | Required | Required |
-| Schema Registry and its separate credentials | Required | Required | Required | Required |
+| Schema Registry enabled for Avro | Required | Required | Required | Required |
+| Local Schema Registry credentials in `.env` | No | Required | Required | Required |
 | Managed connector permission | Preferred | No | No | No |
 | Existing Demo 06 topics | No; create them | Required | Required | Required |
 | Existing source records | No | At least 3 | At least 3 | At least 6 |
@@ -206,8 +222,8 @@ python demo06b_confluent_source_consumer.py \
 ```
 
 06B uses a new isolated group, starts at `earliest`, reads exactly three
-records, fetches each writer schema through Schema Registry, and validates the
-decoded value with `DatagenOrderV1`.
+records, resolves their writer schema IDs through Schema Registry, and validates
+the decoded values with `DatagenOrderV1`.
 
 It deliberately makes zero commits. The inspection group must not alter the
 processor group's progress.
@@ -275,10 +291,15 @@ committing its input offset so the acknowledgement boundary is visible.
 Production processors normally batch acknowledgements or use transactions
 instead of paying for one blocking flush per record.
 
-The validated live run produced and acknowledged four derived records before
-performing four synchronous consumer offset commits:
+The verified result card below records an earlier four-record live run. The
+published classroom command above uses three records; both runs follow the same
+acknowledge-before-commit sequence:
 
 ![Demo 06C verified result summary](assets/demo06/demo06c-actual-result.jpg)
+
+Each successful record in the generated report also includes the
+broker-confirmed next offset returned by the synchronous commit. A
+partition-level commit error stops the run and is never counted as success.
 
 ## 9. Demo 06D: same-group resume and new-group replay
 
@@ -301,7 +322,8 @@ The script runs three processor passes:
 The script fails unless:
 
 - first and resume source coordinates are disjoint;
-- replay coordinates equal the first-pass coordinates;
+- replay covers the same first-pass source-coordinate identities, without
+  assuming a global order across partitions;
 - first and resume use the same group;
 - replay uses a distinct group; and
 - replay overrides every assigned partition to `OFFSET_BEGINNING`.
@@ -371,3 +393,4 @@ The connector must not remain running after class.
 - [Confluent Cloud Datagen Source Connector](https://docs.confluent.io/cloud/current/connectors/cc-datagen-source.html)
 - [Kafka Connect concepts and internal state](https://docs.confluent.io/platform/current/connect/index.html)
 - [Confluent Python client overview](https://docs.confluent.io/kafka-clients/python/current/overview.html)
+- [Confluent Python transactional API](https://docs.confluent.io/platform/current/clients/confluent-kafka-python/html/index.html#transactional-api)
