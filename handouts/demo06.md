@@ -291,6 +291,13 @@ committing its input offset so the acknowledgement boundary is visible.
 Production processors normally batch acknowledgements or use transactions
 instead of paying for one blocking flush per record.
 
+Expected result for the published three-record command:
+
+```text
+Processed 3 input records and committed only after output acknowledgement
+Secret-free report: outputs/runs/.../demo06c/report.json
+```
+
 The verified result card below records an earlier four-record live run. The
 published classroom command above uses three records; both runs follow the same
 acknowledge-before-commit sequence:
@@ -335,6 +342,13 @@ resume.
 
 Replay intentionally republishes derived events. The report makes those stable
 duplicate keys visible.
+
+Expected result:
+
+```text
+Same-group resume and new-group replay checks passed
+Secret-free report: outputs/runs/.../demo06d/report.json
+```
 
 The following card summarizes a shorter two-record validation run. The command
 above remains the three-record classroom default.
