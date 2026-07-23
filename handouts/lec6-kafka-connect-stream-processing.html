@@ -537,6 +537,131 @@
 
     .course-material-links a:hover { background: var(--accent-soft); }
 
+    .announcement-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 1.5vw, 22px);
+      margin-top: 2.5vh;
+    }
+
+    .announcement-card {
+      padding: clamp(16px, 1.6vw, 24px);
+    }
+
+    .announcement-card h2 {
+      margin-bottom: 6px;
+      font-size: clamp(24px, 1.7vw, 34px);
+    }
+
+    .announcement-card .announcement-date {
+      margin-top: 10px;
+      color: var(--ink);
+      font-size: clamp(18px, 1.25vw, 24px);
+      font-weight: 750;
+    }
+
+    .announcement-policy {
+      grid-column: 1 / -1;
+    }
+
+    .late-policy {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .late-tier {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 12px;
+      background: var(--bg);
+    }
+
+    .late-tier strong,
+    .late-tier span {
+      display: block;
+    }
+
+    .late-tier strong {
+      color: var(--ink);
+      font-size: clamp(16px, 1.05vw, 20px);
+    }
+
+    .late-tier span {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: clamp(13px, .85vw, 16px);
+    }
+
+    .late-tier.stop {
+      border-color: var(--amber-line);
+      background: var(--amber-soft);
+    }
+
+    .policy-example {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(13px, .85vw, 16px);
+    }
+
+    .celebration-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: clamp(28px, 4vw, 64px);
+      align-items: center;
+      margin-top: 3vh;
+    }
+
+    .halfway-ring {
+      width: min(260px, 30vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0 50%, #e7e9ef 50% 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .halfway-ring-inner {
+      width: 72%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .halfway-ring strong {
+      display: block;
+      color: var(--accent);
+      font-size: clamp(42px, 4.5vw, 72px);
+      line-height: 1;
+    }
+
+    .halfway-ring span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: clamp(12px, .8vw, 15px);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .celebration-copy h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 2.2vw, 44px);
+    }
+
+    .celebration-copy p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: clamp(18px, 1.25vw, 24px);
+    }
+
     .pager, .crumb {
       position: absolute;
       bottom: 16px;
@@ -715,11 +840,13 @@
 
     @media (max-width: 680px) {
       section.slide { padding: 7vh 5vw; }
-      .duo { grid-template-columns: 1fr; }
+      .duo, .announcement-grid, .late-policy, .celebration-layout { grid-template-columns: 1fr; }
       .module-divider-shell { grid-template-columns: 1fr; }
       .module-index { font-size: 72px; }
       .course-materials li { grid-template-columns: 34px minmax(0, 1fr); }
       .course-material-links { grid-column: 2; justify-content: flex-start; }
+      .announcement-policy { grid-column: auto; }
+      .halfway-ring { width: min(210px, 55vw); justify-self: center; }
     }
   </style>
 </head>
@@ -786,16 +913,35 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="assignment-2-schedule-update">
-    <div class="frame narrow">
-      <p class="kicker">Course schedule update</p>
-      <h1>Assignment 2 opens July 23 and is due July 31</h1>
-      <div class="duo" style="margin-top: 3vh;">
-        <div class="card chip"><span class="tag">Release</span><h2>Thursday, July 23</h2></div>
-        <div class="card chip"><span class="tag">Due</span><h2>Friday, July 31</h2><p><strong>11:59 PM PDT</strong></p></div>
+  <section class="slide" id="course-announcements">
+    <div class="frame">
+      <p class="kicker">Before we begin</p>
+      <h1>Three quick announcements</h1>
+      <div class="announcement-grid">
+        <article class="card announcement-card">
+          <span class="tag">1 · Assignment 2</span>
+          <h2>Released today</h2>
+          <p class="announcement-date">Due Friday, July 31<br>11:59 PM PDT</p>
+          <p>This is the final homework assignment.</p>
+        </article>
+        <article class="card announcement-card">
+          <span class="tag">2 · Project proposal</span>
+          <h2>More time to prepare</h2>
+          <p class="announcement-date">Due Tuesday, August 4<br>11:59 PM PDT</p>
+          <p>The proposal remains worth <strong>10%</strong> of the final course grade.</p>
+        </article>
+        <article class="card announcement-card announcement-policy">
+          <span class="tag">3 · Late submission policy</span>
+          <h2>Applies to homework and project deliverables</h2>
+          <div class="late-policy">
+            <div class="late-tier"><strong>Up to 1 day late</strong><span>10% deduction</span></div>
+            <div class="late-tier"><strong>Up to 2 days late</strong><span>20% deduction</span></div>
+            <div class="late-tier stop"><strong>Day 3 or later</strong><span>Not accepted · zero credit</span></div>
+          </div>
+          <p class="policy-example">Example for a 20-point homework: one day late deducts 2 points; two days late deducts 4 points.</p>
+        </article>
       </div>
-      <div class="takeaway caveat"><strong>Start this week.</strong> The published handout is the source of truth for requirements and submission.</div>
-      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment02" target="_blank" rel="noreferrer">Open the Assignment 2 handout</a></div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/assignments" target="_blank" rel="noreferrer">Open course assignments and deadlines</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1328,6 +1474,27 @@ consumer.close()</pre></div>
       </ol>
       <div class="takeaway point"><strong>Next lecture:</strong> real-time pricing, delayed outcomes, and a bounded stateful evaluation join.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts" target="_blank" rel="noreferrer">All course materials</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo06" target="_blank" rel="noreferrer">Open Demo 06 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Preview Demo 07</a> · <a href="https://docs.confluent.io/platform/current/connect/index.html" target="_blank" rel="noreferrer">Confluent Kafka Connect</a> · <a href="https://docs.confluent.io/kafka-clients/python/current/overview.html" target="_blank" rel="noreferrer">Confluent Python client</a></div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="halfway-celebration">
+    <div class="frame narrow">
+      <p class="kicker">Course progress</p>
+      <h1>We are halfway there! 🎉</h1>
+      <div class="celebration-layout">
+        <div class="halfway-ring" role="img" aria-label="Course progress: 50 percent complete">
+          <div class="halfway-ring-inner">
+            <div><strong>50%</strong><span>complete</span></div>
+          </div>
+        </div>
+        <div class="celebration-copy">
+          <h2>You have built the core streaming path.</h2>
+          <p>Producers, consumers, schemas, APIs, Kafka Connect, and bounded stream processing are now connected.</p>
+          <p><strong>Next:</strong> state, joins, evaluation, real-time ML, and your final project.</p>
+          <div class="takeaway point"><strong>Keep going.</strong> You can now explain and build a real end-to-end streaming pipeline. 🚀</div>
+        </div>
+      </div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>

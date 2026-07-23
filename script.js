@@ -95,14 +95,14 @@ const pages = {
               <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Stateful stream processing</td>
-              <td>Windowing, aggregation, querying basics; project proposal due Aug 01, 11:59pm PDT</td>
+              <td>Windowing, aggregation, and querying basics</td>
             </tr>
             <tr>
               <td>9</td>
               <td><strong>Mon · Aug 03</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Data pipelines / optional Airflow</td>
-              <td>Orchestration concepts and an optional Airflow demo</td>
+              <td>Orchestration concepts and an optional Airflow demo; project proposal due Tue Aug 04, 11:59pm PDT</td>
             </tr>
             <tr>
               <td>10</td>
@@ -151,7 +151,7 @@ const pages = {
           <h3>Final Project</h3>
           <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%. Projects may be completed individually or in two-person teams; individual projects are always allowed.</p>
           <div class="milestone-list">
-            <div><strong>Proposal</strong><span>Due Aug 01, 2026 · 11:59pm PDT</span></div>
+            <div><strong>Proposal</strong><span>Due Tue Aug 04, 2026 · 11:59pm PDT · 10% course weight</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59pm PDT</span></div>
             <div><strong>Presentation</strong><span>Timing will be announced on Canvas</span></div>
           </div>
@@ -161,7 +161,7 @@ const pages = {
       <h3>Submission and collaboration</h3>
       <ul>
         <li><a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Canvas course page</a>; USF login may be required.</li>
-        <li>Late submissions are not accepted unless prior approval has been granted by the instructor.</li>
+        <li><strong>Late policy for homework and project deliverables:</strong> up to 1 day late receives a 10% deduction; up to 2 days late receives a 20% deduction; day 3 or later is not accepted and receives zero credit.</li>
         <li>GitHub is used for code management, collaboration, and portfolio development.</li>
         <li>AI tools, coding agents, open-source resources, and online references are permitted with clear attribution. Students must understand and verify submitted work and use another method when an AI tool cannot resolve the problem reliably.</li>
         <li>For two-person final projects, each student must document individual contributions and be able to explain the design, code, AI usage, and evaluation results.</li>
@@ -171,7 +171,8 @@ const pages = {
   "/syllabus": {
     title: "Syllabus",
     body: `
-      <p class="lede">This page summarizes the final syllabus. <a href="assets/msds-682-syllabus.pdf" target="_blank" rel="noopener">Download the PDF syllabus</a>.</p>
+      <p class="lede">This page summarizes the syllabus and current course announcements. <a href="assets/msds-682-syllabus.pdf" target="_blank" rel="noopener">Download the original PDF syllabus</a>.</p>
+      <div class="notice"><strong>Course update effective July 23:</strong> the project proposal is due Tuesday, August 4 at 11:59pm PDT. The late-work policy below supersedes the earlier no-late-work wording in the original PDF.</div>
 
       <h3>Course Description</h3>
       <p>This class equips students with the skills necessary to process continuous data streams at scale and in real time. Students will use Apache Kafka, Python, Confluent tools, Git, GitHub, and related data engineering tools.</p>
@@ -215,7 +216,7 @@ const pages = {
       <div class="meta-list">
         <div class="meta-row"><strong>Attendance</strong><span>Mandatory attendance for every lecture.</span></div>
         <div class="meta-row"><strong>Laptops</strong><span>Please keep laptops closed during lecture unless instructed otherwise. During demos, exercises, or Python practice, laptops may be required.</span></div>
-        <div class="meta-row"><strong>Late work</strong><span>Late submissions are not accepted unless prior approval has been granted by the instructor.</span></div>
+        <div class="meta-row"><strong>Late work</strong><span>Homework and project deliverables: up to 1 day late, 10% deduction; up to 2 days late, 20% deduction; day 3 or later, not accepted and zero credit.</span></div>
         <div class="meta-row"><strong>Generative AI</strong><span>AI tools are permitted with appropriate attribution. Students remain responsible for understanding and verifying the work, recognizing unreliable output, and switching prompts, context, tools, or non-AI methods when needed.</span></div>
       </div>
     `
@@ -474,7 +475,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec5-streaming-apis.html",
     createdAt: "Created at 5:29 PM PDT on July 20, 2026",
-    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:19 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "FastAPI application boundaries, schema-aware Kafka delivery, consumer processing, Demo 05, and a stateful idling-classification case study."
@@ -523,7 +524,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec6-kafka-connect-stream-processing.html",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:19 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Choose the right integration boundary, operate a managed connector, and prove bounded processing, commit, resume, and replay."
