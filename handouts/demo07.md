@@ -194,8 +194,8 @@ F_{\text{rule-v1}}
 = 3.50 \cdot D + 0.20 \cdot T
 $$
 
-Here, $F_{\text{rule-v1}}$ is the estimated fare in USD, $D$ is estimated
-distance in miles, and $T$ is estimated duration in minutes.
+Here, `F_rule-v1` is the estimated fare in USD, `D` is estimated distance in
+miles, and `T` is estimated duration in minutes.
 
 It is versioned and reproducible, but it is not ML and does not explicitly
 target 20% markup.
@@ -206,16 +206,54 @@ The candidate first predicts trip cost:
 
 $$
 \widehat{C}
-= \alpha + a \cdot D + b \cdot T,
+= \beta_0 + a \cdot D + b \cdot T,
 \qquad
 F_{\text{ridge-v2}}
 = 1.20 \times \widehat{C}
 $$
 
-Here, $\widehat{C}$ is predicted trip cost and $F_{\text{ridge-v2}}$ is the
-estimated fare after applying the 20% markup policy. `Ridge` is fitted from
-historical synthetic examples. The artifact records the feature names,
-coefficients, intercept, training seed, library version, and validation MAE.
+Here, `C-hat` is predicted trip cost and `F_ridge-v2` is the estimated fare
+after applying the 20% markup policy. `Ridge` is fitted from historical
+synthetic examples. The artifact records the feature names, coefficients,
+intercept, training seed, library version, and validation MAE.
+
+### Optional advanced discussion: why Ridge?
+
+This discussion is not required to run Demo 07. The model is deliberately
+small so the course can focus on the end-to-end streaming ML lifecycle.
+
+Distance and duration are usually correlated, but they are not identical. A
+short congested route can take longer than a longer freeway route. That
+variation helps the model distinguish distance-related cost from time-related
+cost. If duration were almost a fixed multiple of distance, the model could
+estimate their combined effect but could not reliably identify how much cost
+belongs to each feature.
+
+| Method | Behavior with correlated features | Demo 07 interpretation |
+|---|---|---|
+| Ordinary linear regression | Coefficients can change substantially across similar samples | Simple and valid, but potentially less stable |
+| Lasso regression | May force one correlated coefficient to exactly zero | Not preferred because both distance and time are intended cost drivers |
+| Ridge regression | Shrinks large coefficients and usually keeps both features | A stable, explainable teaching choice |
+
+Ridge minimizes prediction error plus an L2 penalty:
+
+$$
+\text{Ridge loss}
+= \sum_i\left(C_i-\widehat{C}_i\right)^2
++ \lambda\left(a^2+b^2\right)
+$$
+
+The penalty stabilizes coefficient selection; it does not prove that the
+coefficients are causal, and it does not guarantee that they are positive.
+Demo 07 fixes the scikit-learn regularization strength at `alpha=1.0` so every
+student runs the same deterministic comparison. It does not tune a large
+hyperparameter search or claim that Ridge is the best production pricing
+model.
+
+In a production model, engineers might scale features, tune the regularization
+strength, add nonnegative coefficient constraints, or keep known accounting
+costs as explicit rules and train ML only on the remaining cost. Those choices
+are intentionally outside this demo.
 
 > ##### IMPORTANT NOTE
 >
@@ -228,8 +266,8 @@ coefficients, intercept, training seed, library version, and validation MAE.
 > + \varepsilon
 > $$
 >
-> Here, $\varepsilon$ is small deterministic noise generated from the fixed
-> course seed.
+> Here, `epsilon` is small deterministic noise generated from the fixed course
+> seed.
 >
 > The distance component is intentional. If the label used only fixed cost and
 > hourly time, the correct learned distance coefficient would be approximately
