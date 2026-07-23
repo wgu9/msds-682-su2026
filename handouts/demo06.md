@@ -14,7 +14,26 @@
 > processor validates input, computes a new fact, publishes a derived event,
 > and records its consumer progress.
 
-## 1. Goal and 40-50-minute route
+## 1. Objective, expected outcome, and 40-50-minute route
+
+### What you will build
+
+Build and verify one self-contained Confluent pipeline:
+
+```text
+managed source
+  -> Kafka Connect
+  -> Avro input records in Kafka
+  -> bounded Python processor
+  -> Avro derived records in Kafka
+  -> output acknowledgement
+  -> input consumer offset commit
+  -> verified resume and replay
+```
+
+The final objective is not merely to run four scripts. It is to prove that data
+can enter Kafka through a managed integration, become a validated derived fact,
+and be processed with an explainable recovery boundary.
 
 By the end of Demo 06, you should be able to:
 
@@ -32,6 +51,13 @@ By the end of Demo 06, you should be able to:
 | 2 | 06B: source inspection | Did Kafka receive valid Avro records from that source? | 8-10 minutes |
 | 3 | 06C: processor | When is it safe to commit an input offset? | 12-15 minutes |
 | 4 | 06D: resume and replay | What changes when the group ID changes? | 8-10 minutes |
+
+**Start here:**
+
+- Standard route: Section 4 -> Section 5 -> Section 7 -> Section 8 ->
+  Section 9 -> Section 12 -> Section 13.
+- No managed connector permission: Section 4 -> Section 6 -> Section 7 ->
+  Section 8 -> Section 9 -> Section 12 -> Section 13.
 
 The whole route, including the no-permission fallback branch:
 
@@ -138,6 +164,17 @@ credentials. `.env` is ignored and must never be submitted.
 
 ## 5. Demo 06A: managed Datagen Source connector
 
+**Objective:** Establish the source-integration boundary: a managed connector,
+not a custom Python producer, creates schema-aware input records in Kafka.
+
+**Why:** Production data often begins in databases, object stores, or external
+services. Kafka Connect separates that integration work from application
+processing logic and lets the converter govern the Kafka wire format.
+
+**Done when:** The connector and task are `RUNNING`, the input topic contains at
+least 8 connector-created `ORDERS` records, and its Avro value subject is
+registered in Schema Registry. Pause the connector before continuing.
+
 First create and verify the two one-partition topics:
 
 ```bash
@@ -215,6 +252,19 @@ Schema Registry compatibility to work around a subject ownership conflict.
 
 ## 7. Demo 06B: inspect connector-created source records
 
+**Objective:** Verify the source boundary before allowing a processor to claim
+progress: deserialize, validate, and record evidence for three input records
+without committing offsets.
+
+**Why:** A running connector proves only that integration infrastructure is
+active. It does not prove that the application can decode and understand the
+records. The inspection group must also remain separate from the processor's
+committed progress.
+
+**Done when:** Three Avro values pass `DatagenOrderV1` validation, the report
+contains their topic-partition-offset coordinates, and `manual_commits` is
+zero.
+
 ```bash
 python demo06b_confluent_source_consumer.py \
   --run-id lec6-demo06b-yourname \
@@ -251,6 +301,17 @@ topic:
 > deserializer, and the Pydantic model?
 
 ## 8. Demo 06C: bounded stream processor
+
+**Objective:** Turn each durable input event into one durable derived fact while
+enforcing the processing order `output acknowledgement -> input offset commit`.
+
+**Why:** Committing first could lose work after a crash. Waiting for the derived
+record's broker acknowledgement before committing the input establishes the
+demo's explainable at-least-once correctness boundary.
+
+**Done when:** Three inputs produce three acknowledged `OrderMetricV1` records,
+each synchronous commit returns the expected next input offset, and the report
+shows the acknowledgement-before-commit sequence.
 
 ```bash
 python demo06c_confluent_stream_processor.py \
@@ -309,6 +370,19 @@ broker-confirmed next offset returned by the synchronous commit. A
 partition-level commit error stops the run and is never counted as success.
 
 ## 9. Demo 06D: same-group resume and new-group replay
+
+**Objective:** Prove two different recovery behaviors: the same consumer group
+resumes after its committed position, while a distinct replay group
+intentionally rereads retained history.
+
+**Why:** Resume and replay solve different operational problems. Resume supports
+normal recovery; replay supports backfills, reprocessing, and verification.
+Changing `auto.offset.reset` alone is not a reliable replay command once a group
+already has committed offsets.
+
+**Done when:** The first and resume passes use the same group and read disjoint
+coordinates, while the replay group is distinct, forces
+`OFFSET_BEGINNING`, and covers the first-pass coordinates again.
 
 Use a new run ID and at least six available input records:
 
