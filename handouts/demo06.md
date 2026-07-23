@@ -133,6 +133,14 @@ python demo06a_connect_source_plan.py \
   --create-topics
 ```
 
+Expected terminal lines:
+
+```text
+Demo 06A plan written to outputs/runs/.../demo06a/report.json
+Input topic: msds682.demo06.connector-orders-avro.v1
+Cloud Console: Connectors -> Add connector -> Datagen Source
+```
+
 Then open Confluent Cloud:
 
 1. Select your current Kafka cluster.

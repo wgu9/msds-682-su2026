@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 3:26 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:34 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
@@ -553,6 +553,65 @@ const handouts = [
   //   lastUpdatedAt: "Last updated at 9:00 AM PDT on September 1, 2026",
   //   summary: "Lecture slides handout (PDF)."
   // }
+];
+
+// Compact chronological entry point for the Handouts page. Local links refer
+// to the handout manifest by slug so filenames and routes still have one owner.
+const lectureRoadmap = [
+  {
+    section: "lec1",
+    slides: {
+      label: "Lecture slides",
+      href: "https://docs.google.com/presentation/d/1Nl0_unoyMPKwfC8ZFaqxA1kC1oYU7lm1KPK7MiNrgWU/edit"
+    },
+    materials: [
+      { slug: "demo00", label: "Demo 00" }
+    ]
+  },
+  {
+    section: "lec2",
+    slides: {
+      label: "Lecture slides",
+      href: "https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0"
+    },
+    materials: [
+      { slug: "lec2-topic-vs-table", label: "Topic supplement" },
+      { slug: "demo01", label: "Demo 01" },
+      { slug: "demo02", label: "Demo 02" }
+    ]
+  },
+  {
+    section: "lec3",
+    slides: { slug: "lec3-consumers", label: "Lecture slides" },
+    materials: [
+      { slug: "demo03", label: "Demo 03" }
+    ]
+  },
+  {
+    section: "lec4",
+    slides: { slug: "lec4-data-contracts", label: "Lecture slides" },
+    materials: [
+      { slug: "demo04", label: "Demo 04" }
+    ]
+  },
+  {
+    section: "lec5",
+    slides: { slug: "lec5-streaming-apis", label: "Lecture slides" },
+    materials: [
+      { slug: "fastapi-recap", label: "FastAPI recap" },
+      { slug: "demo05", label: "Demo 05" }
+    ]
+  },
+  {
+    section: "lec6",
+    slides: {
+      slug: "lec6-kafka-connect-stream-processing",
+      label: "Lecture slides"
+    },
+    materials: [
+      { slug: "demo06", label: "Demo 06" }
+    ]
+  }
 ];
 
 function escapeHtml(value) {
@@ -647,13 +706,63 @@ function latestHandoutGroupHtml(sections) {
     </div>`;
 }
 
+function lectureRoadmapLinkHtml(link) {
+  if (link.href) {
+    return `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)} <span aria-hidden="true">↗</span></a>`;
+  }
+
+  const handout = handouts.find((item) => item.slug === link.slug);
+  if (!handout) {
+    throw new Error(`Lecture roadmap references an unknown handout: ${link.slug}`);
+  }
+
+  const href = handout.kind === "pdf" ? handout.file : `#/handouts/${handout.slug}`;
+  const target = handout.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
+  return `<a href="${escapeHtml(href)}"${target}>${escapeHtml(link.label)}</a>`;
+}
+
+function lectureRoadmapHtml() {
+  const rows = lectureRoadmap.map((lecture) => {
+    const section = handoutSections.find((item) => item.id === lecture.section);
+    if (!section) {
+      throw new Error(`Lecture roadmap references an unknown section: ${lecture.section}`);
+    }
+
+    const number = lectureNumber(section);
+    const links = [lecture.slides, ...lecture.materials]
+      .map(lectureRoadmapLinkHtml)
+      .join("");
+
+    return `
+      <li class="lecture-map-row">
+        <span class="lecture-map-number" aria-hidden="true">${String(number).padStart(2, "0")}</span>
+        <div class="lecture-map-copy">
+          <strong>${escapeHtml(section.label)}: ${escapeHtml(section.title)}</strong>
+          <span>${escapeHtml(section.summary)}</span>
+        </div>
+        <div class="lecture-map-links" aria-label="${escapeHtml(section.label)} materials">${links}</div>
+      </li>`;
+  }).join("");
+
+  return `
+    <section class="lecture-map" aria-labelledby="lecture-map-title">
+      <header class="lecture-map-head">
+        <p class="lecture-map-eyebrow">Course path</p>
+        <h3 id="lecture-map-title">Lecture and Demo Map</h3>
+        <p>Start with the lecture, then open the linked demo materials for that class.</p>
+      </header>
+      <ol class="lecture-map-list">${rows}</ol>
+    </section>`;
+}
+
 function handoutsListBody() {
   const latest = latestHandoutGroupHtml(latestLectureSections);
   const earlier = earlierHandoutSections.map((section) => handoutSectionHtml(section)).join("");
   const sections = `${latest}${earlier}`;
 
   return `
-    <p class="lede">Newest lecture first. Open the slides, then follow the remaining materials in order.</p>
+    ${lectureRoadmapHtml()}
+    <p class="lede handout-library-intro">Complete handout library, newest lecture first.</p>
     <div class="handout-sections">${sections || '<p>Handouts will be posted as the course progresses.</p>'}</div>
   `;
 }

@@ -47,9 +47,15 @@ handouts/    .md, .html, and .pdf handouts
 Markdown handouts render in the page with syntax-highlighted code blocks
 (via marked + highlight.js, loaded from CDN). Standalone HTML handouts can be
 embedded with `standalone: true`. PDF handouts open directly. Within each
-section, materials follow their order in the `handouts` array. The newest
-lecture is the only featured panel; earlier lectures use compact list rows so
-the index retains a clear visual hierarchy as the course grows.
+section, materials follow their order in the `handouts` array. The two newest
+lectures form the featured panel; earlier lectures use compact list rows so the
+index retains a clear visual hierarchy as the course grows.
+
+The top of the Handouts page also includes a chronological Lecture and Demo
+Map. Its `lectureRoadmap` entries reference local materials by registered slug,
+so routes and filenames remain owned by the `handouts` manifest. Store an
+external slide URL in `lectureRoadmap` only when the canonical deck lives
+outside this repository.
 
 The Handouts list derives its compact `Updated …` label from the full
 `lastUpdatedAt` value; do not maintain a second short-date field. Because the

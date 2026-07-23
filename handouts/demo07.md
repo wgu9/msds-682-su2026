@@ -34,21 +34,25 @@ By the end of Demo 07, you should be able to:
 
 The complete teaching loop is:
 
-```text
-07A  deterministic examples -> train ridge-v2 -> versioned JSON artifact
-
-07B  trip request topic
-             |
-             v
-07C  route features -> rule-v1 and ridge-v2 -> fare quote topic
-                                                    |
-07D  delayed trip outcome topic --------------------+
-                                                    v
-07E  bounded join by trip_id -> pricing evaluation topic
-                                                    |
-                                                    v
-07F  compare versions -> model selection recommendation
-```
+<div class="handout-flow" role="group" aria-label="Demo 07 teaching loop">
+  <section class="handout-flow-card">
+    <span class="handout-flow-phase">Offline</span>
+    <strong>07A · Train</strong>
+    <p>Deterministic examples produce one validated, versioned Ridge artifact.</p>
+  </section>
+  <div class="handout-flow-arrow" aria-hidden="true">→</div>
+  <section class="handout-flow-card">
+    <span class="handout-flow-phase">Real-time</span>
+    <strong>07B–07C · Quote</strong>
+    <p>Trip requests become route features and two comparable fare quotes.</p>
+  </section>
+  <div class="handout-flow-arrow" aria-hidden="true">→</div>
+  <section class="handout-flow-card">
+    <span class="handout-flow-phase">Delayed evaluation</span>
+    <strong>07D–07F · Learn</strong>
+    <p>Outcomes join with quotes, produce evaluations, and support one selection recommendation.</p>
+  </section>
+</div>
 
 | Step | Demo | Question | Time |
 |---:|---|---|---:|
@@ -143,28 +147,20 @@ expose only one official fare.
 
 ### End-to-end ML and event pipeline
 
-```text
-OFFLINE
-historical synthetic trips
-        -> train ridge-v2
-        -> validate
-        -> save a versioned model artifact
-
-ONLINE
-TripRequest
-        -> estimate route distance and duration
-        -> rule-v1 directly computes a fare
-        -> ridge-v2 predicts cost, then applies 20% markup
-        -> publish FareQuote
-
-DELAYED EVALUATION
-completed trip
-        -> publish actual distance, duration, and fulfillment cost
-        -> join FareQuote + TripOutcome by trip_id
-        -> publish PricingEvaluation
-        -> compare mean absolute markup error
-        -> recommend the version with lower error
-```
+<ol class="handout-pipeline-list">
+  <li>
+    <span>Offline model preparation</span>
+    <strong>Historical examples → train and validate ridge-v2 → save the versioned artifact</strong>
+  </li>
+  <li>
+    <span>Real-time quote path</span>
+    <strong>TripRequest → route features → rule-v1 or ridge-v2 → FareQuote</strong>
+  </li>
+  <li>
+    <span>Delayed evaluation</span>
+    <strong>TripOutcome + FareQuote → keyed join → PricingEvaluation → selection recommendation</strong>
+  </li>
+</ol>
 
 Training and model selection happen outside the real-time request path. Route
 estimation, inference, and fare-quote publication are the real-time path.
@@ -175,12 +171,36 @@ estimation, inference, and fare-quote publication are the real-time path.
 Estimated distance, estimated duration, and fare stay together in one quote
 event; there are no separate mileage and duration topics.
 
-| Topic and value contract | Produced by | Consumed by | Key |
-|---|---|---|---|
-| `msds682.demo07.ml-trip-requests-avro.v1` (`TripRequestV1`) | 07B request source | 07C rule-v1 and ridge-v2 consumer groups | `trip_id` |
-| `msds682.demo07.ml-fare-quotes-avro.v1` (`FareQuoteV1`) | 07C pricing processors | 07E evaluator | `trip_id` |
-| `msds682.demo07.ml-trip-outcomes-avro.v1` (`TripOutcomeV1`) | 07D delayed-outcome source | 07E evaluator | `trip_id` |
-| `msds682.demo07.ml-pricing-evaluations-avro.v1` (`PricingEvaluationV1`) | 07E evaluator | Downstream evidence or monitoring consumers | `quote_id` |
+<div class="handout-topic-grid">
+  <section class="handout-topic-card">
+    <span class="handout-topic-role">Input event</span>
+    <strong>Trip requests</strong>
+    <code class="handout-topic-name">msds682.demo07.ml-trip-requests-avro.v1</code>
+    <p><code>07B source</code> → <code>07C pricing groups</code></p>
+    <p><code>TripRequestV1</code> · key <code>trip_id</code></p>
+  </section>
+  <section class="handout-topic-card">
+    <span class="handout-topic-role">Prediction event</span>
+    <strong>Fare quotes</strong>
+    <code class="handout-topic-name">msds682.demo07.ml-fare-quotes-avro.v1</code>
+    <p><code>07C pricing processors</code> → <code>07E evaluator</code></p>
+    <p><code>FareQuoteV1</code> · key <code>trip_id</code></p>
+  </section>
+  <section class="handout-topic-card">
+    <span class="handout-topic-role">Delayed label</span>
+    <strong>Trip outcomes</strong>
+    <code class="handout-topic-name">msds682.demo07.ml-trip-outcomes-avro.v1</code>
+    <p><code>07D outcome source</code> → <code>07E evaluator</code></p>
+    <p><code>TripOutcomeV1</code> · key <code>trip_id</code></p>
+  </section>
+  <section class="handout-topic-card">
+    <span class="handout-topic-role">Evaluation event</span>
+    <strong>Pricing evaluations</strong>
+    <code class="handout-topic-name">msds682.demo07.ml-pricing-evaluations-avro.v1</code>
+    <p><code>07E evaluator</code> → evidence or monitoring consumers</p>
+    <p><code>PricingEvaluationV1</code> · key <code>quote_id</code></p>
+  </section>
+</div>
 
 The first three topics represent the request, prediction, and delayed business
 outcome. The fourth topic preserves the per-model comparison as a replayable
@@ -393,23 +413,20 @@ strength, add nonnegative coefficient constraints, or keep known accounting
 costs as explicit rules and train ML only on the remaining cost. Those choices
 are intentionally outside this demo.
 
-> ##### IMPORTANT NOTE
->
-> The synthetic realized cost is:
->
-> $$
-> C_{\text{actual}}
-> = 5 + 0.75 \cdot D_{\text{actual}}
-> + 20 \times \left(\frac{T_{\text{actual}}}{60}\right)
-> + \varepsilon
-> $$
->
-> Here, `epsilon` is small deterministic noise generated from the fixed course
-> seed.
->
-> The distance component is intentional. If the label used only fixed cost and
-> hourly time, the correct learned distance coefficient would be approximately
-> zero.
+<aside class="handout-callout handout-callout-important">
+  <h5>IMPORTANT NOTE</h5>
+  <p>The synthetic realized cost is:</p>
+  <div class="math-display-source">
+  \[
+  C_{\text{actual}}
+  = 5 + 0.75 \cdot D_{\text{actual}}
+  + 20 \times \left(\frac{T_{\text{actual}}}{60}\right)
+  + \varepsilon
+  \]
+  </div>
+  <p>Here, <code>epsilon</code> is small deterministic noise generated from the fixed course seed.</p>
+  <p>The distance component is intentional. If the label used only fixed cost and hourly time, the correct learned distance coefficient would be approximately zero.</p>
+</aside>
 
 ## 8. Topic runtime and consumer design
 
