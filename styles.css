@@ -466,10 +466,10 @@ tbody tr:hover {
 
 .handout-latest-group {
   padding: 18px;
-  border: 1px solid #bad3c8;
+  border: 1px solid #8eb8e4;
   border-radius: 14px;
-  background: linear-gradient(135deg, #f3f8f5 0%, #ffffff 72%);
-  box-shadow: 0 6px 18px rgba(0, 84, 60, 0.07);
+  background: linear-gradient(135deg, #e7f2ff 0%, #f3f8ff 62%, #ffffff 100%);
+  box-shadow: 0 8px 22px rgba(34, 96, 151, 0.13);
 }
 
 .handout-section + .handout-section {
