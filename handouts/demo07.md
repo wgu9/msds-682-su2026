@@ -143,24 +143,38 @@ The first deterministic fixture is:
 ```text
 estimated distance = 2.00 miles
 estimated duration = 15.0 minutes
-rule-v1 fare       = 3.50 * 2 + 0.20 * 15 = $10.00
 ```
+
+$$
+\text{rule-v1 fare}
+= 3.50(2.00) + 0.20(15.0)
+= 10.00\text{ USD}
+$$
 
 ## 6. The business target
 
 The course uses **20% markup on cost**:
 
-```text
-realized markup = (fare - actual cost) / actual cost
-target fare     = predicted cost * 1.20
-```
+$$
+\text{realized markup}
+= \frac{\text{fare} - \text{actual cost}}{\text{actual cost}}
+$$
+
+$$
+\text{target fare}
+= 1.20 \times \text{predicted cost}
+$$
 
 This is not the same as a 20% profit margin:
 
-```text
-profit margin = (fare - cost) / fare
-20% margin requires fare = cost / 0.80 = cost * 1.25
-```
+$$
+\text{profit margin}
+= \frac{\text{fare} - \text{cost}}{\text{fare}},
+\qquad
+\text{fare}_{20\%\text{ margin}}
+= \frac{\text{cost}}{1 - 0.20}
+= 1.25 \times \text{cost}
+$$
 
 Demo 07 consistently uses markup because the business question defines profit
 relative to cost.
@@ -169,9 +183,12 @@ relative to cost.
 
 The transparent baseline is the original heuristic:
 
-```text
-fare = $3.50 * estimated miles + $0.20 * estimated minutes
-```
+$$
+F_{\text{rule-v1}}
+= 3.50D + 0.20T
+$$
+
+Here, `D` is estimated miles and `T` is estimated minutes.
 
 It is versioned and reproducible, but it is not ML and does not explicitly
 target 20% markup.
@@ -180,13 +197,13 @@ target 20% markup.
 
 The candidate first predicts trip cost:
 
-```text
-predicted cost = alpha
-               + a * estimated miles
-               + b * estimated minutes
-
-fare = predicted cost * 1.20
-```
+$$
+\widehat{C}
+= \alpha + aD + bT,
+\qquad
+F_{\text{ridge-v2}}
+= 1.20\widehat{C}
+$$
 
 `Ridge` is fitted from historical synthetic examples. The artifact records the
 feature names, coefficients, intercept, training seed, library version, and
@@ -194,10 +211,18 @@ validation MAE.
 
 > ##### IMPORTANT NOTE
 >
-> The synthetic realized cost includes `$5 fixed + $0.75 per actual mile +
-> $20 per actual hour + small deterministic noise`. The distance component is
-> intentional. If the label were only `$5 + $20 per hour`, the correct learned
-> distance coefficient would be approximately zero.
+> The synthetic realized cost is:
+>
+> $$
+> C_{\text{actual}}
+> = 5 + 0.75D_{\text{actual}}
+> + 20\left(\frac{T_{\text{actual}}}{60}\right)
+> + \varepsilon
+> $$
+>
+> The distance component is intentional. If the label used only fixed cost and
+> hourly time, the correct learned distance coefficient would be approximately
+> zero.
 
 ## 7. Topic and consumer design
 
@@ -449,6 +474,14 @@ make a reproducible teaching promotion decision.
 
 **Why:** A model version should be selected from shared outcome evidence and a
 declared business metric, not from its name or training status.
+
+The primary comparison metric is:
+
+$$
+\operatorname{MAE}_{\text{markup}}
+= \frac{1}{N}\sum_{i=1}^{N}
+\left|\text{realized markup}_{i} - 20\%\right|
+$$
 
 **Done when:** The comparison uses the same four outcomes, reports both errors,
 and selects `ridge-v2` under the published promotion rule.

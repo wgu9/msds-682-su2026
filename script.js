@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 2:43 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
@@ -753,6 +753,25 @@ function prepareHandoutNavigation(root) {
   });
 }
 
+function clearTypesetMath(root) {
+  if (window.MathJax && typeof window.MathJax.typesetClear === "function") {
+    window.MathJax.typesetClear([root]);
+  }
+}
+
+async function typesetMath(root) {
+  if (!window.MathJax || !window.MathJax.startup) return;
+
+  try {
+    await window.MathJax.startup.promise;
+    if (typeof window.MathJax.typesetPromise === "function") {
+      await window.MathJax.typesetPromise([root]);
+    }
+  } catch (err) {
+    console.warn("MathJax could not typeset this handout.", err);
+  }
+}
+
 async function renderHandout(slug) {
   const meta = handouts.find((h) => h.slug === slug);
   const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
@@ -791,6 +810,7 @@ async function renderHandout(slug) {
       content.querySelectorAll("pre code").forEach((el) => window.hljs.highlightElement(el));
     }
     addCopyCodeButtons(content);
+    await typesetMath(content);
   } catch (err) {
     content.innerHTML = `${backLink}<h2>${escapeHtml(meta.title)}</h2>` +
       `<div class="notice">Could not load this handout (${escapeHtml(String(err.message))}). ` +
@@ -799,6 +819,7 @@ async function renderHandout(slug) {
 }
 
 async function render() {
+  clearTypesetMath(content);
   const parsed = parseRoute();
   const isHome = parsed.kind === "static" && parsed.route === "/";
   document.body.classList.toggle("route-home", isHome);

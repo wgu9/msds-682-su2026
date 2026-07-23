@@ -832,6 +832,13 @@ tbody tr:hover {
   font-size: 0.86rem;
 }
 
+.handout mjx-container[display="true"] {
+  margin: 1.35rem 0 !important;
+  padding: 0.35rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .copy-code-button {
   position: absolute;
   top: 8px;
