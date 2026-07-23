@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 3:03 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:14 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }

@@ -102,7 +102,120 @@ independent.
 reads `outputs/runs/<run-id>/demo07e/report.json`. Run 07B–07E first, or pass
 `--evaluation-report` explicitly.
 
-## 4. Download and setup
+## 4. Business problem and system overview
+
+### Business question and teaching hypotheses
+
+The service must quote one **upfront fare** before a trip begins. At quote time,
+only the pickup, dropoff, estimated distance, and estimated duration are known.
+The realized distance, duration, and fulfillment cost arrive after the trip.
+
+Demo 07 asks:
+
+> Which pricing method keeps realized profit per trip closest to a 20% markup
+> on realized trip fulfillment cost?
+
+The comparison tests three teaching hypotheses:
+
+1. a trained cost model plus an explicit markup policy can outperform a fixed
+   fare heuristic;
+2. the same trip requests and delayed outcomes are required for a fair model
+   comparison; and
+3. an online prediction is not enough: the delayed outcome closes the
+   evaluation loop.
+
+This is a simplified teaching problem, not a claim that Ridge is the best
+production pricing model.
+
+### Terms and assumptions
+
+| Term | Meaning in Demo 07 |
+|---|---|
+| `fare` | The fixed upfront amount quoted to the customer; the demo does not reprice the completed trip |
+| `actual cost` | Synthetic realized trip fulfillment cost: fixed operating cost plus distance-related cost, time-related cost, and small noise |
+| `profit` | `fare - actual cost` |
+| `realized markup` | `profit / actual cost` |
+| `promotion` | A human-reviewed decision to make one candidate version the next official pricing version |
+
+`actual cost` may conceptually include driver time and mileage compensation,
+but the demo does not model a separate driver-payout transaction. During the
+comparison, both pricing versions produce counterfactual quotes for the same
+trip. After promotion, a normal production path would expose only one official
+fare.
+
+### End-to-end ML and event pipeline
+
+```text
+OFFLINE
+historical synthetic trips
+        -> train ridge-v2
+        -> validate
+        -> save a versioned model artifact
+
+ONLINE
+TripRequest
+        -> estimate route distance and duration
+        -> rule-v1 directly computes a fare
+        -> ridge-v2 predicts cost, then applies 20% markup
+        -> publish FareQuote
+
+DELAYED EVALUATION
+completed trip
+        -> publish actual distance, duration, and fulfillment cost
+        -> join FareQuote + TripOutcome by trip_id
+        -> publish PricingEvaluation
+        -> compare mean absolute markup error
+        -> produce a human-reviewed promotion recommendation
+```
+
+Training and promotion are offline decisions. Route estimation, inference, and
+fare-quote publication are the real-time path.
+
+### Four topics and their owners
+
+`demo07_common.py` is the SSOT for the topic names and business constants.
+Estimated distance, estimated duration, and fare stay together in one quote
+event; there are no separate mileage and duration topics.
+
+| Topic and value contract | Produced by | Consumed by | Key |
+|---|---|---|---|
+| `msds682.demo07.ml-trip-requests-avro.v1` (`TripRequestV1`) | 07B request source | 07C rule-v1 and ridge-v2 consumer groups | `trip_id` |
+| `msds682.demo07.ml-fare-quotes-avro.v1` (`FareQuoteV1`) | 07C pricing processors | 07E evaluator | `trip_id` |
+| `msds682.demo07.ml-trip-outcomes-avro.v1` (`TripOutcomeV1`) | 07D delayed-outcome source | 07E evaluator | `trip_id` |
+| `msds682.demo07.ml-pricing-evaluations-avro.v1` (`PricingEvaluationV1`) | 07E evaluator | Downstream evidence or monitoring consumers | `quote_id` |
+
+The first three topics represent the request, prediction, and delayed business
+outcome. The fourth topic preserves the per-model comparison as a replayable
+evaluation event.
+
+### How the synthetic outcome works
+
+Historical training data and classroom outcomes use fixed seeds or stable
+`trip_id`-based adjustments, so the same inputs reproduce the same labels.
+The online outcome generator varies estimated distance and duration slightly to
+represent route and traffic differences, then computes:
+
+```text
+realized fulfillment cost
+= fixed operating cost
++ distance-related cost
++ time-related cost
++ small deterministic noise
+```
+
+The later data-and-scale and business-target sections publish the exact ranges
+and formulas.
+
+### What the final promotion recommendation means
+
+07F compares both versions on the same four delayed outcomes. It recommends
+`ridge-v2` only when its mean absolute deviation from the 20% markup target is
+lower than `rule-v1`. 07F reads the secret-free 07E evaluation report; it is not
+another Kafka consumer. The script writes evidence; it does not deploy a model,
+change live traffic, or reprice any trip. A human still reviews the result and
+decides whether the candidate should replace the baseline.
+
+## 5. Download and setup
 
 - [Download `demo07-student.zip`](handouts/demo07-student.zip)
 
@@ -118,7 +231,7 @@ pytest -q
 Then copy `.env.example` to `.env` and fill the Kafka and Schema Registry
 credentials. `.env` is ignored and must never be published or submitted.
 
-## 5. Data and scale
+## 6. Data and scale
 
 All inputs are synthetic. Training and validation examples, trip requests, and
 fixture routes are deterministic. Live OSRM route measurements may change with
@@ -132,6 +245,17 @@ the public service's map data.
 | Quote versions per trip | 2 | Compare rule-v1 and ridge-v2 fairly |
 | Delayed outcomes | 4 | Provide realized cost labels from the same route mode |
 | Evaluation events | 8 | One result per trip and model version |
+
+The synthetic variation is bounded and reproducible:
+
+| Stage | Distance | Duration | Cost noise |
+|---|---|---|---|
+| Historical training/validation | Estimated: 0.8–14.0 miles; actual: 97%–108% of estimate | Estimate varies with distance and synthetic traffic; actual: 94%–116% of estimate | −60 to +60 cents |
+| Four delayed classroom outcomes | Actual: 98%–106% of the selected route estimate | Actual: 96%–114% of the selected route estimate | −50 to +50 cents |
+
+The historical rows use seed `682`. Each classroom outcome uses a stable hash
+of `trip_id`. These choices create repeatable labels for teaching; they are not
+empirical claims about real trip-error distributions.
 
 Each `TripRequestV1` uses these fields:
 
@@ -157,7 +281,7 @@ $$
 = 10.00\text{ USD}
 $$
 
-## 6. The business target
+## 7. The business target
 
 The course uses **20% markup on cost**:
 
@@ -273,18 +397,9 @@ are intentionally outside this demo.
 > hourly time, the correct learned distance coefficient would be approximately
 > zero.
 
-## 7. Topic and consumer design
+## 8. Topic runtime and consumer design
 
-`demo07_common.py` is the SSOT for all topic names and business constants.
-
-| Owner | Topic | Key | Value contract |
-|---|---|---|---|
-| Request source | `msds682.demo07.ml-trip-requests-avro.v1` | `trip_id` | `TripRequestV1` |
-| Quote processor | `msds682.demo07.ml-fare-quotes-avro.v1` | `trip_id` | `FareQuoteV1` |
-| Outcome source | `msds682.demo07.ml-trip-outcomes-avro.v1` | `trip_id` | `TripOutcomeV1` |
-| Evaluator | `msds682.demo07.ml-pricing-evaluations-avro.v1` | `quote_id` | `PricingEvaluationV1` |
-
-Classroom configuration:
+The business overview defines each topic and owner. The classroom runtime uses:
 
 - one partition per topic for a clear ordered demonstration;
 - Avro values with TopicNameStrategy subjects;
@@ -297,7 +412,7 @@ request and produce one quote per trip. After evaluation, a production system
 would normally deploy only the promoted version, so each new request would
 produce one official fare quote.
 
-## 8. Why Architecture A is implemented
+## 9. Why Architecture A is implemented
 
 ### A: one routing and pricing processor
 
@@ -340,7 +455,7 @@ No ksqlDB, Kafka Streams, Flink, or Spark is required. The runnable baseline
 uses Python `confluent-kafka`. The finite evaluator uses in-memory dictionaries
 only to make state visible.
 
-## 9. Run Demo 07
+## 10. Run Demo 07
 
 Choose one unique run ID and one routing mode, then reuse both:
 
@@ -549,7 +664,7 @@ Decision: promote ridge-v2
 Secret-free report: outputs/runs/$RUN_ID/demo07f/report.json
 ```
 
-## 10. Classroom boundary and production gaps
+## 11. Classroom boundary and production gaps
 
 This is a complete **teaching loop**, not a production-complete ML platform.
 In production, the quote processor would poll continuously and each new request
@@ -574,7 +689,7 @@ Not covered: durable join state, event-time and late-event policy, continuous
 monitoring, model registry and rollback, automatic retraining, or a production
 routing service.
 
-## 11. Evidence and common mistakes
+## 12. Evidence and common mistakes
 
 Secret-free reports are written under:
 
@@ -599,7 +714,7 @@ Common mistakes:
 - treating the bounded in-memory join as production durable state; or
 - publishing `.env`, API keys, or raw credentials.
 
-## 12. Completion checklist
+## 13. Completion checklist
 
 - [ ] Credential-free tests pass.
 - [ ] Ridge artifact has two named features and a validation MAE.
@@ -610,7 +725,7 @@ Common mistakes:
 - [ ] The comparison reports realized markup and model-version evidence.
 - [ ] You can explain the A/B decision and name the remaining production gaps.
 
-## 13. Cleanup
+## 14. Cleanup
 
 After class:
 
