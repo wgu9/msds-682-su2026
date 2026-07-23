@@ -1039,7 +1039,7 @@
       <div class="grid3">
         <div class="card flat"><p class="eyebrow">Contract</p><h3><code>ORDERS</code> + AVRO</h3><p class="bodycopy">Schema metadata goes to Registry; records go to Kafka.</p></div>
         <div class="card flat"><p class="eyebrow">Key</p><h3><code>orderid</code></h3></div>
-        <div class="card flat"><p class="eyebrow">Rate</p><h3>2000 ms, then pause</h3></div>
+        <div class="card flat"><p class="eyebrow">Rate</p><h3>2000 ms; pause after 8+</h3></div>
       </div>
       <div class="source-row">Reference: <a href="https://docs.confluent.io/cloud/current/connectors/cc-datagen-source.html" target="_blank" rel="noreferrer">Confluent Cloud Datagen Source Connector</a></div>
     </div>
@@ -1078,7 +1078,7 @@
 
 consumer.close()</pre></div>
         <div class="stack">
-          <div class="card flat"><p class="eyebrow">Bounded</p><h2>Count plus timeout</h2><p class="bodycopy">The classroom run ends predictably.</p></div>
+          <div class="card flat"><p class="eyebrow">Bounded</p><h2>3 records plus timeout</h2><p class="bodycopy">The classroom run ends predictably.</p></div>
           <div class="card flat"><p class="eyebrow">Schema-aware</p><h2>Deserialize, then validate</h2><p class="bodycopy">Wire compatibility and application meaning remain separate checks.</p></div>
           <div class="callout amber"><strong>No processing commit yet.</strong> Demo 06B proves observation; Demo 06C adds a derived output and commit boundary.</div>
         </div>
@@ -1092,9 +1092,9 @@ consumer.close()</pre></div>
       <p class="kicker">Cost and cleanup</p>
       <h1>Stop synthetic data as soon as the evidence is complete</h1>
       <div class="grid3">
-        <div class="card flat"><p class="eyebrow">1</p><h2>Pause or delete</h2><p class="bodycopy">Stop the Datagen connector after a small sample arrives.</p></div>
+        <div class="card flat"><p class="eyebrow">1</p><h2>Pause after 8+</h2><p class="bodycopy">Retain the small input sample while completing the bounded demos.</p></div>
         <div class="card flat"><p class="eyebrow">2</p><h2>Finish the processor</h2><p class="bodycopy">Use retained topic data for the remaining bounded demos.</p></div>
-        <div class="card flat"><p class="eyebrow">3</p><h2>Delete resources</h2><p class="bodycopy">Remove unused connector, topics, keys, and cluster after class.</p></div>
+        <div class="card flat"><p class="eyebrow">3</p><h2>Delete after class</h2><p class="bodycopy">Delete the connector, then remove unused topics, keys, and cluster.</p></div>
       </div>
       <div class="callout red"><strong>Datagen is for development and testing.</strong> It is not a production data source.</div>
     </div>
@@ -1288,7 +1288,7 @@ consumer.close()</pre></div>
         <div class="card">
           <p class="eyebrow">Replay</p>
           <h2>Use an explicit replay group</h2>
-          <p class="bodycopy">Read retained history without changing the production group's progress.</p>
+          <p class="bodycopy">A distinct group sets assigned partitions to <code>OFFSET_BEGINNING</code> without changing the base group's progress.</p>
         </div>
       </div>
       <div class="callout amber"><strong>This transformation has no application state.</strong> A future stateful replay must reset or rebuild derived state as well as input offsets.</div>
