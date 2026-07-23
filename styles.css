@@ -464,7 +464,7 @@ tbody tr:hover {
   padding: 2px 0 24px;
 }
 
-.handout-section-latest {
+.handout-latest-group {
   padding: 18px;
   border: 1px solid #bad3c8;
   border-radius: 14px;
@@ -477,8 +477,29 @@ tbody tr:hover {
   border-top: 1px solid var(--line);
 }
 
-.handout-section-latest + .handout-section {
+.handout-latest-group + .handout-section {
   margin-top: 24px;
+}
+
+.handout-latest-group-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.handout-latest-range {
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.handout-latest-group > .handout-section-current {
+  padding-top: 18px;
+}
+
+.handout-latest-group > .handout-section-current + .handout-section-current {
+  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .handout-section-head {
@@ -492,18 +513,6 @@ tbody tr:hover {
   display: grid;
   gap: 7px;
   justify-items: stretch;
-}
-
-.handout-section-latest .handout-section-head {
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-.handout-section-latest .handout-section-badges {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-start;
 }
 
 .handout-section-label {
@@ -558,7 +567,7 @@ tbody tr:hover {
   list-style: none;
 }
 
-.handout-section:not(.handout-section-latest) .handout-list {
+.handout-section:not(.handout-section-current) .handout-list {
   gap: 0;
   border-top: 1px solid var(--line);
 }
@@ -573,7 +582,7 @@ tbody tr:hover {
   transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
 }
 
-.handout-section-latest .handout-card {
+.handout-section-current .handout-card {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #ffffff;
@@ -590,7 +599,7 @@ tbody tr:hover {
   text-decoration: none;
 }
 
-.handout-section:not(.handout-section-latest) .handout-card-link {
+.handout-section:not(.handout-section-current) .handout-card-link {
   min-height: 72px;
   padding: 12px 8px;
 }
@@ -674,7 +683,7 @@ tbody tr:hover {
   box-shadow: inset 3px 0 0 var(--usf-green);
 }
 
-.handout-section-latest .handout-card:focus-within {
+.handout-section-current .handout-card:focus-within {
   border-color: var(--usf-green);
   box-shadow: 0 0 0 3px rgba(0, 84, 60, 0.14);
 }
@@ -700,7 +709,7 @@ tbody tr:hover {
     background: #fbfdfc;
   }
 
-  .handout-section-latest .handout-card:hover {
+  .handout-section-current .handout-card:hover {
     border-color: #8db9a6;
     box-shadow: 0 8px 22px rgba(22, 24, 29, 0.08);
     transform: translateY(-1px);
@@ -1176,7 +1185,7 @@ tbody tr:hover {
     justify-items: initial;
   }
 
-  .handout-section-latest {
+  .handout-latest-group {
     padding: 15px;
   }
 

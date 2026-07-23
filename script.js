@@ -308,10 +308,10 @@ const lectureSectionsNewestFirst = handoutSections
   .filter((section) => lectureNumber(section) !== null)
   .sort((a, b) => lectureNumber(b) - lectureNumber(a));
 
-const latestLectureSectionId = lectureSectionsNewestFirst[0]?.id || "";
-
-const handoutSectionsForDisplay = [
-  ...lectureSectionsNewestFirst,
+// The two newest published lectures form one current teaching batch.
+const latestLectureSections = lectureSectionsNewestFirst.slice(0, 2);
+const earlierHandoutSections = [
+  ...lectureSectionsNewestFirst.slice(2),
   ...handoutSections.filter((section) => lectureNumber(section) === null)
 ];
 
@@ -481,17 +481,6 @@ const handouts = [
     summary: "Local FastAPI contracts plus a bounded, independent Confluent Cloud Avro round trip with expected-result screenshots."
   },
   {
-    slug: "assignment02",
-    section: "lec5",
-    category: "Assignment",
-    title: "Assignment 2: Schema-Aware Kafka Consumer Application",
-    kind: "md",
-    file: "handouts/assignment02.md",
-    createdAt: "Created at 11:01 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 2:06 AM PDT on July 23, 2026",
-    summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
-  },
-  {
     slug: "lec5-realtime-ml-examples",
     section: "lec5",
     category: "Supplement",
@@ -528,6 +517,17 @@ const handouts = [
     lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
     wide: true,
     summary: "Managed source integration, schema-aware inspection, output-before-commit processing, resume, and replay."
+  },
+  {
+    slug: "assignment02",
+    section: "lec6",
+    category: "Assignment",
+    title: "Assignment 2: Schema-Aware Kafka Consumer Application",
+    kind: "md",
+    file: "handouts/assignment02.md",
+    createdAt: "Created at 11:01 PM PDT on July 22, 2026",
+    lastUpdatedAt: "Last updated at 2:06 AM PDT on July 23, 2026",
+    summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {
     slug: "demo07",
@@ -607,19 +607,17 @@ function handoutCardHtml(h) {
     </li>`;
 }
 
-function handoutSectionHtml(section) {
+function handoutSectionHtml(section, { current = false } = {}) {
   const sectionHandouts = handouts.filter((h) => h.section === section.id);
   if (!sectionHandouts.length) return "";
-  const isLatestLecture = section.id === latestLectureSectionId;
   const cards = sectionHandouts
     .map(handoutCardHtml)
     .join("");
   return `
-    <section class="handout-section${isLatestLecture ? " handout-section-latest" : ""}" aria-labelledby="handout-section-${escapeHtml(section.id)}">
+    <section class="handout-section${current ? " handout-section-current" : ""}" aria-labelledby="handout-section-${escapeHtml(section.id)}">
       <header class="handout-section-head">
         <div class="handout-section-badges">
           <span class="handout-section-label">${escapeHtml(section.label)}</span>
-          ${isLatestLecture ? '<span class="handout-latest-badge" aria-label="Latest lecture">Latest</span>' : ""}
         </div>
         <div>
           <h3 id="handout-section-${escapeHtml(section.id)}">${escapeHtml(section.title)}</h3>
@@ -630,8 +628,29 @@ function handoutSectionHtml(section) {
     </section>`;
 }
 
+function latestHandoutGroupHtml(sections) {
+  const activeSections = sections.filter(
+    (section) => handouts.some((handout) => handout.section === section.id)
+  );
+  if (!activeSections.length) return "";
+  const labels = activeSections.map((section) => section.label).join(" and ");
+  const sectionHtml = activeSections
+    .map((section) => handoutSectionHtml(section, { current: true }))
+    .join("");
+  return `
+    <div class="handout-latest-group" role="region" aria-label="Latest materials: ${escapeHtml(labels)}">
+      <div class="handout-latest-group-head">
+        <span class="handout-latest-badge">Latest</span>
+        <span class="handout-latest-range">${escapeHtml(labels)}</span>
+      </div>
+      ${sectionHtml}
+    </div>`;
+}
+
 function handoutsListBody() {
-  const sections = handoutSectionsForDisplay.map(handoutSectionHtml).join("");
+  const latest = latestHandoutGroupHtml(latestLectureSections);
+  const earlier = earlierHandoutSections.map((section) => handoutSectionHtml(section)).join("");
+  const sections = `${latest}${earlier}`;
 
   return `
     <p class="lede">Newest lecture first. Open the slides, then follow the remaining materials in order.</p>
