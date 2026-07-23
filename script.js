@@ -466,7 +466,7 @@ const handouts = [
     kind: "md",
     file: "handouts/assignment02.md",
     createdAt: "Created at 11:01 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 11:15 PM PDT on July 22, 2026",
+    lastUpdatedAt: "Last updated at 11:48 PM PDT on July 22, 2026",
     summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {

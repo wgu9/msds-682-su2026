@@ -13,7 +13,7 @@ from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validato
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = PROJECT_ROOT / "schemas" / "trip_event_v1.avsc"
-BASE_TIME = datetime(2026, 7, 25, 16, 0, tzinfo=UTC)
+BASE_TIME = datetime(2026, 7, 23, 16, 0, tzinfo=UTC)
 ServiceZone = Literal["north", "south", "west"]
 
 

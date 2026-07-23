@@ -365,7 +365,9 @@ and a real recovery action or clear stop condition with a non-AI fallback.
 
 Confluent Cloud resources may consume credits. After collecting evidence,
 delete unused topics, API keys, Schema Registry resources, and clusters as
-appropriate. Never include credentials in submitted files.
+appropriate. You may retain a resource that is still needed for later course
+work, but monitor it and document that decision in `report.md`. Never include
+credentials in submitted files.
 
 ## Submission checklist
 

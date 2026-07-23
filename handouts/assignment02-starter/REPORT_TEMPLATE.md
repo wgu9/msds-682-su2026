@@ -72,6 +72,7 @@ List supporting files:
 
 - [ ] `.env` and credentials are excluded.
 - [ ] Evidence contains no secrets.
-- [ ] Unused Confluent resources and keys were deleted or stopped.
+- [ ] Unused Confluent resources and keys were deleted; any retained resource
+      is still needed for the course and is being monitored.
 
 Brief cleanup note:

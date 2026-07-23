@@ -45,6 +45,10 @@ msds682.assignment02.trip-events-api-avro.v1
 
 No Assignment 1 or prior demo data is required.
 
+The first topic creation and schema registration may take tens of seconds.
+Every provided command has a finite stop condition; if a command reaches its
+timeout, inspect the error instead of leaving it running indefinitely.
+
 ## 4. Seed exactly 12 input events through FastAPI
 
 Run from the starter's top-level directory:
