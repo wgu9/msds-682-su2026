@@ -852,6 +852,12 @@ tbody tr:hover {
   overflow-y: hidden;
 }
 
+.handout .math-display-source {
+  margin: 1.35rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .copy-code-button {
   position: absolute;
   top: 8px;

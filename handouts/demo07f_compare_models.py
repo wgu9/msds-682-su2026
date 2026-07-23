@@ -1,4 +1,4 @@
-"""Demo 07F: compare rule-v1 and ridge-v2, then make a promotion decision."""
+"""Demo 07F: compare rule-v1 and ridge-v2, then recommend one version."""
 
 from __future__ import annotations
 
@@ -32,24 +32,26 @@ def compare_model_summaries(
     candidate_error = float(
         model_summary["ridge-v2"]["mean_absolute_markup_error_pp"]
     )
-    winner = "ridge-v2" if candidate_error < baseline_error else "rule-v1"
+    recommended_version = (
+        "ridge-v2" if candidate_error < baseline_error else "rule-v1"
+    )
     improvement = baseline_error - candidate_error
     return {
-        "winner": winner,
+        "recommended_version": recommended_version,
         "baseline": "rule-v1",
         "candidate": "ridge-v2",
         "primary_metric": "mean_absolute_markup_error_pp",
         "baseline_error_pp": baseline_error,
         "candidate_error_pp": candidate_error,
         "candidate_improvement_pp": round(improvement, 4),
-        "promotion_decision": (
-            "promote ridge-v2"
-            if winner == "ridge-v2"
-            else "keep rule-v1; investigate ridge-v2"
+        "selection_recommendation": (
+            "prefer ridge-v2 for this teaching comparison"
+            if recommended_version == "ridge-v2"
+            else "retain rule-v1 for this teaching comparison"
         ),
-        "promotion_rule": (
-            "Promote only when the candidate has lower mean absolute deviation "
-            "from the 20% markup target on the same delayed outcomes."
+        "selection_rule": (
+            "Recommend the version with lower mean absolute deviation from "
+            "the 20% markup target on the same delayed outcomes."
         ),
     }
 
@@ -59,7 +61,7 @@ def run_comparison(
     run_id: str,
     evaluation_report_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Read evaluated outcomes and write a reproducible decision report."""
+    """Read evaluated outcomes and write a reproducible selection report."""
 
     validate_run_id(run_id)
     source_path = evaluation_report_path or default_evaluation_report(run_id)
@@ -77,8 +79,8 @@ def run_comparison(
         "demo": "07F",
         "run_id": run_id,
         "business_question": (
-            "Which pricing method keeps realized profit per trip closest to "
-            "20% markup, defined as (fare - cost) / cost?"
+            "Which pricing method keeps realized markup closest to the 20% "
+            "target, where markup is (fare - cost) / cost?"
         ),
         "model_summary": model_summary,
         "decision": decision,
@@ -99,7 +101,7 @@ def run_comparison(
                 "bounded quote-outcome stateful join",
                 "delayed labels",
                 "evaluation and replayable comparison",
-                "explicit model artifact and promotion decision",
+                "explicit model artifact and selection recommendation",
             ],
             "not_claimed_as_production_complete": [
                 "durable state store and checkpoint recovery",
@@ -128,11 +130,11 @@ def main() -> None:
     )
     decision = report["decision"]
     print(
-        f"Winner: {decision['winner']} | "
+        f"Recommended version: {decision['recommended_version']} | "
         f"baseline error={decision['baseline_error_pp']} pp | "
         f"candidate error={decision['candidate_error_pp']} pp"
     )
-    print(f"Decision: {decision['promotion_decision']}")
+    print(f"Recommendation: {decision['selection_recommendation']}")
     print(f"Secret-free report: {report['report_path']}")
 
 

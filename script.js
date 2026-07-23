@@ -295,7 +295,7 @@ const handoutSections = [
     id: "lec7",
     label: "Lecture 7",
     title: "State, Features, and Real-time ML",
-    summary: "Train a cost model, quote trips, join delayed outcomes, evaluate versions, and make a promotion decision."
+    summary: "Train a cost model, quote trips, join delayed outcomes, evaluate versions, and recommend one version."
   }
 ];
 
@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 3:14 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:26 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
@@ -772,6 +772,61 @@ function prepareHandoutNavigation(root) {
   });
 }
 
+function protectDisplayMath(source) {
+  const lines = source.split(/\r?\n/);
+  const protectedLines = [];
+  const mathBlocks = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const start = lines[index].match(/^(\s*(?:>\s*)*)\$\$\s*$/);
+    if (!start) {
+      protectedLines.push(lines[index]);
+      continue;
+    }
+
+    const prefix = start[1];
+    const quoted = prefix.includes(">");
+    const originalLines = [lines[index]];
+    const texLines = [];
+    let closed = false;
+
+    while (index + 1 < lines.length) {
+      index += 1;
+      const line = lines[index];
+      originalLines.push(line);
+      const normalized = quoted
+        ? line.replace(/^\s*(?:>\s*)+/, "")
+        : line;
+      if (normalized.trim() === "$$") {
+        closed = true;
+        break;
+      }
+      texLines.push(normalized);
+    }
+
+    if (!closed) {
+      protectedLines.push(...originalLines);
+      continue;
+    }
+
+    const mathIndex = mathBlocks.push(texLines.join("\n").trim()) - 1;
+    protectedLines.push(
+      `${prefix}<div class="math-display-source" data-math-index="${mathIndex}"></div>`
+    );
+  }
+
+  return { source: protectedLines.join("\n"), mathBlocks };
+}
+
+function restoreDisplayMath(root, mathBlocks) {
+  root.querySelectorAll("[data-math-index]").forEach((placeholder) => {
+    const index = Number.parseInt(placeholder.dataset.mathIndex, 10);
+    if (!Number.isInteger(index) || !mathBlocks[index]) return;
+    placeholder.removeAttribute("data-math-index");
+    placeholder.textContent = `\\[\n${mathBlocks[index]}\n\\]`;
+  });
+}
+
 function clearTypesetMath(root) {
   if (window.MathJax && typeof window.MathJax.typesetClear === "function") {
     window.MathJax.typesetClear([root]);
@@ -819,11 +874,23 @@ async function renderHandout(slug) {
     const res = await fetch(meta.file, { cache: "no-cache" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const source = await res.text();
-    const html = meta.kind === "html"
-      ? source
-      : window.marked ? window.marked.parse(source) : `<pre>${escapeHtml(source)}</pre>`;
+    let mathBlocks = [];
+    let html = source;
+    if (meta.kind === "md") {
+      if (window.marked) {
+        const protectedMath = protectDisplayMath(source);
+        mathBlocks = protectedMath.mathBlocks;
+        html = window.marked.parse(protectedMath.source);
+      } else {
+        html = `<pre>${escapeHtml(source)}</pre>`;
+      }
+    }
     const articleClass = meta.wide ? "handout handout-wide" : "handout";
     content.innerHTML = `${backLink}<article class="${articleClass}">${html}</article>`;
+    const article = content.querySelector("article");
+    if (article && mathBlocks.length) {
+      restoreDisplayMath(article, mathBlocks);
+    }
     prepareHandoutNavigation(content);
     if (window.hljs) {
       content.querySelectorAll("pre code").forEach((el) => window.hljs.highlightElement(el));

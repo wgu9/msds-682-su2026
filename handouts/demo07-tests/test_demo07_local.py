@@ -298,8 +298,10 @@ def _four_trip_evaluations() -> list[PricingEvaluationV1]:
 def test_ridge_v2_is_closer_to_target_on_same_four_outcomes() -> None:
     summary = summarize_evaluations(_four_trip_evaluations())
     decision = compare_model_summaries(summary)
-    assert decision["winner"] == RIDGE_V2_MODEL_VERSION
+    assert decision["recommended_version"] == RIDGE_V2_MODEL_VERSION
     assert decision["candidate_error_pp"] < decision["baseline_error_pp"]
+    assert "winner" not in decision
+    assert "promotion_decision" not in decision
     assert summary["rule-v1"]["cost_prediction_mae_cents"] == -1
     assert summary["ridge-v2"]["cost_prediction_mae_cents"] >= 0
 
@@ -508,6 +510,6 @@ def test_comparison_report_is_run_scoped_and_reproducible(
         run_id=run_id,
         evaluation_report_path=source,
     )
-    assert report["decision"]["winner"] == RIDGE_V2_MODEL_VERSION
+    assert report["decision"]["recommended_version"] == RIDGE_V2_MODEL_VERSION
     assert report["online_architecture_comparison"][1]["implemented"] is False
     assert Path(report["report_path"]).is_file()

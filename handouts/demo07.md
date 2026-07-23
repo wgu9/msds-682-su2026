@@ -12,18 +12,17 @@
 >
 > A real-time prediction is not the end of an ML system. A later outcome
 > provides the label needed to evaluate the prediction, compare model versions,
-> and decide whether a candidate should be promoted.
+> and recommend which version better meets the business target.
 
 ## 1. Objective, expected outcome, and 55 to 70 minute route
 
 Demo 07 answers one business question:
 
-> How can we set a fare so that profit per trip is close to a 20% markup on
-> realized cost?
+> How can we set a fare so that realized markup per trip is close to 20%?
 
 The finished pipeline turns four trip requests into two comparable quote
 versions, joins those quotes with delayed outcomes, and produces one
-evidence-based teaching promotion decision.
+evidence-based model selection recommendation.
 
 By the end of Demo 07, you should be able to:
 
@@ -48,7 +47,7 @@ The complete teaching loop is:
 07E  bounded join by trip_id -> pricing evaluation topic
                                                     |
                                                     v
-07F  compare versions -> teaching promotion decision
+07F  compare versions -> model selection recommendation
 ```
 
 | Step | Demo | Question | Time |
@@ -112,15 +111,14 @@ The realized distance, duration, and fulfillment cost arrive after the trip.
 
 Demo 07 asks:
 
-> Which pricing method keeps realized profit per trip closest to a 20% markup
-> on realized trip fulfillment cost?
+> Which pricing method keeps realized markup closest to the 20% target?
 
 The comparison tests three teaching hypotheses:
 
 1. a trained cost model plus an explicit markup policy can outperform a fixed
    fare heuristic;
-2. the same trip requests and delayed outcomes are required for a fair model
-   comparison; and
+2. the same trip requests, route features, and delayed outcomes are required
+   for a fair model comparison; and
 3. an online prediction is not enough: the delayed outcome closes the
    evaluation loop.
 
@@ -135,13 +133,13 @@ production pricing model.
 | `actual cost` | Synthetic realized trip fulfillment cost: fixed operating cost plus distance-related cost, time-related cost, and small noise |
 | `profit` | `fare - actual cost` |
 | `realized markup` | `profit / actual cost` |
-| `promotion` | A human-reviewed decision to make one candidate version the next official pricing version |
+| `selection recommendation` | The version preferred by the published comparison rule; the demo does not deploy it |
 
 `actual cost` may conceptually include driver time and mileage compensation,
 but the demo does not model a separate driver-payout transaction. During the
 comparison, both pricing versions produce counterfactual quotes for the same
-trip. After promotion, a normal production path would expose only one official
-fare.
+trip. After a version is reviewed and selected, a normal production path would
+expose only one official fare.
 
 ### End-to-end ML and event pipeline
 
@@ -165,11 +163,11 @@ completed trip
         -> join FareQuote + TripOutcome by trip_id
         -> publish PricingEvaluation
         -> compare mean absolute markup error
-        -> produce a human-reviewed promotion recommendation
+        -> recommend the version with lower error
 ```
 
-Training and promotion are offline decisions. Route estimation, inference, and
-fare-quote publication are the real-time path.
+Training and model selection happen outside the real-time request path. Route
+estimation, inference, and fare-quote publication are the real-time path.
 
 ### Four topics and their owners
 
@@ -190,10 +188,14 @@ evaluation event.
 
 ### How the synthetic outcome works
 
-Historical training data and classroom outcomes use fixed seeds or stable
-`trip_id`-based adjustments, so the same inputs reproduce the same labels.
-The online outcome generator varies estimated distance and duration slightly to
-represent route and traffic differences, then computes:
+Historical training data use a fixed seed. Classroom outcomes use stable
+`trip_id`-based adjustments. In `fixture` mode, the same inputs therefore
+reproduce the same route features and labels. In `osrm` mode, the adjustments
+are still deterministic, but the public routing response may change with its
+map data or service behavior.
+
+The online outcome generator varies estimated distance and duration slightly
+to represent route and traffic differences, then computes:
 
 ```text
 realized fulfillment cost
@@ -206,14 +208,17 @@ realized fulfillment cost
 The later data-and-scale and business-target sections publish the exact ranges
 and formulas.
 
-### What the final promotion recommendation means
+### What the final selection recommendation means
 
 07F compares both versions on the same four delayed outcomes. It recommends
-`ridge-v2` only when its mean absolute deviation from the 20% markup target is
-lower than `rule-v1`. 07F reads the secret-free 07E evaluation report; it is not
-another Kafka consumer. The script writes evidence; it does not deploy a model,
-change live traffic, or reprice any trip. A human still reviews the result and
-decides whether the candidate should replace the baseline.
+the version with lower mean absolute deviation from the 20% markup target. 07F
+reads the secret-free 07E evaluation report; it is not another Kafka consumer.
+The recommendation summarizes this finite teaching comparison. It does not
+deploy a model, change live traffic, or reprice any trip.
+
+In a production ML system, moving an approved model version into live service
+is often called **model promotion**. That separate governance and deployment
+step is outside Demo 07.
 
 ## 5. Download and setup
 
@@ -242,7 +247,7 @@ the public service's map data.
 | Training examples | 120 | Fit the Ridge cost model |
 | Validation examples | 40 | Measure held-out cost prediction error |
 | Online trip requests | 4 | Keep the live classroom run small |
-| Quote versions per trip | 2 | Compare rule-v1 and ridge-v2 fairly |
+| Quote versions per trip | 2 | Compare rule-v1 and ridge-v2 on the same fixture routes |
 | Delayed outcomes | 4 | Provide realized cost labels from the same route mode |
 | Evaluation events | 8 | One result per trip and model version |
 
@@ -256,6 +261,11 @@ The synthetic variation is bounded and reproducible:
 The historical rows use seed `682`. Each classroom outcome uses a stable hash
 of `trip_id`. These choices create repeatable labels for teaching; they are not
 empirical claims about real trip-error distributions.
+
+Four outcomes are enough to verify the event flow and comparison logic. They
+are not enough to justify a production model decision. The synthetic cost
+process is intentionally linear, so this example is expected to be favorable
+to a small linear model.
 
 Each `TripRequestV1` uses these fields:
 
@@ -308,6 +318,10 @@ $$
 
 Demo 07 consistently uses markup because the business question defines profit
 relative to cost.
+
+Each evaluation also records whether the absolute markup error is within
+**2 percentage points** of the target. This diagnostic does not select the
+recommended version; 07F compares mean absolute markup error.
 
 ### Rule v1
 
@@ -408,9 +422,9 @@ The business overview defines each topic and owner. The classroom runtime uses:
 - one evaluator group consuming quote and outcome topics.
 
 Because rule-v1 and ridge-v2 use different consumer groups, both receive every
-request and produce one quote per trip. After evaluation, a production system
-would normally deploy only the promoted version, so each new request would
-produce one official fare quote.
+request and produce one quote per trip. The two-version path exists for the
+classroom comparison. A normal serving path would run one approved version, so
+each new request would produce one official fare quote.
 
 ## 9. Why Architecture A is implemented
 
@@ -421,7 +435,7 @@ trip request -> one OSRM response with miles and minutes -> fare quote
 ```
 
 - 2 topics on the online quote path: requests and quotes;
-- 1 active pricing processor after model promotion;
+- 1 active pricing processor after a version is selected and deployed;
 - 1 routing call per trip in that steady-state design;
 - no online join state.
 
@@ -461,14 +475,20 @@ Choose one unique run ID and one routing mode, then reuse both:
 
 ```bash
 RUN_ID=lec7-demo07-yourname
-ROUTING_MODE=osrm
+ROUTING_MODE=fixture
 ```
 
-Use `fixture` instead of `osrm` for a deterministic offline route. 07C and 07D
-must use the same mode; mixing them creates invalid label lineage. The code
-never silently falls back between providers. The public OSRM endpoint is
-used only for this small bounded teaching run: 12 calls total for four trips,
-two quote versions, and four outcomes. It has no production service guarantee.
+`fixture` is the recommended comparison mode because both pricing versions and
+the outcome generator receive identical, reproducible route features. Use
+`osrm` only when demonstrating live routing integration. In OSRM mode, 07C
+routes each request once per version and 07D routes it once again, so repeated
+responses are not guaranteed to be identical.
+
+07C and 07D must use the same declared mode; mixing modes creates invalid label
+lineage. The code never silently falls back between providers. The public OSRM
+endpoint is used only for this small bounded teaching run: 12 calls total for
+four trips, two quote versions, and four outcomes. It has no production service
+guarantee.
 
 ### 07A: train ridge-v2
 
@@ -631,10 +651,10 @@ Model summary: {...}
 Secret-free report: outputs/runs/$RUN_ID/demo07e/report.json
 ```
 
-### 07F: compare and decide
+### 07F: compare and recommend
 
 **Objective:** Compare both versions against the 20% realized-markup target and
-make a reproducible teaching promotion decision.
+make a reproducible model selection recommendation.
 
 **Why:** A model version should be selected from shared outcome evidence and a
 declared business metric, not from its name or training status.
@@ -650,7 +670,8 @@ $$
 The report expresses this error in percentage points.
 
 **Done when:** The comparison uses the same four outcomes, reports both errors,
-and selects `ridge-v2` under the published promotion rule.
+and recommends whichever version has lower error under the published selection
+rule.
 
 ```bash
 python demo07f_compare_models.py --run-id "$RUN_ID"
@@ -659,8 +680,8 @@ python demo07f_compare_models.py --run-id "$RUN_ID"
 Expected terminal lines:
 
 ```text
-Winner: ridge-v2 | baseline error=... pp | candidate error=... pp
-Decision: promote ridge-v2
+Recommended version: ridge-v2 | baseline error=... pp | candidate error=... pp
+Recommendation: prefer ridge-v2 for this teaching comparison
 Secret-free report: outputs/runs/$RUN_ID/demo07f/report.json
 ```
 
@@ -683,11 +704,18 @@ record, offset, and output remains inspectable.
 | Outcome and delayed labels | Complete |
 | Monitoring and drift | Partial: finite metrics, no continuous monitor |
 | Evaluation and retraining | Partial: initial training and evaluation, no retraining loop |
-| Model versioning and promotion | Partial: artifact plus manual teaching decision |
+| Model versioning and selection | Partial: artifact plus finite teaching recommendation |
+
+The processing pattern is **at least once**, not exactly once. Output
+acknowledgement before input commit protects against lost output, but a crash
+after the output acknowledgement and before the input commit can produce a
+duplicate after restart. The bounded evaluator expects one complete, unique
+set of classroom events; it does not implement durable deduplication or
+late/missing-event recovery.
 
 Not covered: durable join state, event-time and late-event policy, continuous
-monitoring, model registry and rollback, automatic retraining, or a production
-routing service.
+monitoring, model registry and rollback, controlled deployment, automatic
+retraining, or a production routing service.
 
 ## 12. Evidence and common mistakes
 
@@ -710,6 +738,7 @@ Common mistakes:
 - calling 20% markup a 20% profit margin;
 - calling rule-v1 an ML model;
 - committing an input before its output is acknowledged;
+- calling acknowledgement-before-commit exactly-once processing;
 - assuming subscribing to two topics automatically performs a join;
 - treating the bounded in-memory join as production durable state; or
 - publishing `.env`, API keys, or raw credentials.
@@ -722,8 +751,8 @@ Common mistakes:
 - [ ] rule-v1 and ridge-v2 each publish four quotes.
 - [ ] Four delayed outcomes are acknowledged.
 - [ ] The evaluator joins by `trip_id`, publishes eight evaluations, and then commits.
-- [ ] The comparison reports realized markup and model-version evidence.
-- [ ] You can explain the A/B decision and name the remaining production gaps.
+- [ ] The comparison reports both errors and recommends the lower-error version.
+- [ ] You can explain the Architecture A/B trade-off and name the remaining production gaps.
 
 ## 14. Cleanup
 
