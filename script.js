@@ -81,7 +81,7 @@ const pages = {
               <td><strong>Thu · Jul 23</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Kafka Connect and stream processing</td>
-              <td>Connectors and demo; Assignment 2 due Jul 25, 11:59pm PDT</td>
+              <td>Connectors and demo; Assignment 2 released Jul 23 and due Jul 24, 11:59pm PDT</td>
             </tr>
             <tr>
               <td>7</td>
@@ -143,8 +143,9 @@ const pages = {
         </article>
         <article class="assignment-card">
           <h3>Assignment 2</h3>
-          <p>Individual assignment graded out of 20 points and worth 20% of the course grade. Focus: FastAPI routes, Pydantic models, multiple logical streams, a replay or scheduler entrypoint, and a local processor output.</p>
-          <p><span class="tag">Due Jul 25, 2026 · 11:59pm PDT · 20 points · 20% course weight</span></p>
+          <p>Use an independent real Confluent topic to connect a FastAPI input boundary to Avro and Schema Registry, then implement a bounded consumer with strict validation, process-before-commit, same-group resume, and explicit replay. The assignment is graded out of 20 base points, with up to 3 extra-credit points.</p>
+          <p><span class="tag">Released Thu Jul 23 · Due Fri Jul 24, 2026 · 11:59pm PDT · 20 points + up to 3 extra credit · 20% course weight</span></p>
+          <p><a class="download-link" href="#/handouts/assignment02">Open Assignment 2</a> · <a href="handouts/assignment02-starter.zip">Download student starter</a></p>
         </article>
         <article class="assignment-card">
           <h3>Final Project</h3>
@@ -450,6 +451,17 @@ const handouts = [
     lastUpdatedAt: "Last updated at 5:06 PM PDT on July 20, 2026",
     wide: true,
     summary: "Local FastAPI contracts plus a bounded, independent Confluent Cloud Avro round trip with expected-result screenshots."
+  },
+  {
+    slug: "assignment02",
+    section: "lec5",
+    category: "Assignment",
+    title: "Assignment 2: Schema-Aware Kafka Consumer Application",
+    kind: "md",
+    file: "handouts/assignment02.md",
+    createdAt: "Created at 11:01 PM PDT on July 22, 2026",
+    lastUpdatedAt: "Last updated at 11:15 PM PDT on July 22, 2026",
+    summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {
     slug: "lec5-realtime-ml-examples",
