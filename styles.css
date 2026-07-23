@@ -502,6 +502,10 @@ tbody tr:hover {
   padding-top: 20px;
 }
 
+.handout-latest-group .handout-section-head p {
+  color: #5e6673;
+}
+
 .handout-section-head {
   display: grid;
   grid-template-columns: 104px minmax(0, 1fr);
@@ -583,7 +587,7 @@ tbody tr:hover {
 }
 
 .handout-section-current .handout-card {
-  border: 1px solid var(--line);
+  border: 1px solid #cbd9e8;
   border-radius: 10px;
   background: #ffffff;
 }
@@ -622,7 +626,7 @@ tbody tr:hover {
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--usf-green-dark);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.05em;
   line-height: 1.2;
