@@ -392,7 +392,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo02.md",
     createdAt: "Created at 3:49 AM PDT on July 9, 2026",
-    lastUpdatedAt: "Last updated at 2:06 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 3:53 PM PDT on July 23, 2026",
     summary: "Run sync-style and async producers, benchmark delivery, and serialize trip events."
   },
   {
