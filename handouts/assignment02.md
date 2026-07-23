@@ -4,9 +4,15 @@
 
 **Due:** Friday, July 31, 2026 at 11:59 PM PDT
 
+**Late policy:** Up to 1 day late receives a 10% deduction; up to 2 days late
+receives a 20% deduction; day 3 or later is not accepted and receives zero
+credit.
+
 **Submission:** Upload one ZIP file to [Canvas](https://usfca.instructure.com/courses/1633704).
 
 **Score:** 20 base points plus up to 3 extra-credit points; maximum 23 points. The assignment is worth 20% of the course grade.
+
+This is the final homework assignment in the course.
 
 > The required assignment runs on **real Confluent Cloud Kafka**. Credential-free
 > tests help you develop safely, but they do not replace the required Cloud

@@ -1,6 +1,6 @@
-# Demo 07: Real-time pricing, delayed outcomes, and model evaluation
+# Demo 07: Real-Time Pricing, Delayed Outcomes, and Model Evaluation
 
-- **Lecture:** Lecture 7, State, Features, and Real-time ML
+- **Lecture:** Lecture 7, State, Features, and Real-Time ML
 - **Python:** 3.11.14
 - **Kafka client:** `confluent-kafka[avro,schemaregistry]==2.15.0`
 - **ML library:** `scikit-learn==1.9.0`

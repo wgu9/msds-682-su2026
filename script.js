@@ -6,7 +6,7 @@ const pages = {
       <p>This hands-on course teaches students how to process and analyze real-time data streams using Apache Kafka, Python, Confluent tools, and related data engineering workflows. Students will produce and consume Kafka messages, build streaming workflows, interpret streaming outputs, and use GitHub for code management and collaboration.</p>
 
       <div class="notice">
-        Each lecture meets 5:30–7:20pm PDT. Monday sessions meet on Zoom; Thursday sessions meet in person at 101 Howard, Classroom 529.
+        Each lecture meets 5:30–7:20 PM PDT. Monday sessions meet on Zoom; Thursday sessions meet in person at 101 Howard, Classroom 529.
       </div>
 
       <h3>Logistics</h3>
@@ -15,7 +15,7 @@ const pages = {
         <div class="meta-row"><strong>Term</strong><span>Summer 2026</span></div>
         <div class="meta-row"><strong>Instructor</strong><span>Jeremy W. Gu · <a href="mailto:wgu9@usfca.edu">wgu9@usfca.edu</a></span></div>
         <div class="meta-row"><strong>Course assistant</strong><span>Annie Chiu · <a href="mailto:ychiu14@usfca.edu">ychiu14@usfca.edu</a></span></div>
-        <div class="meta-row"><strong>Meeting pattern</strong><span>Mon Zoom · Thu in person, 101 Howard Classroom 529 · 5:30–7:20pm PDT</span></div>
+        <div class="meta-row"><strong>Meeting pattern</strong><span>Mon Zoom · Thu in person, 101 Howard Classroom 529 · 5:30–7:20 PM PDT</span></div>
         <div class="meta-row"><strong>Canvas link</strong><span><a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Course Canvas page</a>; USF login may be required.</span></div>
         <div class="meta-row"><strong>Zoom link</strong><span>Please see the calendar invite or Canvas.</span></div>
         <div class="meta-row"><strong>Piazza</strong><span><a href="https://piazza.com/usfca/summer2026/msds682" target="_blank" rel="noopener">Course Q/A and discussion forum</a>.</span></div>
@@ -27,7 +27,7 @@ const pages = {
   "/schedule": {
     title: "Schedule",
     body: `
-      <p class="lede">Each lecture meets 5:30–7:20pm PDT. Monday sessions are on Zoom; Thursday sessions are in person at 101 Howard, Classroom 529.</p>
+      <p class="lede">Each lecture meets 5:30–7:20 PM PDT. Monday sessions are on Zoom; Thursday sessions are in person at 101 Howard, Classroom 529.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Summer 2026 course schedule">
         <table class="schedule-table">
           <caption class="sr-only">Summer 2026 course schedule</caption>
@@ -43,87 +43,87 @@ const pages = {
           <tbody>
             <tr>
               <td>1</td>
-              <td><strong>Mon · Jul 06</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Jul 06</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Course Introduction and Environment Setup</td>
               <td>Course introduction and Demo 00 environment setup</td>
             </tr>
             <tr>
               <td>2</td>
-              <td><strong>Thu · Jul 09</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Jul 09</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Kafka Topics and Producers</td>
               <td>Demo 01 topic creation and Demo 02 producers</td>
             </tr>
             <tr>
               <td>3</td>
-              <td><strong>Mon · Jul 13</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Jul 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Kafka Consumers</td>
               <td>Consumer concepts and Demo 03A–03D on Confluent Cloud</td>
             </tr>
             <tr>
               <td>4</td>
-              <td><strong>Thu · Jul 16</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Jul 16</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Data Contracts and Streaming Architecture</td>
-              <td>Pydantic, Avro, Schema Registry, and Demo 04A–04D; Assignment 1 extended to Jul 21, 11:59pm PDT</td>
+              <td>Pydantic, Avro, Schema Registry, and Demo 04A–04D; Assignment 1 extended to Jul 21, 11:59 PM PDT</td>
             </tr>
             <tr>
               <td>5</td>
-              <td><strong>Mon · Jul 20</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Jul 20</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Streaming APIs and Data Schemas Pt. 2</td>
               <td>FastAPI, REST API, and schema-aware producer/consumer integration</td>
             </tr>
             <tr>
               <td>6</td>
-              <td><strong>Thu · Jul 23</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Jul 23</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Kafka Connect and stream processing</td>
-              <td>Connectors and demo; Assignment 2 released Jul 23 and due Jul 31, 11:59pm PDT</td>
+              <td>Kafka Connect and Stream Processing</td>
+              <td>Connectors and demo; Assignment 2 released Jul 23 and due Jul 31, 11:59 PM PDT</td>
             </tr>
             <tr>
               <td>7</td>
-              <td><strong>Mon · Jul 27</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Jul 27</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Stream processing and final project requirements</td>
               <td>Demo, joins, streams, tables, and stateful processing</td>
             </tr>
             <tr>
               <td>8</td>
-              <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Stateful stream processing</td>
               <td>Windowing, aggregation, and querying basics</td>
             </tr>
             <tr>
               <td>9</td>
-              <td><strong>Mon · Aug 03</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Aug 03</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Data pipelines / optional Airflow</td>
-              <td>Orchestration concepts and an optional Airflow demo; project proposal due Tue Aug 04, 11:59pm PDT</td>
+              <td>Orchestration concepts and an optional Airflow demo; project proposal due Tue Aug 4, 11:59 PM PDT</td>
             </tr>
             <tr>
               <td>10</td>
-              <td><strong>Thu · Aug 06</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Aug 06</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Kafka + AI systems</td>
               <td>RAG, memory, evals, guardrails, project examples</td>
             </tr>
             <tr>
               <td>11</td>
-              <td><strong>Mon · Aug 10</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Mon · Aug 10</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Final review and project workshop</td>
               <td>Course review, project troubleshooting, begin presentations if needed</td>
             </tr>
             <tr>
               <td>12</td>
-              <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20pm PDT</span></td>
+              <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Final class and project presentations</td>
-              <td>Presentation timing will be confirmed on Canvas; report/code due Aug 14, 11:59pm PDT</td>
+              <td>Presentation timing will be confirmed on Canvas; report/code due Aug 14, 11:59 PM PDT</td>
             </tr>
           </tbody>
         </table>
@@ -138,21 +138,21 @@ const pages = {
         <article class="assignment-card">
           <h3>Assignment 1</h3>
           <p>Use real Confluent Cloud Kafka to complete Demo 02A–02D: sync-style producer, async producer, performance comparison, and serialization. The assignment is worth 20% of the course grade and is graded out of 20 base points, with up to 3 extra-credit points. Disclose AI assistance if used.</p>
-          <p><span class="tag">Extended deadline: Tue Jul 21, 2026 · 11:59pm PDT · 20 points + up to 3 extra credit · 20% course weight</span></p>
+          <p><span class="tag">Extended deadline: Tue Jul 21, 2026 · 11:59 PM PDT · 20 points + up to 3 extra credit · 20% course weight</span></p>
           <p><a class="download-link" href="#/handouts/assignment01">Open Assignment 1</a> · <a href="handouts/assignment01-starter.zip">Download student starter</a></p>
         </article>
         <article class="assignment-card">
           <h3>Assignment 2</h3>
-          <p>Use an independent real Confluent topic to connect a FastAPI input boundary to Avro and Schema Registry, then implement a bounded consumer with strict validation, process-before-commit, same-group resume, and explicit replay. The assignment is graded out of 20 base points, with up to 3 extra-credit points.</p>
-          <p><span class="tag">Released Thu Jul 23 · Due Fri Jul 31, 2026 · 11:59pm PDT · 20 points + up to 3 extra credit · 20% course weight</span></p>
+          <p>Use an independent real Confluent topic to connect a FastAPI input boundary to Avro and Schema Registry, then implement a bounded consumer with strict validation, process-before-commit, same-group resume, and explicit replay. This is the final homework assignment. It is graded out of 20 base points, with up to 3 extra-credit points.</p>
+          <p><span class="tag">Released Thu Jul 23 · Due Fri Jul 31, 2026 · 11:59 PM PDT · 20 points + up to 3 extra credit · 20% course weight</span></p>
           <p><a class="download-link" href="#/handouts/assignment02">Open Assignment 2</a> · <a href="handouts/assignment02-starter.zip">Download student starter</a></p>
         </article>
         <article class="assignment-card">
           <h3>Final Project</h3>
           <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%. Projects may be completed individually or in two-person teams; individual projects are always allowed.</p>
           <div class="milestone-list">
-            <div><strong>Proposal</strong><span>Due Tue Aug 04, 2026 · 11:59pm PDT · 10% course weight</span></div>
-            <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59pm PDT</span></div>
+            <div><strong>Proposal</strong><span>Due Tue Aug 4, 2026 · 11:59 PM PDT · 10% course weight</span></div>
+            <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
             <div><strong>Presentation</strong><span>Timing will be announced on Canvas</span></div>
           </div>
         </article>
@@ -172,7 +172,7 @@ const pages = {
     title: "Syllabus",
     body: `
       <p class="lede">This page summarizes the syllabus and current course announcements. <a href="assets/msds-682-syllabus.pdf" target="_blank" rel="noopener">Download the original PDF syllabus</a>.</p>
-      <div class="notice"><strong>Course update effective July 23:</strong> the project proposal is due Tuesday, August 4 at 11:59pm PDT. The late-work policy below supersedes the earlier no-late-work wording in the original PDF.</div>
+      <div class="notice"><strong>Course update effective July 23:</strong> the project proposal is due Tuesday, August 4 at 11:59 PM PDT. The late-work policy below supersedes the earlier no-late-work wording in the original PDF.</div>
 
       <h3>Course Description</h3>
       <p>This class equips students with the skills necessary to process continuous data streams at scale and in real time. Students will use Apache Kafka, Python, Confluent tools, Git, GitHub, and related data engineering tools.</p>
@@ -230,7 +230,7 @@ const pages = {
           <h3>Jeremy W. Gu</h3>
           <p>Instructor</p>
           <p><a href="mailto:wgu9@usfca.edu">wgu9@usfca.edu</a></p>
-          <p>Office hours: Mondays 7:20–7:50pm, right after class, on Zoom.</p>
+          <p>Office hours: Mondays 7:20–7:50 PM, right after class, on Zoom.</p>
         </article>
         <article class="staff-card">
           <h3>Annie Chiu</h3>
@@ -295,7 +295,7 @@ const handoutSections = [
   {
     id: "lec7",
     label: "Lecture 7",
-    title: "State, Features, and Real-time ML",
+    title: "State, Features, and Real-Time ML",
     summary: "Train a cost model, quote trips, join delayed outcomes, evaluate versions, and recommend one version."
   }
 ];
@@ -524,7 +524,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec6-kafka-connect-stream-processing.html",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 4:19 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:29 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Choose the right integration boundary, operate a managed connector, and prove bounded processing, commit, resume, and replay."
@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo06.md",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:25 PM PDT on July 23, 2026",
     wide: true,
     summary: "Managed source integration, schema-aware inspection, output-before-commit processing, resume, and replay."
   },
@@ -549,18 +549,18 @@ const handouts = [
     kind: "md",
     file: "handouts/assignment02.md",
     createdAt: "Created at 11:01 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 2:06 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:25 PM PDT on July 23, 2026",
     summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {
     slug: "demo07",
     section: "lec7",
     category: "Demo",
-    title: "Demo 07: Real-Time Pricing and Delayed Outcomes",
+    title: "Demo 07: Real-Time Pricing, Delayed Outcomes, and Model Evaluation",
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 3:42 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 4:25 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }

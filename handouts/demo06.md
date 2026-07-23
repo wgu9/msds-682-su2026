@@ -1,4 +1,4 @@
-# Demo 06: Kafka Connect and bounded stream processing
+# Demo 06: Kafka Connect and Bounded Stream Processing
 
 - **Lecture:** Lecture 6 - Kafka Connect and Stream Processing
 - **Python:** 3.11.14
