@@ -33,6 +33,28 @@ By the end of Demo 06, you should be able to:
 | 3 | 06C: processor | When is it safe to commit an input offset? | 12-15 minutes |
 | 4 | 06D: resume and replay | What changes when the group ID changes? | 8-10 minutes |
 
+The whole route, including the no-permission fallback branch:
+
+```text
+   06A managed Datagen connector          fallback seed (only if the
+   ORDERS / AVRO / orderid / 2000 ms      account cannot create a
+              |                           managed connector; run once)
+              +------------+------------------------+
+                           v
+        input topic  msds682.demo06.connector-orders-avro.v1
+                           |
+                           v
+   06B inspect   read 3 records, validate, commit nothing
+                           |
+                           v
+   06C process   consume -> validate -> derive -> produce
+                 -> output ack -> commit input offset
+                           |
+                           v
+   06D prove     resume: same group continues after commits
+                 replay: new group forced to OFFSET_BEGINNING
+```
+
 ## 2. Relationship to Demo 05
 
 Demo 05 and Demo 06 are connected conceptually, but Demo 06 is self-contained.
