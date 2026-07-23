@@ -265,7 +265,7 @@ const handoutSections = [
     id: "lec2",
     label: "Lecture 2",
     title: "Kafka Topics and Producers",
-    summary: "Create a topic, produce records, review the lecture slides, and then complete Assignment 1."
+    summary: "Review the lecture slides and supplement, then create a topic, produce records, and complete Assignment 1."
   },
   {
     id: "lec3",
@@ -328,6 +328,17 @@ const handouts = [
     summary: "Official syllabus covering course outcomes, grading, policies, and schedule."
   },
   {
+    slug: "lec1-slides",
+    section: "lec1",
+    category: "Slides",
+    title: "Lecture 1: Course Introduction and Environment Setup",
+    kind: "external",
+    file: "https://docs.google.com/presentation/d/1Nl0_unoyMPKwfC8ZFaqxA1kC1oYU7lm1KPK7MiNrgWU/edit",
+    createdAt: "Created at 3:46 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
+    summary: "Course introduction, learning path, logistics, and the environment used throughout the course."
+  },
+  {
     slug: "demo00",
     section: "lec1",
     category: "Demo",
@@ -337,6 +348,30 @@ const handouts = [
     createdAt: "Created at 3:17 AM PDT on July 9, 2026",
     lastUpdatedAt: "Last updated at 2:06 PM PDT on July 13, 2026",
     summary: "Create the Python environment, install dependencies, and verify the first local run."
+  },
+  {
+    slug: "lec2-slides",
+    section: "lec2",
+    category: "Slides",
+    title: "Lecture 2: Kafka Topics and Producers",
+    kind: "external",
+    file: "https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0",
+    createdAt: "Created at 3:46 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
+    summary: "Primary Lecture 2 slides covering Kafka topics, producers, delivery, and serialization."
+  },
+  {
+    slug: "lec2-topic-vs-table",
+    section: "lec2",
+    category: "Supplement",
+    title: "Lecture 2 Supplement: Kafka Topics and Producers",
+    kind: "html",
+    file: "handouts/lec2-topic-vs-table.html",
+    createdAt: "Created at 1:48 AM PDT on July 9, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Topics, producers, serialization, real Confluent results, and client-side batching."
   },
   {
     slug: "demo01",
@@ -361,19 +396,6 @@ const handouts = [
     summary: "Run sync-style and async producers, benchmark delivery, and serialize trip events."
   },
   {
-    slug: "lec2-topic-vs-table",
-    section: "lec2",
-    category: "Supplement",
-    title: "Lecture 2 Supplement: Kafka Topics and Producers",
-    kind: "html",
-    file: "handouts/lec2-topic-vs-table.html",
-    createdAt: "Created at 1:48 AM PDT on July 9, 2026",
-    lastUpdatedAt: "Last updated at 3:43 PM PDT on July 23, 2026",
-    wide: true,
-    standalone: true,
-    summary: "Topics, producers, serialization, real Confluent results, and client-side batching."
-  },
-  {
     slug: "assignment01",
     section: "lec2",
     category: "Assignment",
@@ -392,7 +414,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec3-consumers.html",
     createdAt: "Created at 4:09 PM PDT on July 13, 2026",
-    lastUpdatedAt: "Last updated at 12:03 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Consumers, offsets, commits, groups, replay, batching, and native asyncio."
@@ -452,7 +474,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec5-streaming-apis.html",
     createdAt: "Created at 5:29 PM PDT on July 20, 2026",
-    lastUpdatedAt: "Last updated at 5:29 PM PDT on July 20, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "FastAPI application boundaries, schema-aware Kafka delivery, consumer processing, Demo 05, and a stateful idling-classification case study."
@@ -501,7 +523,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec6-kafka-connect-stream-processing.html",
     createdAt: "Created at 11:00 PM PDT on July 22, 2026",
-    lastUpdatedAt: "Last updated at 10:35 AM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:46 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Choose the right integration boundary, operate a managed connector, and prove bounded processing, commit, resume, and replay."
@@ -560,20 +582,14 @@ const handouts = [
 const lectureRoadmap = [
   {
     section: "lec1",
-    slides: {
-      label: "Lecture slides",
-      href: "https://docs.google.com/presentation/d/1Nl0_unoyMPKwfC8ZFaqxA1kC1oYU7lm1KPK7MiNrgWU/edit"
-    },
+    slides: { slug: "lec1-slides", label: "Lecture slides" },
     materials: [
       { slug: "demo00", label: "Demo 00" }
     ]
   },
   {
     section: "lec2",
-    slides: {
-      label: "Lecture slides",
-      href: "https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0"
-    },
+    slides: { slug: "lec2-slides", label: "Lecture slides" },
     materials: [
       { slug: "lec2-topic-vs-table", label: "Lecture supplement" },
       { slug: "demo01", label: "Demo 01" },
@@ -638,15 +654,23 @@ function handoutListMeta(h) {
   };
 }
 
+function handoutDestination(h) {
+  const opensNewTab = ["external", "pdf"].includes(h.kind);
+  return {
+    href: opensNewTab ? h.file : `#/handouts/${h.slug}`,
+    opensNewTab
+  };
+}
+
 function handoutCardHtml(h) {
-  const href = h.kind === "pdf" ? h.file : `#/handouts/${h.slug}`;
-  const target = h.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
+  const { href, opensNewTab } = handoutDestination(h);
+  const target = opensNewTab ? ' target="_blank" rel="noopener"' : "";
   const titleId = `handout-title-${h.slug}`;
   const summaryId = `handout-summary-${h.slug}`;
   const targetNoteId = `handout-target-${h.slug}`;
-  const describedBy = h.kind === "pdf" ? `${summaryId} ${targetNoteId}` : summaryId;
+  const describedBy = opensNewTab ? `${summaryId} ${targetNoteId}` : summaryId;
   const listMeta = handoutListMeta(h);
-  const arrow = h.kind === "pdf" ? "↗" : "→";
+  const arrow = opensNewTab ? "↗" : "→";
   return `
     <li class="handout-card">
       <a class="handout-card-link" href="${href}"${target}
@@ -656,7 +680,7 @@ function handoutCardHtml(h) {
         <div class="handout-copy">
           <h4 class="handout-title" id="${escapeHtml(titleId)}">${escapeHtml(h.title)}</h4>
           <span class="handout-summary" id="${escapeHtml(summaryId)}">${escapeHtml(h.summary)}</span>
-          ${h.kind === "pdf" ? `<span class="sr-only" id="${escapeHtml(targetNoteId)}">Opens PDF in a new tab.</span>` : ""}
+          ${opensNewTab ? `<span class="sr-only" id="${escapeHtml(targetNoteId)}">Opens in a new tab.</span>` : ""}
         </div>
         <span class="handout-tail">
           <time class="handout-updated" title="${escapeHtml(listMeta.full)}" aria-label="${escapeHtml(listMeta.full)}">${escapeHtml(listMeta.compact)}</time>
@@ -707,18 +731,15 @@ function latestHandoutGroupHtml(sections) {
 }
 
 function lectureRoadmapLinkHtml(link) {
-  if (link.href) {
-    return `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener">${escapeHtml(link.label)} <span aria-hidden="true">↗</span></a>`;
-  }
-
   const handout = handouts.find((item) => item.slug === link.slug);
   if (!handout) {
     throw new Error(`Lecture roadmap references an unknown handout: ${link.slug}`);
   }
 
-  const href = handout.kind === "pdf" ? handout.file : `#/handouts/${handout.slug}`;
-  const target = handout.kind === "pdf" ? ' target="_blank" rel="noopener"' : "";
-  return `<a href="${escapeHtml(href)}"${target}>${escapeHtml(link.label)}</a>`;
+  const { href, opensNewTab } = handoutDestination(handout);
+  const target = opensNewTab ? ' target="_blank" rel="noopener"' : "";
+  const arrow = opensNewTab ? ' <span aria-hidden="true">↗</span>' : "";
+  return `<a href="${escapeHtml(href)}"${target}>${escapeHtml(link.label)}${arrow}</a>`;
 }
 
 function lectureRoadmapHtml() {

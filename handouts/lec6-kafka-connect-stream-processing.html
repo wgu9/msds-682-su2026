@@ -479,6 +479,64 @@
 
     .links a { color: var(--accent); text-decoration: none; }
 
+    .course-materials {
+      margin: 2.5vh 0 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      list-style: none;
+    }
+
+    .course-materials li {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .course-materials li:last-child { border-bottom: 0; }
+
+    .course-materials .lecture-number {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: clamp(13px, .9vw, 16px);
+      font-weight: 800;
+    }
+
+    .course-materials .lecture-topic {
+      font-size: clamp(16px, 1.1vw, 21px);
+      font-weight: 700;
+    }
+
+    .course-material-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .course-material-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid #c6d3fb;
+      border-radius: 999px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: clamp(11px, .72vw, 13px);
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .course-material-links a:hover { background: var(--accent-soft); }
+
     .pager, .crumb {
       position: absolute;
       bottom: 16px;
@@ -660,10 +718,73 @@
       .duo { grid-template-columns: 1fr; }
       .module-divider-shell { grid-template-columns: 1fr; }
       .module-index { font-size: 72px; }
+      .course-materials li { grid-template-columns: 34px minmax(0, 1fr); }
+      .course-material-links { grid-column: 2; justify-content: flex-start; }
     }
   </style>
 </head>
 <body>
+
+  <section class="slide" id="course-materials-map">
+    <div class="frame narrow">
+      <p class="kicker">Course materials</p>
+      <h1>Lectures 1 to 6: slides and demos</h1>
+      <p class="sub">Use the primary lecture slides first, then open the corresponding demo or supplement.</p>
+      <ol class="course-materials">
+        <li>
+          <span class="lecture-number">L1</span>
+          <span class="lecture-topic">Course introduction and environment setup</span>
+          <span class="course-material-links">
+            <a href="https://docs.google.com/presentation/d/1Nl0_unoyMPKwfC8ZFaqxA1kC1oYU7lm1KPK7MiNrgWU/edit" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo00" target="_blank" rel="noreferrer">Demo 00 ↗</a>
+          </span>
+        </li>
+        <li>
+          <span class="lecture-number">L2</span>
+          <span class="lecture-topic">Kafka topics and producers</span>
+          <span class="course-material-links">
+            <a href="https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec2-topic-vs-table" target="_blank" rel="noreferrer">Supplement ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo01" target="_blank" rel="noreferrer">Demo 01 ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo02" target="_blank" rel="noreferrer">Demo 02 ↗</a>
+          </span>
+        </li>
+        <li>
+          <span class="lecture-number">L3</span>
+          <span class="lecture-topic">Kafka consumers</span>
+          <span class="course-material-links">
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec3-consumers" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo03" target="_blank" rel="noreferrer">Demo 03 ↗</a>
+          </span>
+        </li>
+        <li>
+          <span class="lecture-number">L4</span>
+          <span class="lecture-topic">Data contracts, Avro, and Schema Registry</span>
+          <span class="course-material-links">
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec4-data-contracts" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo04" target="_blank" rel="noreferrer">Demo 04 ↗</a>
+          </span>
+        </li>
+        <li>
+          <span class="lecture-number">L5</span>
+          <span class="lecture-topic">Streaming APIs with FastAPI and Kafka</span>
+          <span class="course-material-links">
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec5-streaming-apis" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo05" target="_blank" rel="noreferrer">Demo 05 ↗</a>
+          </span>
+        </li>
+        <li>
+          <span class="lecture-number">L6</span>
+          <span class="lecture-topic">Kafka Connect and stream processing</span>
+          <span class="course-material-links">
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec6-kafka-connect-stream-processing" target="_blank" rel="noreferrer">Slides ↗</a>
+            <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo06" target="_blank" rel="noreferrer">Demo 06 ↗</a>
+          </span>
+        </li>
+      </ol>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
 
   <section class="slide" id="assignment-2-schedule-update">
     <div class="frame narrow">
@@ -674,7 +795,7 @@
         <div class="card chip"><span class="tag">Due</span><h2>Friday, July 31</h2><p><strong>11:59 PM PDT</strong></p></div>
       </div>
       <div class="takeaway caveat"><strong>Start this week.</strong> The published handout is the source of truth for requirements and submission.</div>
-      <div class="links"><a href="assignment02.md">Open the Assignment 2 handout</a></div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment02" target="_blank" rel="noreferrer">Open the Assignment 2 handout</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1206,7 +1327,7 @@ consumer.close()</pre></div>
         <li>Resume continues; replay revisits history.</li>
       </ol>
       <div class="takeaway point"><strong>Next lecture:</strong> real-time pricing, delayed outcomes, and a bounded stateful evaluation join.</div>
-      <div class="links"><a href="demo06.md">Open Demo 06 handout</a> · <a href="demo07.md">Preview Demo 07</a> · <a href="https://docs.confluent.io/platform/current/connect/index.html" target="_blank" rel="noreferrer">Confluent Kafka Connect</a> · <a href="https://docs.confluent.io/kafka-clients/python/current/overview.html" target="_blank" rel="noreferrer">Confluent Python client</a></div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts" target="_blank" rel="noreferrer">All course materials</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo06" target="_blank" rel="noreferrer">Open Demo 06 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Preview Demo 07</a> · <a href="https://docs.confluent.io/platform/current/connect/index.html" target="_blank" rel="noreferrer">Confluent Kafka Connect</a> · <a href="https://docs.confluent.io/kafka-clients/python/current/overview.html" target="_blank" rel="noreferrer">Confluent Python client</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>

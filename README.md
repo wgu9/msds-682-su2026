@@ -36,7 +36,7 @@ handouts/    .md, .html, and .pdf handouts
      section: "lec2",               // ID from handoutSections
      category: "Slides",            // student-facing type label
      title: "Week 2: Consumers",
-     kind: "md",                    // "md" renders in-page, "html" can render in-page or standalone, "pdf" opens the file
+     kind: "md",                    // "md" renders in-page, "html" can render in-page or standalone
      file: "handouts/week2-consumers.md",
      createdAt: "Created at 9:00 AM PDT on July 10, 2026",
      lastUpdatedAt: "Last updated at 9:00 AM PDT on July 10, 2026",
@@ -44,7 +44,9 @@ handouts/    .md, .html, and .pdf handouts
    }
    ```
 
-Markdown handouts render in the page with syntax-highlighted code blocks
+Use `kind: "external"` with a full URL for a canonical Google Slides deck, and
+`kind: "pdf"` for a PDF that opens directly. Markdown handouts render in the
+page with syntax-highlighted code blocks
 (via marked + highlight.js, loaded from CDN). Standalone HTML handouts can be
 embedded with `standalone: true`. PDF handouts open directly. Within each
 section, materials follow their order in the `handouts` array. The two newest
