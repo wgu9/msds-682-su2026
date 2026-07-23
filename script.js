@@ -363,12 +363,12 @@ const handouts = [
   {
     slug: "lec2-topic-vs-table",
     section: "lec2",
-    category: "Slides",
-    title: "Lecture 2: Kafka Topics and Producers",
+    category: "Supplement",
+    title: "Lecture 2 Supplement: Kafka Topics and Producers",
     kind: "html",
     file: "handouts/lec2-topic-vs-table.html",
     createdAt: "Created at 1:48 AM PDT on July 9, 2026",
-    lastUpdatedAt: "Last updated at 4:40 PM PDT on July 13, 2026",
+    lastUpdatedAt: "Last updated at 3:43 PM PDT on July 23, 2026",
     wide: true,
     standalone: true,
     summary: "Topics, producers, serialization, real Confluent results, and client-side batching."
@@ -575,7 +575,7 @@ const lectureRoadmap = [
       href: "https://docs.google.com/presentation/d/1Z4BnBibYTy6Hwgvfc7IwidpbhqgmyrwSMtXLS--4eBw/edit?slide=id.g3f44cdb5d93_0_0#slide=id.g3f44cdb5d93_0_0"
     },
     materials: [
-      { slug: "lec2-topic-vs-table", label: "Topic supplement" },
+      { slug: "lec2-topic-vs-table", label: "Lecture supplement" },
       { slug: "demo01", label: "Demo 01" },
       { slug: "demo02", label: "Demo 02" }
     ]
