@@ -153,7 +153,7 @@ estimated duration = 15.0 minutes
 
 $$
 \text{rule-v1 fare}
-= 3.50(2.00) + 0.20(15.0)
+= 3.50 \times 2.00 + 0.20 \times 15.0
 = 10.00\text{ USD}
 $$
 
@@ -191,10 +191,11 @@ The transparent baseline is the original heuristic:
 
 $$
 F_{\text{rule-v1}}
-= 3.50D + 0.20T
+= 3.50 \cdot D + 0.20 \cdot T
 $$
 
-Here, `D` is estimated miles and `T` is estimated minutes.
+Here, $F_{\text{rule-v1}}$ is the estimated fare in USD, $D$ is estimated
+distance in miles, and $T$ is estimated duration in minutes.
 
 It is versioned and reproducible, but it is not ML and does not explicitly
 target 20% markup.
@@ -205,15 +206,16 @@ The candidate first predicts trip cost:
 
 $$
 \widehat{C}
-= \alpha + aD + bT,
+= \alpha + a \cdot D + b \cdot T,
 \qquad
 F_{\text{ridge-v2}}
-= 1.20\widehat{C}
+= 1.20 \times \widehat{C}
 $$
 
-`Ridge` is fitted from historical synthetic examples. The artifact records the
-feature names, coefficients, intercept, training seed, library version, and
-validation MAE.
+Here, $\widehat{C}$ is predicted trip cost and $F_{\text{ridge-v2}}$ is the
+estimated fare after applying the 20% markup policy. `Ridge` is fitted from
+historical synthetic examples. The artifact records the feature names,
+coefficients, intercept, training seed, library version, and validation MAE.
 
 > ##### IMPORTANT NOTE
 >
@@ -221,8 +223,8 @@ validation MAE.
 >
 > $$
 > C_{\text{actual}}
-> = 5 + 0.75D_{\text{actual}}
-> + 20\left(\frac{T_{\text{actual}}}{60}\right)
+> = 5 + 0.75 \cdot D_{\text{actual}}
+> + 20 \times \left(\frac{T_{\text{actual}}}{60}\right)
 > + \varepsilon
 > $$
 >
