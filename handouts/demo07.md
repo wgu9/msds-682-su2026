@@ -352,8 +352,8 @@ F_{\text{rule-v1}}
 = 3.50 \cdot D + 0.20 \cdot T
 $$
 
-Here, `F_rule-v1` is the estimated fare in USD, `D` is estimated distance in
-miles, and `T` is estimated duration in minutes.
+Here, \(F_{\text{rule-v1}}\) is the estimated fare in USD, \(D\) is estimated
+distance in miles, and \(T\) is estimated duration in minutes.
 
 It is versioned and reproducible, but it is not ML and does not explicitly
 target 20% markup.
@@ -370,10 +370,10 @@ F_{\text{ridge-v2}}
 = 1.20 \times \widehat{C}
 $$
 
-Here, `C-hat` is predicted trip cost and `F_ridge-v2` is the estimated fare
-after applying the 20% markup policy. `Ridge` is fitted from historical
-synthetic examples. The artifact records the feature names, coefficients,
-intercept, training seed, library version, and validation MAE.
+Here, \(\widehat{C}\) is predicted trip cost and \(F_{\text{ridge-v2}}\) is the
+estimated fare after applying the 20% markup policy. The Ridge model is fitted
+from historical synthetic examples. The artifact records the feature names,
+coefficients, intercept, training seed, library version, and validation MAE.
 
 ### Optional advanced discussion: why Ridge?
 
@@ -424,7 +424,7 @@ are intentionally outside this demo.
   + \varepsilon
   \]
   </div>
-  <p>Here, <code>epsilon</code> is small deterministic noise generated from the fixed course seed.</p>
+  <p>Here, \(\varepsilon\) is small deterministic noise generated from the fixed course seed.</p>
   <p>The distance component is intentional. If the label used only fixed cost and hourly time, the correct learned distance coefficient would be approximately zero.</p>
 </aside>
 

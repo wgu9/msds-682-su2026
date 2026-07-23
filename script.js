@@ -537,7 +537,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 3:34 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 3:42 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
@@ -927,12 +927,48 @@ function protectDisplayMath(source) {
   return { source: protectedLines.join("\n"), mathBlocks };
 }
 
+function protectInlineMath(source) {
+  const lines = source.split(/\r?\n/);
+  const inlineMathBlocks = [];
+  let fenceCharacter = "";
+
+  const protectedLines = lines.map((line) => {
+    const fence = line.match(/^\s*(`{3,}|~{3,})/);
+    if (fence) {
+      const character = fence[1][0];
+      if (!fenceCharacter) {
+        fenceCharacter = character;
+      } else if (fenceCharacter === character) {
+        fenceCharacter = "";
+      }
+      return line;
+    }
+    if (fenceCharacter) return line;
+
+    return line.replace(/\\\((.+?)\\\)/g, (_match, tex) => {
+      const mathIndex = inlineMathBlocks.push(tex.trim()) - 1;
+      return `<span class="math-inline-source" data-inline-math-index="${mathIndex}"></span>`;
+    });
+  });
+
+  return { source: protectedLines.join("\n"), inlineMathBlocks };
+}
+
 function restoreDisplayMath(root, mathBlocks) {
   root.querySelectorAll("[data-math-index]").forEach((placeholder) => {
     const index = Number.parseInt(placeholder.dataset.mathIndex, 10);
     if (!Number.isInteger(index) || !mathBlocks[index]) return;
     placeholder.removeAttribute("data-math-index");
     placeholder.textContent = `\\[\n${mathBlocks[index]}\n\\]`;
+  });
+}
+
+function restoreInlineMath(root, inlineMathBlocks) {
+  root.querySelectorAll("[data-inline-math-index]").forEach((placeholder) => {
+    const index = Number.parseInt(placeholder.dataset.inlineMathIndex, 10);
+    if (!Number.isInteger(index) || !inlineMathBlocks[index]) return;
+    placeholder.removeAttribute("data-inline-math-index");
+    placeholder.textContent = `\\(${inlineMathBlocks[index]}\\)`;
   });
 }
 
@@ -984,12 +1020,15 @@ async function renderHandout(slug) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const source = await res.text();
     let mathBlocks = [];
+    let inlineMathBlocks = [];
     let html = source;
     if (meta.kind === "md") {
       if (window.marked) {
-        const protectedMath = protectDisplayMath(source);
-        mathBlocks = protectedMath.mathBlocks;
-        html = window.marked.parse(protectedMath.source);
+        const protectedDisplayMath = protectDisplayMath(source);
+        const protectedInlineMath = protectInlineMath(protectedDisplayMath.source);
+        mathBlocks = protectedDisplayMath.mathBlocks;
+        inlineMathBlocks = protectedInlineMath.inlineMathBlocks;
+        html = window.marked.parse(protectedInlineMath.source);
       } else {
         html = `<pre>${escapeHtml(source)}</pre>`;
       }
@@ -999,6 +1038,9 @@ async function renderHandout(slug) {
     const article = content.querySelector("article");
     if (article && mathBlocks.length) {
       restoreDisplayMath(article, mathBlocks);
+    }
+    if (article && inlineMathBlocks.length) {
+      restoreInlineMath(article, inlineMathBlocks);
     }
     prepareHandoutNavigation(content);
     if (window.hljs) {
