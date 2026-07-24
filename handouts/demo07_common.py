@@ -42,14 +42,16 @@ TARGET_MARKUP_PCT = Decimal("20")
 TARGET_MARKUP_MULTIPLIER = Decimal("1.20")
 TARGET_MARKUP_TOLERANCE_PP = Decimal("2")
 
-# Rule v1 is the original transparent fare heuristic.
+# Rule v1 is the original transparent fare heuristic. Money is stored in
+# integer cents; distance is miles and duration is minutes.
 RULE_V1_PER_MILE_CENTS = Decimal("350")
 RULE_V1_PER_MINUTE_CENTS = Decimal("20")
 RULE_V1_MODEL_VERSION = "rule-v1"
 RIDGE_V2_MODEL_VERSION = "ridge-v2"
 
-# Synthetic delayed outcomes use this hidden cost-generating process.
-# The model is trained from examples; it does not read these constants.
+# Synthetic delayed outcomes use this hidden cost-generating process. Money is
+# stored in cents, distance is miles, and time cost is expressed per hour. The
+# model is trained from examples; it does not read these constants.
 ACTUAL_FIXED_COST_CENTS = Decimal("500")
 ACTUAL_PER_MILE_COST_CENTS = Decimal("75")
 ACTUAL_PER_HOUR_COST_CENTS = Decimal("2000")
@@ -309,9 +311,11 @@ def stable_seed_offset(run_id: str) -> int:
     return zlib.crc32(validate_run_id(run_id).encode("utf-8")) % 90
 
 
-# Public San Francisco coordinate pairs. These are synthetic requests, not
-# actual passenger records or private location histories.
-SYNTHETIC_ROUTES: tuple[
+# Public San Francisco coordinate pairs plus predefined offline route
+# measurements. These teaching fixtures are synthetic requests, not actual
+# passenger records or private location histories. The measurements let every
+# student reproduce the same comparison without calling a third-party service.
+DEMO_ROUTE_FIXTURES: tuple[
     tuple[GeoPointV1, GeoPointV1, float, float], ...
 ] = (
     (
@@ -342,11 +346,17 @@ SYNTHETIC_ROUTES: tuple[
 
 
 def deterministic_trip_requests(run_id: str, count: int = 4) -> list[TripRequestV1]:
-    """Generate finite, reproducible requests independent of earlier demos."""
+    """Create reproducible requests from predefined public coordinate pairs.
+
+    A request contains pickup and dropoff coordinates, not route estimates.
+    The selected routing provider produces estimated miles and minutes later.
+    """
 
     validate_run_id(run_id)
-    if not 1 <= count <= len(SYNTHETIC_ROUTES):
-        raise ValueError(f"count must be between 1 and {len(SYNTHETIC_ROUTES)}")
+    if not 1 <= count <= len(DEMO_ROUTE_FIXTURES):
+        raise ValueError(
+            f"count must be between 1 and {len(DEMO_ROUTE_FIXTURES)}"
+        )
     seed_offset = stable_seed_offset(run_id)
     return [
         TripRequestV1(
@@ -358,7 +368,7 @@ def deterministic_trip_requests(run_id: str, count: int = 4) -> list[TripRequest
             dropoff=dropoff,
         )
         for index, (pickup, dropoff, _meters, _seconds) in enumerate(
-            SYNTHETIC_ROUTES[:count]
+            DEMO_ROUTE_FIXTURES[:count]
         )
     ]
 
@@ -368,7 +378,10 @@ def source_record_id(topic: str, partition: int, offset: int) -> str:
 
 
 def route_values(route: RouteMeasurement) -> tuple[float, float]:
-    """Convert provider units and round the features published in a quote."""
+    """Convert provider meters/seconds to quote miles/minutes.
+
+    Published route features are rounded to 0.01 mile and 0.1 minute.
+    """
 
     miles = (Decimal(str(route.distance_meters)) / METERS_PER_MILE).quantize(
         Decimal("0.01"), rounding=ROUND_HALF_UP
@@ -383,7 +396,7 @@ def calculate_rule_v1_fare_cents(
     estimated_miles: float,
     estimated_minutes: float,
 ) -> int:
-    """Apply the original distance-plus-time fare heuristic."""
+    """Return fare cents from estimated miles and estimated minutes."""
 
     if estimated_miles <= 0 or estimated_minutes <= 0:
         raise ValueError("estimated mileage and minutes must be positive")
@@ -412,7 +425,7 @@ def calculate_actual_cost_cents(
     *,
     noise_cents: int = 0,
 ) -> int:
-    """Synthetic cost label: fixed cost plus distance, labor time, and noise."""
+    """Return synthetic cost cents from actual miles/minutes and cent noise."""
 
     if actual_miles <= 0 or actual_minutes <= 0:
         raise ValueError("actual mileage and minutes must be positive")
@@ -550,7 +563,7 @@ def predict_cost_cents(
     estimated_miles: float,
     estimated_minutes: float,
 ) -> int:
-    """Execute the fitted linear model from its validated coefficients."""
+    """Predict cost cents from estimated miles/minutes using the JSON artifact."""
 
     if artifact.feature_names != MODEL_FEATURE_NAMES:
         raise ValueError(
@@ -630,7 +643,12 @@ def outcome_from_route(
     request: TripRequestV1,
     route: RouteMeasurement,
 ) -> TripOutcomeV1:
-    """Create a deterministic delayed label from a completed synthetic trip."""
+    """Simulate one post-trip outcome from a route estimate.
+
+    Demo 07 has no vehicle telemetry and does not wait in real time for a trip.
+    It applies stable trip_id-based adjustments to the selected route estimate,
+    then calculates a synthetic realized fulfillment-cost label.
+    """
 
     estimated_miles, estimated_minutes = route_values(route)
     miles_factor, minutes_factor, noise_cents = _outcome_adjustments(

@@ -6,7 +6,7 @@ from typing import Literal, Protocol
 
 import httpx
 
-from demo07_common import GeoPointV1, RouteMeasurement, SYNTHETIC_ROUTES
+from demo07_common import DEMO_ROUTE_FIXTURES, GeoPointV1, RouteMeasurement
 
 DEFAULT_OSRM_BASE_URL = "https://router.project-osrm.org"
 
@@ -46,7 +46,11 @@ def osrm_route_url(
 
 
 class OSRMRoutingClient:
-    """Small client for the open-source OSRM Route service."""
+    """Client for public OSRM driving-route distance and duration estimates.
+
+    OSRM uses its configured road-network profile and weights. This adapter
+    does not claim live-traffic ETA guarantees.
+    """
 
     def __init__(
         self,
@@ -101,14 +105,18 @@ class OSRMRoutingClient:
 
 
 class FixtureRoutingClient:
-    """Deterministic offline provider for tests and classroom fallback."""
+    """Offline lookup for predefined, reproducible teaching measurements.
+
+    A fixture is a known input and expected output stored in the course code.
+    It is not a third-party call and it never silently substitutes for OSRM.
+    """
 
     def estimate(
         self,
         pickup: GeoPointV1,
         dropoff: GeoPointV1,
     ) -> RouteMeasurement:
-        for known_pickup, known_dropoff, meters, seconds in SYNTHETIC_ROUTES:
+        for known_pickup, known_dropoff, meters, seconds in DEMO_ROUTE_FIXTURES:
             if pickup == known_pickup and dropoff == known_dropoff:
                 return RouteMeasurement(
                     distance_meters=meters,

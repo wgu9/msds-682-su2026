@@ -1,4 +1,10 @@
-"""Demo 07D: publish deterministic delayed trip outcomes as cost labels."""
+"""Demo 07D: simulate and publish delayed trip-outcome cost labels.
+
+This bounded teaching source does not consume the requests topic, observe GPS,
+or wait for a real trip. It recreates the declared synthetic requests, obtains
+route measurements from the same selected provider as 07C, applies stable
+realization adjustments, and publishes TripOutcomeV1 records.
+"""
 
 from __future__ import annotations
 
@@ -42,7 +48,7 @@ def run_outcome_producer(
     route_mode: str,
     route_timeout: float,
 ) -> dict[str, object]:
-    """Simulate outcomes after quotes using the same declared route boundary."""
+    """Simulate post-trip outcomes using the same declared route boundary."""
 
     validate_run_id(run_id)
     if route_mode not in {"osrm", "fixture"}:

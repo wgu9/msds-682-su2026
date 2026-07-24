@@ -61,7 +61,13 @@ def run_evaluator(
     replication_factor: int,
     max_scanned: int = 5_000,
 ) -> dict[str, Any]:
-    """Perform one bounded stateful quote-outcome join."""
+    """Collect one complete bounded quote/outcome set, then publish evaluations.
+
+    The classroom implementation collects and validates the complete expected
+    quote/outcome set
+    before emitting its evaluation records. A continuous production processor
+    could emit each matched pair as soon as it becomes eligible.
+    """
 
     validate_run_id(run_id)
     if not 1 <= expected_trips <= 25:
@@ -262,9 +268,11 @@ def run_evaluator(
 
             # ================================================================
             # KEY CONCEPT
-            # This finite join holds quote and outcome inputs until all derived
-            # evaluations are acknowledged, then commits both topics together.
-            # It is bounded teaching state, not production durable state.
+            # This finite join first collected and validated the complete run.
+            # It now holds those quote and outcome inputs until every derived
+            # evaluation is acknowledged, then commits both topics together.
+            # It is bounded teaching state, not production durable state or a
+            # per-pair continuous-emission implementation.
             # ================================================================
             commit_result = commit_message_batch(consumer, messages_to_commit)
     finally:

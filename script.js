@@ -553,6 +553,19 @@ const handouts = [
     summary: "Independent real-Confluent FastAPI-to-Avro input plus bounded validation, commit, resume, and replay."
   },
   {
+    slug: "lec7-stateful-stream-processing",
+    section: "lec7",
+    category: "Slides",
+    title: "Lecture 7: Stateful Stream Processing",
+    kind: "html",
+    file: "handouts/lec7-stateful-stream-processing.html",
+    createdAt: "Created at 4:26 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 5:10 PM PDT on July 23, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Build from stateless processing to keyed state, time-aware joins, delayed outcomes, and bounded model evaluation."
+  },
+  {
     slug: "demo07",
     section: "lec7",
     category: "Demo",
@@ -560,7 +573,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo07.md",
     createdAt: "Created at 3:38 AM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 4:25 PM PDT on July 23, 2026",
+    lastUpdatedAt: "Last updated at 5:08 PM PDT on July 23, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
   }
@@ -627,6 +640,16 @@ const lectureRoadmap = [
     },
     materials: [
       { slug: "demo06", label: "Demo 06" }
+    ]
+  },
+  {
+    section: "lec7",
+    slides: {
+      slug: "lec7-stateful-stream-processing",
+      label: "Lecture slides"
+    },
+    materials: [
+      { slug: "demo07", label: "Demo 07" }
     ]
   }
 ];

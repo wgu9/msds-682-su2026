@@ -109,9 +109,12 @@ reads `outputs/runs/<run-id>/demo07e/report.json`. Run 07B–07E first, or pass
 
 ### Business question and teaching hypotheses
 
-The service must quote one **upfront fare** before a trip begins. At quote time,
-only the pickup, dropoff, estimated distance, and estimated duration are known.
-The realized distance, duration, and fulfillment cost arrive after the trip.
+The service must quote one **upfront fare** before a trip begins. When a
+`TripRequestV1` first arrives, it contains the request time plus pickup and
+dropoff coordinates. A routing provider then returns estimated distance and
+duration; those quote-time estimates are not post-trip measurements. The
+synthetic realized distance, duration, and fulfillment cost arrive later in a
+`TripOutcomeV1`.
 
 Demo 07 asks:
 
@@ -121,8 +124,9 @@ The comparison tests three teaching hypotheses:
 
 1. a trained cost model plus an explicit markup policy can outperform a fixed
    fare heuristic;
-2. the same trip requests, route features, and delayed outcomes are required
-   for a fair model comparison; and
+2. a controlled comparison requires the same trip requests, route features,
+   and delayed outcomes; fixture mode guarantees that controlled input, while
+   OSRM mode demonstrates live integration; and
 3. an online prediction is not enough: the delayed outcome closes the
    evaluation loop.
 
@@ -137,6 +141,7 @@ production pricing model.
 | `actual cost` | Synthetic realized trip fulfillment cost: fixed operating cost plus distance-related cost, time-related cost, and small noise |
 | `profit` | `fare - actual cost` |
 | `realized markup` | `profit / actual cost` |
+| `fixture` | A predefined pickup/dropoff pair and offline route measurement stored in the course code for reproducible runs; it is not a third-party API call |
 | `selection recommendation` | The version preferred by the published comparison rule; the demo does not deploy it |
 
 `actual cost` may conceptually include driver time and mileage compensation,
@@ -145,7 +150,11 @@ comparison, both pricing versions produce counterfactual quotes for the same
 trip. After a version is reviewed and selected, a normal production path would
 expose only one official fare.
 
-### End-to-end ML and event pipeline
+### Canonical end-to-end specification
+
+Use this compact specification to keep the business story, units, code, and
+classroom explanation aligned. `demo07_common.py` remains the executable SSOT
+for numeric constants.
 
 <ol class="handout-pipeline-list">
   <li>
@@ -164,6 +173,120 @@ expose only one official fare.
 
 Training and model selection happen outside the real-time request path. Route
 estimation, inference, and fare-quote publication are the real-time path.
+
+#### Step by step: 07A through 07F
+
+| Step | Input and operation | Output |
+|---|---|---|
+| 07A: prepare model | Generate 160 deterministic synthetic historical rows; fit Ridge on 120 and validate on 40 | Validated `ridge-cost-v2.json` artifact |
+| 07B: publish requests | Publish four predefined public pickup/dropoff coordinate pairs; a request has no route estimate | Four `TripRequestV1` records |
+| 07C: route and quote | Use explicit fixture lookup or OSRM; convert provider meters/seconds to miles/minutes; run both pricing versions | Eight `FareQuoteV1` records |
+| 07D: publish outcomes | Recreate the same requests, obtain the same declared route type, then apply stable post-trip adjustments | Four synthetic `TripOutcomeV1` records |
+| 07E: join and evaluate | Collect the complete bounded set, join quote and outcome by `trip_id`, publish output, wait for acknowledgement, then commit inputs | Eight `PricingEvaluationV1` records |
+| 07F: compare | Compute each version's mean absolute error from the 20% realized-markup target | One model-selection recommendation |
+
+#### Units used throughout
+
+| Quantity | Unit and representation |
+|---|---|
+| Pickup and dropoff | Latitude/longitude in decimal degrees |
+| Provider route distance | Meters; converted using `1 mile = 1609.344 meters` |
+| Provider route duration | Seconds; converted using `1 minute = 60 seconds` |
+| Published route features | Miles rounded to `0.01`; minutes rounded to `0.1` |
+| Money in code and Kafka contracts | Integer cents with currency `USD`; prose equations display dollars |
+| Event timestamps | Timezone-aware UTC timestamps |
+| Markup | Percent of actual cost; model-comparison error is reported in percentage points |
+
+#### Canonical formulas
+
+Let \(D_e\) be estimated miles, \(T_e\) estimated minutes, \(D_a\) synthetic
+actual miles, \(T_a\) synthetic actual minutes, \(F\) fare in USD, and \(C_a\)
+synthetic actual fulfillment cost in USD.
+
+The rule baseline is:
+
+$$
+F_{\text{rule-v1}}
+= 3.50 \times D_e + 0.20 \times T_e
+$$
+
+The trained candidate predicts cost, then applies the pricing policy. The
+equation presents dollars for readability; the JSON artifact stores its
+intercept and coefficients in cents.
+
+$$
+\widehat{C}
+= \beta_0 + aD_e + bT_e,
+\qquad
+F_{\text{ridge-v2}} = 1.20 \times \widehat{C}
+$$
+
+The classroom outcome generator applies stable factors derived from
+`trip_id`:
+
+$$
+D_a = s_DD_e,\quad s_D \in [0.98,1.06],
+\qquad
+T_a = s_TT_e,\quad s_T \in [0.96,1.14]
+$$
+
+It then produces the delayed teaching label:
+
+$$
+C_a
+= 5.00 + 0.75D_a
++ 20.00\left(\frac{T_a}{60}\right) + \varepsilon,
+\qquad
+\varepsilon \in [-0.50,0.50]
+$$
+
+Finally:
+
+$$
+\text{realized markup}
+= \frac{F-C_a}{C_a},
+\qquad
+\operatorname{MAE}_{\text{markup}}
+= \frac{1}{N}\sum_{i=1}^{N}
+\left|\text{realized markup}_i-20\%\right|
+$$
+
+#### Important assumptions
+
+- The four online requests use predefined public coordinates, not randomly
+  generated locations or real passenger data.
+- Fixture mode is deterministic. OSRM mode is an integration demonstration;
+  its public route response can change and is not treated as a live-traffic
+  production SLA.
+- Fare is an upfront fixed quote. The completed trip is not repriced.
+- `actual miles`, `actual minutes`, and `actual cost` are synthetic realized
+  teaching labels, not GPS observations, driver payout, or accounting truth.
+- In fixture mode, both versions receive the same requests, route features,
+  and delayed outcomes. Their quotes are counterfactual candidates for
+  comparison. OSRM mode is not the controlled benchmark because separate
+  public calls can return different measurements.
+- Four trips verify the pipeline but cannot justify a production model
+  decision.
+- Ridge is a simplified trained baseline. Demo 07 recommends a version but
+  does not promote or deploy it.
+- 07E uses bounded in-memory state and at-least-once processing. It is not a
+  durable production join or an exactly-once pipeline.
+
+The event flow branches before it joins:
+
+```text
+TripRequestV1
+  |-- 07C: routing estimate -> candidate FareQuoteV1 records
+  `-- 07D: independent synthetic completion source -> TripOutcomeV1
+
+FareQuoteV1 + TripOutcomeV1
+  -> 07E bounded stateful join
+  -> PricingEvaluationV1
+```
+
+07D is not a consumer of the requests topic. It independently recreates the
+same declared synthetic requests for this teaching run. A production system
+would normally receive outcomes from trip operations or vehicle telemetry.
 
 ### Four topics and their owners
 
@@ -206,7 +329,28 @@ The first three topics represent the request, prediction, and delayed business
 outcome. The fourth topic preserves the per-model comparison as a replayable
 evaluation event.
 
-### How the synthetic outcome works
+### How route estimates and the synthetic outcome work
+
+At request arrival, `TripRequestV1` contains coordinates but no distance or
+duration. 07C passes those coordinates to one explicitly selected provider:
+
+- `fixture` performs an offline lookup of four predefined coordinate pairs and
+  their course-owned distance/duration measurements; and
+- `osrm` calls the public open-source
+  [OSRM Route service](https://github.com/Project-OSRM/osrm-backend/blob/master/docs/http.md)
+  with the driving profile.
+
+07B does not generate arbitrary random locations. The shared code owns four
+predefined public San Francisco pickup/dropoff pairs. A `run_id` creates stable
+trip IDs and timestamps, while the coordinate pairs remain fixed. This avoids
+unroutable or cross-water random examples and gives both pricing versions the
+same request events.
+
+OSRM returns the distance and duration for its profile-weighted fastest route.
+It uses road-network speeds and routing weights, not straight-line distance
+divided by one uniform average speed. The public endpoint is useful for a small
+integration demonstration, but this course does not treat it as a live-traffic
+ETA service or a production availability guarantee.
 
 Historical training data use a fixed seed. Classroom outcomes use stable
 `trip_id`-based adjustments. In `fixture` mode, the same inputs therefore
@@ -214,8 +358,10 @@ reproduce the same route features and labels. In `osrm` mode, the adjustments
 are still deterministic, but the public routing response may change with its
 map data or service behavior.
 
-The online outcome generator varies estimated distance and duration slightly
-to represent route and traffic differences, then computes:
+07D does not observe GPS or wait for the displayed trip duration. After the
+quotes have been produced, the instructor runs this independent bounded source.
+It calls the same declared routing mode, varies the resulting distance and
+duration slightly to simulate a completed trip, and then computes:
 
 ```text
 realized fulfillment cost
@@ -227,6 +373,18 @@ realized fulfillment cost
 
 The later data-and-scale and business-target sections publish the exact ranges
 and formulas.
+
+### Tools and outputs by stage
+
+| Stage | Primary tools | Output |
+|---|---|---|
+| 07A model preparation | Python, scikit-learn Ridge, fixed seed | Validated JSON model artifact |
+| 07B request source | Predefined coordinates, Pydantic, Avro, Schema Registry, Kafka producer | `TripRequestV1` |
+| 07C route estimate | Explicit `fixture` lookup or public OSRM Route API | Estimated miles and minutes |
+| 07C pricing | Rule formula or validated Ridge artifact | `FareQuoteV1` |
+| 07D outcome source | Same routing mode, deterministic adjustments, synthetic cost formula | `TripOutcomeV1` |
+| 07E bounded join | Kafka consumer, Avro/Pydantic validation, in-memory dictionaries | `PricingEvaluationV1` |
+| 07F comparison | Python reads the secret-free 07E JSON report | Model-selection recommendation |
 
 ### What the final selection recommendation means
 
@@ -258,9 +416,11 @@ credentials. `.env` is ignored and must never be published or submitted.
 
 ## 6. Data and scale
 
-All inputs are synthetic. Training and validation examples, trip requests, and
-fixture routes are deterministic. Live OSRM route measurements may change with
-the public service's map data.
+Training and validation labels, trip requests, fixture measurements, and
+outcome adjustments are synthetic teaching data. Fixture mode is deterministic.
+OSRM mode instead obtains live public route measurements, which may change with
+the service's map data or behavior; the later outcome adjustments remain
+synthetic.
 
 | Data | Count | Purpose |
 |---|---:|---|
@@ -295,8 +455,10 @@ Each `TripRequestV1` uses these fields:
 | `pickup` | Pickup latitude and longitude |
 | `dropoff` | Destination latitude and longitude |
 
-OSRM receives the pickup and dropoff and returns estimated distance and
-duration in one response.
+At request arrival, the contract has coordinates but no route measurements.
+The selected provider receives the pickup and dropoff and returns estimated
+distance and duration in one response. Fixture mode performs a predefined
+offline lookup; OSRM mode performs an HTTPS routing request.
 
 The first deterministic fixture is:
 
@@ -448,7 +610,7 @@ each new request would produce one official fare quote.
 ### A: one routing and pricing processor
 
 ```text
-trip request -> one OSRM response with miles and minutes -> fare quote
+trip request -> one routing-provider response with miles and minutes -> fare quote
 ```
 
 - 2 topics on the online quote path: requests and quotes;
@@ -472,15 +634,29 @@ trip request -> mileage topic  --+
 - potentially 2 routing calls per trip;
 - join state, timeout, duplicate, and late-event policy.
 
-B is technically possible, but it creates an artificial join because one OSRM
-response already owns both fields. It is kept as a design comparison, not as
-the runnable baseline.
+B is technically possible, but it creates an artificial join because one
+routing-provider response already owns both fields. It is kept as a design
+comparison, not as the runnable baseline.
 
 The meaningful stateful join is:
 
 ```text
 fare quote + delayed trip outcome -> business evaluation
 ```
+
+### Streaming join versus database join
+
+Demo 07 implements the streaming path because Lecture 7 is about keyed state:
+
+| Question | Kafka event-driven join | Database join |
+|---|---|---|
+| Where does unmatched state live? | Stream processor state | Database tables |
+| When is evaluation produced? | When the bounded expected set is complete in 07E; a continuous production processor could emit per matched pair | When a query, trigger, or scheduled job runs |
+| Best fit | Low-latency evaluation events and downstream reactions | Historical audit, reporting, and model training |
+| Included in Demo 07? | Yes, as a bounded in-memory teaching join | No; production architecture alternative only |
+
+A production system can use both: publish immediate evaluation events, then
+sink those events to a database or warehouse for historical analysis.
 
 No ksqlDB, Kafka Streams, Flink, or Spark is required. The runnable baseline
 uses Python `confluent-kafka`. The finite evaluator uses in-memory dictionaries
@@ -619,10 +795,16 @@ commit, and a Kafka producer does not commit these input offsets.
 
 ### 07D: publish delayed outcomes
 
-**Objective:** Publish the realized trip outcomes that arrive after pricing.
+**Objective:** Simulate and publish the delayed trip outcomes that conceptually
+arrive after pricing.
 
 **Why:** A quote is a prediction. Only a later outcome supplies the label needed
 to measure realized markup.
+
+07D does not consume the requests topic, observe a vehicle, or sleep for the
+simulated duration. It independently recreates the same synthetic requests,
+uses the same declared routing mode as 07C, and applies stable `trip_id`-based
+realization adjustments.
 
 **Done when:** Four outcomes are acknowledged for the same four `trip_id`
 values and the same routing mode used by 07C.
@@ -645,11 +827,16 @@ Secret-free report: outputs/runs/$RUN_ID/demo07d/report.json
 
 ### 07E: join and evaluate
 
-**Objective:** Join quotes with delayed outcomes by `trip_id` and publish one
-evaluation event per trip and model version.
+**Objective:** Collect and validate the complete bounded set of quotes and
+outcomes, join them by `trip_id`, and publish one evaluation event per trip and
+model version.
 
 **Why:** Subscribing to two topics does not perform a join. The evaluator must
-hold bounded keyed state until both sides arrive.
+hold bounded keyed state until the expected set contains both quote versions
+and one outcome for every trip. It then emits all eight evaluations. A
+continuous production join could emit each eligible pair as it arrives; this
+finite classroom implementation deliberately makes the complete state visible
+first.
 
 **Done when:** Eight pairs produce eight acknowledged evaluations, then the
 evaluator commits progress for both input topics.
