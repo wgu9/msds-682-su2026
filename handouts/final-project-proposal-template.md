@@ -88,8 +88,8 @@ currently expect to use.]
 
 ## 5. Feasibility Risks and Plan
 
-- **Minimum working demo:** [What is the smallest end-to-end result the TA will
-  be able to run and inspect?]
+- **Minimum working demo:** [What is the smallest end-to-end result that can be
+  run and inspected?]
 - **Primary risks:** [Data access, credentials, cost, time, technical
   complexity, data quality, privacy, or integration risks]
 - **Fallback plan:** [How will you reduce scope or use local sample/replay data

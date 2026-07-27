@@ -574,7 +574,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-proposal-template.md",
     createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:03 PM PDT on July 27, 2026",
     wide: true,
     summary: "One-PDF proposal structure covering the problem, data source, streaming architecture, tools, feasibility, contributions, and AI disclosure."
   },
@@ -586,9 +586,9 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-proposal-rubric.md",
     createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:03 PM PDT on July 27, 2026",
     wide: true,
-    summary: "Shared student-and-TA rubric with five 2-point buckets and ten independently scored criteria."
+    summary: "Student-facing proposal rubric with five 2-point buckets and ten independently scored criteria."
   },
   {
     slug: "demo07",

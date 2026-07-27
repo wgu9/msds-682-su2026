@@ -2,9 +2,9 @@
 
 ## Scope
 
-The proposal is worth **10 points**. This rubric is shared with students and
-TAs and grades only the proposal. The final project report, code, evidence, and
-presentation are evaluated separately under the final-project rubric.
+The proposal is worth **10 points**. This rubric grades only the proposal. The
+final project report, code, evidence, and presentation are evaluated separately
+under the final-project rubric.
 
 The proposal has **5 buckets worth 2 points each**. Each bucket contains two
 atomic 1-point criteria.
@@ -19,9 +19,9 @@ Score each atomic criterion independently:
 - **0 points:** Missing, contradictory, or not feasible as proposed.
 
 Submission compliance is not a sixth scoring bucket. The submission must be one
-PDF, contain no more than 550 words, and contain no more than 2 pages. The TA
-grades only content within the first 550 words and first 2 pages. Visual polish
-does not earn separate points.
+PDF, contain no more than 550 words, and contain no more than 2 pages. Only
+content within the first 550 words and first 2 pages will be graded. Visual
+polish does not earn separate points.
 
 ## Rubric
 
@@ -39,14 +39,17 @@ does not earn separate points.
 | | **5.2 AI disclosure:** Identifies any AI tools used or planned, what AI helped with, what the student/team completed, and how outputs will be verified, tested, rejected, or modified. An explicit no-AI statement satisfies the disclosure requirement when no AI was used to prepare the proposal. | 1 |
 |  | **Total** | **10** |
 
-## TA Consistency Notes
+## Scoring Clarifications
 
-- Grade the proposal's clarity and feasibility, not the number of technologies.
-- Do not award extra proposal points for cloud deployment, additional topics,
-  sophisticated dashboards, or multiple AI tools.
-- A simple architecture may receive full credit when all required boundaries
+- Your proposal is graded on clarity and feasibility, not the number of
+  technologies.
+- Cloud deployment, additional topics, sophisticated dashboards, or multiple
+  AI tools do not earn extra proposal points.
+- A simple architecture can receive full credit when all required boundaries
   and data flows are clear.
-- Do not infer missing information from prior conversations, code repositories,
-  or planned future work. Grade only what the submitted proposal states.
-- For two-person projects, a token role, a highly unequal split, or one partner
-  completing the proposal alone does not satisfy criterion 5.1.
+- Only information included in the submitted proposal can earn credit; missing
+  information will not be inferred from prior conversations, code repositories,
+  or planned future work.
+- For a two-person project, criterion 5.1 requires a meaningful,
+  approximately equal contribution plan. A token role, a highly unequal split,
+  or one partner completing the proposal alone does not satisfy the criterion.
