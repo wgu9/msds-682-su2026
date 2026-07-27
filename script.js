@@ -133,7 +133,7 @@ const pages = {
   "/assignments": {
     title: "Assignments",
     body: `
-      <p class="lede">There are two individual assignments and one final project. <a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Canvas</a> is the official submission platform; submit homework and final-project materials there as ZIP files.</p>
+      <p class="lede">There are two individual assignments and one final project. <a href="https://usfca.instructure.com/courses/1633704" target="_blank" rel="noopener">Canvas</a> is the official submission platform; submit the proposal as one PDF and the assignment/final packages in their required formats.</p>
       <div class="assignment-list">
         <article class="assignment-card">
           <h3>Assignment 1</h3>
@@ -148,13 +148,14 @@ const pages = {
           <p><a class="download-link" href="#/handouts/assignment02">Open Assignment 2</a> · <a href="handouts/assignment02-starter.zip">Download student starter</a></p>
         </article>
         <article class="assignment-card">
-          <h3>Final Project</h3>
-          <p>Final project worth 50% total: proposal 10%, written report/code 20%, presentation 20%. Projects may be completed individually or in two-person teams; individual projects are always allowed.</p>
+          <h3>Final Project Proposal</h3>
+          <p>Submit one PDF of no more than 550 words and no more than 2 pages; ideally, use 1 page. The proposal is worth 10 points and 10% of the course grade. Projects may be completed individually or in a two-person team. For a team, contributions to the proposal and final project must remain approximately 50–50.</p>
           <div class="milestone-list">
             <div><strong>Proposal</strong><span>Due Tue Aug 4, 2026 · 11:59 PM PDT · 10% course weight</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
             <div><strong>Presentation</strong><span>Timing will be announced on Canvas</span></div>
           </div>
+          <p><a class="download-link" href="#/handouts/final-project">Open requirements</a> · <a href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a></p>
         </article>
       </div>
 
@@ -164,7 +165,7 @@ const pages = {
         <li><strong>Late policy for homework and project deliverables:</strong> up to 1 day late receives a 10% deduction; up to 2 days late receives a 20% deduction; day 3 or later is not accepted and receives zero credit.</li>
         <li>GitHub is used for code management, collaboration, and portfolio development.</li>
         <li>AI tools, coding agents, open-source resources, and online references are permitted with clear attribution. Students must understand and verify submitted work and use another method when an AI tool cannot resolve the problem reliably.</li>
-        <li>For two-person final projects, each student must document individual contributions and be able to explain the design, code, AI usage, and evaluation results.</li>
+        <li>For two-person final projects, contributions—including the proposal—must be approximately 50–50. Each student must document contributions and be able to explain the design, code, AI usage, and evaluation results.</li>
       </ul>
     `
   },
@@ -566,6 +567,55 @@ const handouts = [
     summary: "Build from stateless processing to keyed state, time-aware joins, delayed outcomes, and bounded model evaluation."
   },
   {
+    slug: "lec7a-final-project",
+    section: "lec7",
+    category: "Slides",
+    title: "Lecture 7A: Final Project",
+    kind: "html",
+    file: "handouts/lec7a-final-project.html",
+    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Define a feasible streaming project, plan the proposal, establish reproducibility, and package visible evidence."
+  },
+  {
+    slug: "final-project",
+    section: "lec7",
+    category: "Project",
+    title: "Final Project Requirements",
+    kind: "md",
+    file: "handouts/final-project.md",
+    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    wide: true,
+    summary: "Student-facing requirements for the proposal, reproducible streaming product, AI element, final package, and presentation."
+  },
+  {
+    slug: "final-project-proposal-template",
+    section: "lec7",
+    category: "Template",
+    title: "Final Project Proposal Template",
+    kind: "md",
+    file: "handouts/final-project-proposal-template.md",
+    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    wide: true,
+    summary: "One-PDF proposal structure covering the problem, data source, streaming architecture, tools, feasibility, contributions, and AI disclosure."
+  },
+  {
+    slug: "final-project-proposal-rubric",
+    section: "lec7",
+    category: "Rubric",
+    title: "Final Project Proposal Rubric",
+    kind: "md",
+    file: "handouts/final-project-proposal-rubric.md",
+    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
+    wide: true,
+    summary: "Shared student-and-TA rubric with five 2-point buckets and ten independently scored criteria."
+  },
+  {
     slug: "demo07",
     section: "lec7",
     category: "Demo",
@@ -649,6 +699,10 @@ const lectureRoadmap = [
       label: "Lecture slides"
     },
     materials: [
+      { slug: "lec7a-final-project", label: "Final project briefing" },
+      { slug: "final-project", label: "Project requirements" },
+      { slug: "final-project-proposal-template", label: "Proposal template" },
+      { slug: "final-project-proposal-rubric", label: "Proposal rubric" },
       { slug: "demo07", label: "Demo 07" }
     ]
   }
