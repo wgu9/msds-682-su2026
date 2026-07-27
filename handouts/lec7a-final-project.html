@@ -636,11 +636,13 @@
       <p class="kicker">Course arc</p>
       <h1>The course now shifts from demos to your system</h1>
       <div class="rail rail-seq">
-        <div class="rail-node n-connect"><b>Lectures 1 to 6</b><span>Kafka mechanics, contracts, APIs, Connect, and processing</span></div>
+        <div class="rail-node sm n-connect"><b>Lectures 1 to 6</b><span>Kafka foundations and demos</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Lecture 7A → 7B</b><span>Project contract first; then state, joins, and evaluation</span></div>
+        <div class="rail-node sm n-reg"><b>Mon · Lecture 7A</b><span>Project contract and next submission</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-reg"><b>Final Project</b><span>One reproducible streaming product with visible evidence</span></div>
+        <div class="rail-node sm n-proc"><b>Thu · Lecture 7B</b><span>State, joins, and evaluation</span></div>
+        <div class="rail-arrow">→</div>
+        <div class="rail-node sm n-reg"><b>Final Project</b><span>One reproducible streaming product</span></div>
       </div>
       <div class="takeaway point"><strong>The demos are building blocks.</strong> Your project connects the right blocks around one clear problem.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7b-stateful-stream-processing" target="_blank" rel="noreferrer">Continue to Lecture 7B: Stateful Stream Processing</a></div>
@@ -707,7 +709,7 @@
         <a href="#module-1-define"><span class="number">01</span><h2>Define</h2><p>What must the project prove?</p></a>
         <a href="#module-2-plan"><span class="number">02</span><h2>Plan</h2><p>What belongs in the proposal?</p></a>
         <a href="#module-3-reproduce"><span class="number">03</span><h2>Reproduce</h2><p>What must the TA be able to rerun?</p></a>
-        <a href="#module-4-deliver"><span class="number">04</span><h2>Deliver</h2><p>What evidence belongs in the final package?</p></a>
+        <a href="#module-4-deliver"><span class="number">04</span><h2>Deliver</h2><p>What is submitted now and at the end?</p></a>
       </nav>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -798,29 +800,6 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="ai-conversation-kafka">
-    <div class="frame">
-      <p class="kicker">Use-case clarification</p>
-      <h1>AI conversation is realtime; Kafka usually sits behind it</h1>
-      <div class="duo">
-        <article class="card">
-          <span class="tag">User-facing path</span>
-          <h2>Return the response</h2>
-          <p><strong>Browser ↔ HTTP/<span class="term" tabindex="0" data-def="Server-Sent Events: a one-way HTTP stream commonly used to deliver generated tokens to a browser.">SSE</span>/WebSocket ↔ AI service</strong></p>
-          <p>Low-latency interaction and streamed tokens.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Event backbone</span>
-          <h2>Preserve and fan out events</h2>
-          <p><strong>Conversation event → Kafka → consumers</strong></p>
-          <p>Moderation, audit, analytics, evaluation, memory, and <span class="term" tabindex="0" data-def="Delivering one event stream to multiple independent downstream consumers.">fan-out</span>.</p>
-        </article>
-      </div>
-      <div class="takeaway point"><strong>Kafka handles bursts.</strong> Use it when durability, decoupling, replay, or multiple consumers create value.</div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
   <section class="slide module-divider" id="module-2-plan" data-tone="green" data-module="Plan">
     <div class="frame module-divider-shell">
       <div>
@@ -854,10 +833,10 @@
           <tr><td><strong>Architecture sketch</strong></td><td>Source to Kafka to output?</td></tr>
           <tr><td><strong>Tools and packages</strong></td><td>What job does each own?</td></tr>
           <tr><td><strong>Feasibility plan</strong></td><td>Minimum demo, risk, and fallback?</td></tr>
-          <tr><td><strong>Contribution and AI</strong></td><td>Who owns what? How is AI verified?</td></tr>
+          <tr><td><strong>Contribution and AI</strong></td><td>Who owns what? What AI is planned, and did AI help prepare this PDF?</td></tr>
         </tbody>
       </table>
-      <div class="takeaway point"><strong>One PDF, at most 550 words and 2 pages.</strong> Ideally, use 1 page.</div>
+      <div class="takeaway point"><strong>Submit one PDF through Canvas, at most 550 words and 2 pages.</strong> Ideally, use 1 page.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Open proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Open 10-point proposal rubric</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -879,6 +858,29 @@
         <div class="rail-node n-reg"><b>Evidence</b><span>Output plus evaluation</span></div>
       </div>
       <p class="factline"><strong>Also label:</strong> the bounded AI element, local fallback, and any cloud-only dependency.</p>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="ai-conversation-kafka">
+    <div class="frame">
+      <p class="kicker">Architecture example</p>
+      <h1>AI conversation is realtime; Kafka usually sits behind it</h1>
+      <div class="duo">
+        <article class="card">
+          <span class="tag">User-facing path</span>
+          <h2>Return the response</h2>
+          <p><strong>Browser ↔ HTTP/<span class="term" tabindex="0" data-def="Server-Sent Events: a one-way HTTP stream commonly used to deliver generated tokens to a browser.">SSE</span>/WebSocket ↔ AI service</strong></p>
+          <p>Low-latency interaction and streamed tokens.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Event backbone</span>
+          <h2>Preserve and fan out events</h2>
+          <p><strong>Conversation event → Kafka → consumers</strong></p>
+          <p>Moderation, audit, analytics, evaluation, memory, and <span class="term" tabindex="0" data-def="Delivering one event stream to multiple independent downstream consumers.">fan-out</span>.</p>
+        </article>
+      </div>
+      <div class="takeaway point"><strong>Kafka handles bursts.</strong> Use it when durability, decoupling, replay, or multiple consumers create value.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -926,26 +928,26 @@
 
   <section class="slide" id="platform-neutral">
     <div class="frame">
-      <p class="kicker">Infrastructure choice</p>
-      <h1>No cloud provider is a hard requirement</h1>
+      <p class="kicker">Failure plan</p>
+      <h1>Your minimum path must survive an account or network problem</h1>
       <div class="trio">
         <article class="card">
-          <span class="tag">Option A</span>
-          <h2>Confluent Cloud</h2>
-          <p>Managed Kafka and Schema Registry can simplify the event backbone.</p>
+          <span class="tag">Credits or access</span>
+          <h2>Preserve a short run</h2>
+          <p>Stop unused resources, save configuration, and keep representative input and output.</p>
         </article>
         <article class="card">
-          <span class="tag">Option B</span>
-          <h2>GCP or another cloud</h2>
-          <p>Cloud storage, compute, and Kafka integration may better match the data source.</p>
+          <span class="tag">Live source unavailable</span>
+          <h2>Replay the same contract</h2>
+          <p>Use a cached sample or deterministic generator through the same event path.</p>
         </article>
         <article class="card">
-          <span class="tag">Option C</span>
-          <h2>One laptop</h2>
-          <p>A local Kafka-compatible setup and deterministic replay are acceptable.</p>
+          <span class="tag">Local setup fails</span>
+          <h2>Reduce startup friction</h2>
+          <p>Pin dependencies, document ports, and provide one minimum run command.</p>
         </article>
       </div>
-      <div class="takeaway point"><strong>The hard requirement is reasonable reproducibility on the TA's computer.</strong></div>
+      <div class="takeaway point"><strong>A fallback is not a separate toy demo.</strong> It should exercise the same contract, processing logic, and expected result.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -990,8 +992,8 @@
 
   <section class="slide" id="ai-boundary">
     <div class="frame">
-      <p class="kicker">Bounded AI</p>
-      <h1>AI needs a visible input, output, and verification method</h1>
+      <p class="kicker">AI reproducibility</p>
+      <h1>Make the AI step reproducible like every other processor</h1>
       <div class="trio">
         <article class="card">
           <span class="tag">Boundary</span>
@@ -1009,7 +1011,7 @@
           <p>Use tests, metrics, failure cases, or human review.</p>
         </article>
       </div>
-      <p class="factline"><strong>Required:</strong> every project must include one bounded AI-related element or AI-assisted workflow.</p>
+      <p class="factline"><strong>Preserve:</strong> tool or model version, representative inputs and outputs, verification results, limitations, and fallback.</p>
       <div class="takeaway caveat"><strong>AI may accelerate the project.</strong> It may not replace ownership of design, code, testing, and explanation.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -1022,12 +1024,12 @@
         <div class="module-label">Deliver</div>
       </div>
       <div>
-        <p class="kicker">Final submission</p>
-        <h1>Package the project so evidence is easy to find</h1>
+        <p class="kicker">Submission checkpoints</p>
+        <h1>Package the next decision and the final evidence</h1>
         <ul class="module-points">
-          <li><strong>Run:</strong> one documented minimum success path.</li>
-          <li><strong>Inspect:</strong> source, AI, output, and evaluation evidence.</li>
-          <li><strong>Explain:</strong> architecture, limitations, and contributions.</li>
+          <li><strong>Now:</strong> one proposal PDF that proves feasibility.</li>
+          <li><strong>At the end:</strong> one ZIP with a runnable minimum path.</li>
+          <li><strong>Both:</strong> make ownership, assumptions, and evidence explicit.</li>
         </ul>
       </div>
     </div>
@@ -1051,6 +1053,7 @@
           <tr><td><strong>Output + evaluation</strong></td><td>Show both the result and why it is acceptable</td></tr>
         </tbody>
       </table>
+      <p class="factline"><strong>Submission:</strong> one ZIP through Canvas, named with the USF username(s), with one top-level project folder.</p>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Open the full final project requirements</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -1058,21 +1061,22 @@
 
   <section class="slide" id="grading-evidence">
     <div class="frame">
-      <p class="kicker">Grading evidence</p>
-      <h1>Points follow visible engineering evidence</h1>
+      <p class="kicker">Final project weights</p>
+      <h1>The final 40% separates the package from its explanation</h1>
       <div class="duo">
         <article class="card">
-          <span class="tag">System</span>
-          <h2>Problem to output</h2>
-          <p>Problem framing, data source, contract, streaming architecture, replay, and a real processing result.</p>
+          <span class="tag">20% · Report + code</span>
+          <h2>Build and prove the path</h2>
+          <p>Problem, data, contract, Kafka architecture, replay, useful output, bounded AI, evaluation, and documentation.</p>
         </article>
         <article class="card">
-          <span class="tag">Proof</span>
-          <h2>Evaluation to explanation</h2>
-          <p>Bounded AI evidence, an <span class="term" tabindex="0" data-def="Repeatable test cases, metrics, or acceptance checks used to judge outputs.">evaluation harness</span>, documentation, reproducibility, and a clear presentation.</p>
+          <span class="tag">20% · Presentation</span>
+          <h2>Explain the shortest complete story</h2>
+          <p>Motivation, architecture, demo, result, AI evidence, evaluation, limitations, and next steps.</p>
         </article>
       </div>
-      <div class="takeaway point"><strong>Complexity does not substitute for evidence.</strong> A smaller system can score strongly when every criterion is visible and verified.</div>
+      <div class="takeaway point"><strong>The 10% proposal is graded separately.</strong> Use its published 10-point rubric; complexity earns no automatic credit.</div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Open the full final project requirements</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1100,14 +1104,14 @@
 
   <section class="slide" id="proposal-checklist">
     <div class="frame">
-      <p class="kicker">Before Aug 4</p>
-      <h1>Prove feasibility before writing most of the system</h1>
+      <p class="kicker">Your next deadline · Aug 4</p>
+      <h1>Work backward from the final package to a feasible proposal</h1>
       <ul class="checklist">
         <li><strong>Problem:</strong> one target user and useful output.</li>
         <li><strong>Data:</strong> inspect the actual source.</li>
         <li><strong>Contract:</strong> define minimum event fields.</li>
         <li><strong>Path:</strong> draw source, Kafka, processor, result.</li>
-        <li><strong>AI:</strong> define input, output, verification.</li>
+        <li><strong>AI:</strong> define the project boundary; separately disclose proposal-writing AI.</li>
         <li><strong>Replay:</strong> save a cached or deterministic input.</li>
         <li><strong>Risk:</strong> list the three likely blockers.</li>
         <li><strong>Scope:</strong> remove work that threatens completion.</li>
@@ -1129,7 +1133,7 @@
         <li>Make the required result reproducible on the TA's computer.</li>
         <li>Submit evidence that makes every claim easy to verify.</li>
       </ol>
-      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Project requirements</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Proposal rubric</a></div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Project requirements</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-ideas" target="_blank" rel="noreferrer">Project ideas</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Proposal rubric</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>

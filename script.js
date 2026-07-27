@@ -88,14 +88,14 @@ const pages = {
               <td><strong>Mon · Jul 27</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Lecture 7A: Final Project</td>
-              <td>Project scope, proposal contract, bounded AI, reproducibility, and evidence</td>
+              <td>Project scope, proposal contract, bounded AI, reproducibility, and evidence; Lecture 7B follows Thursday</td>
             </tr>
             <tr>
               <td>8</td>
               <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Lecture 7B: Stateful Stream Processing</td>
-              <td>Streams, tables, keys, time, joins, delayed outcomes, and Demo 07</td>
+              <td>Streams, tables, keys, time, joins, delayed outcomes, streaming SQL crosswalk, and Demo 07</td>
             </tr>
             <tr>
               <td>9</td>
@@ -587,7 +587,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7a-final-project.html",
     createdAt: "Created at 4:06 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:33 PM PDT on July 27, 2026",
     wide: true,
     standalone: true,
     summary: "Define a feasible streaming project, proposal contract, bounded AI element, reproducibility plan, and visible evidence."
@@ -646,9 +646,9 @@ const handouts = [
     category: "Slides",
     title: "Lecture 7B: Stateful Stream Processing",
     kind: "html",
-    file: "handouts/lec7-stateful-stream-processing.html",
+    file: "handouts/lec7b-stateful-stream-processing.html",
     createdAt: "Created at 4:26 PM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:33 PM PDT on July 27, 2026",
     wide: true,
     standalone: true,
     summary: "Build from stateless processing to keyed state, time-aware joins, delayed outcomes, and bounded model evaluation."
