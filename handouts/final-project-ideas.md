@@ -11,30 +11,33 @@ AI-assisted workflow. Before submitting the proposal, review the
 [Proposal Template](#/handouts/final-project-proposal-template), and the
 [10-Point Proposal Rubric](#/handouts/final-project-proposal-rubric).
 
-## Five possible directions
+## Project directions
 
 **1. Wikimedia Recent Changes Monitor · realtime · low to medium difficulty.**
 Build a monitoring tool for editors, researchers, or moderators using the
-[Wikimedia Recent Changes EventStream](https://stream.wikimedia.org/v2/stream/recentchange).
-A producer reads the public server-sent event stream, validates a small event
-schema, and publishes selected changes to Kafka; a Python consumer then computes
-windowed counts by wiki, page, or change type and produces an alert or compact
-report. A bounded AI component could classify a small subset of edits or
-summarize only the evidence contained in selected events, with labeled examples
-used to evaluate it. Keep a short cached JSONL sample so the same pipeline can
-be replayed when the live feed or network is unavailable.
+[Wikimedia EventStreams service](https://wikitech.wikimedia.org/wiki/Event_Platform/EventStreams_HTTP_Service).
+A producer identifies itself with a User-Agent, reads the public
+`recentchange` server-sent event stream, discards canary events, validates a
+small schema, and publishes selected changes to Kafka keyed by wiki or page; a
+Python consumer computes windowed counts by wiki, page, or change type and
+produces an alert or compact report. For the bounded AI element, one option is
+to classify a small labeled subset or summarize only the evidence in selected
+events, then measure classification quality or unsupported claims. Keep a short
+cached JSONL sample so the same pipeline can be replayed when the live feed or
+network is unavailable.
 
 **2. USGS Earthquake Alert and Situation Summary · near-realtime · medium
 difficulty.** Create an alerting service for a traveler, emergency-planning
 team, or local news desk using the
 [USGS Earthquake GeoJSON feeds](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php).
-A poller checks one official feed at a reasonable interval, validates each
-record, deduplicates events by USGS event ID, and sends new or updated events to
-Kafka; a consumer applies transparent magnitude and location rules and writes an
-alert artifact. A bounded AI component could turn the structured facts into a
-short situation summary, tested for unsupported claims and numeric accuracy.
-Use saved API responses as a deterministic replay path, and do not depend on an
-earthquake occurring during the demonstration.
+A poller checks one official feed at its documented cadence, validates each
+record, and publishes new or revised events to Kafka keyed by USGS event ID; it
+uses the event's `updated` value so later revisions are not silently dropped. A
+consumer applies transparent magnitude and location rules and writes an alert
+artifact. For the bounded AI element, one option is to turn the structured facts
+into a short situation summary, tested for unsupported claims and numeric
+accuracy. Use saved API responses as a deterministic replay path, and do not
+depend on an earthquake occurring during the demonstration.
 
 **3. Citi Bike Station Availability Monitor · hybrid · medium difficulty.**
 Design an operations tool for a bike-share dispatcher or commuter using the
@@ -46,32 +49,72 @@ stations that are nearly empty or full; a small historical sample can provide
 context or replay data. A bounded AI component could explain a proposed
 rebalancing action from the calculated station facts, and an evaluation should
 check whether the explanation preserves those facts. Limit the first version to
-one feed, one borough or station subset, and cached snapshots for offline use.
+one `station_information` and `station_status` feed pair, one borough or station
+subset, and cached snapshots for offline use.
 
 **4. NYC Taxi Demand Replay and Anomaly Report · batch replay · medium
 difficulty.** Build a demand-monitoring pipeline for a transportation analyst
-using one month or a small fixed sample from the
+using a small fixed sample from one monthly Parquet file on the
 [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
 A replay producer emits trips in timestamp order at an accelerated rate, Kafka
 events are keyed by pickup zone, and a consumer computes bounded time-window
 metrics such as trip count, fare, or tip rate before writing an anomaly report
-or dashboard-ready dataset. A bounded AI component could explain already
-detected anomalies, while an evaluation compares every explanation with the
+or dashboard-ready dataset. For the bounded AI element, one option is to explain
+already detected anomalies; the evaluation compares every explanation with the
 underlying metrics. Do not download many months or make a live dashboard the
 minimum success path; a fixed sample and a reproducible output file are enough.
 
 **5. MovieLens Streaming Recommendations · batch replay · medium to high
 difficulty.** Create a small recommendation service for a movie application
-using a research dataset from the
-[GroupLens MovieLens page](https://grouplens.org/datasets/movielens/). Replay a
-bounded set of ratings as user events, publish them to Kafka keyed by user ID,
-and maintain simple state such as recent ratings, movie popularity, or
-item-to-item co-occurrence before producing a top-N recommendation artifact. A
-bounded AI component could explain a recommendation using only the computed
-evidence, with tests for unsupported movie facts and consistency with the
-ranking. Start with a smaller MovieLens edition or sampled records, cite
-GroupLens, follow the dataset's usage terms, and do not redistribute the
-original dataset inside the submission unless its terms permit it.
+using the education-sized
+[MovieLens Latest Small dataset](https://grouplens.org/datasets/movielens/latest/).
+Replay a bounded set of ratings as user events, publish them to Kafka keyed by
+user ID, and maintain simple state such as recent ratings, movie popularity, or
+item-to-item co-occurrence before producing a top-N recommendation artifact.
+For the bounded AI element, one option is to explain a recommendation using
+only the computed evidence, with tests for unsupported movie facts and
+consistency with the ranking. Cite GroupLens, follow the dataset README and
+usage license, and do not redistribute data unless those terms permit it.
+
+**6. Application Reliability Monitor · realtime synthetic · low to medium
+difficulty.** Build an incident-monitoring tool for a developer or site
+reliability engineer. A seeded Python generator produces service name, latency,
+status code, and error events; a producer validates them and publishes to Kafka
+keyed by service, while a consumer calculates fixed-window error rates and
+latency summaries before writing an alert and incident evidence file. For the
+bounded AI element, one option is to generate a short incident summary using
+only those calculated metrics, then evaluate it against deliberately injected
+faults and known ground truth. The
+[OpenTelemetry documentation](https://opentelemetry.io/docs/) provides
+real-world context for logs, metrics, and traces, but installing a full
+OpenTelemetry stack is not required. Preserve the seed and generated JSONL so
+the run is exactly replayable.
+
+**7. Game Telemetry and Cheat Detection · realtime synthetic · medium
+difficulty.** Create a live-operations tool for the analyst of one clearly
+defined game mode. A seeded Python generator produces a small schema of login,
+match, score, and optional purchase events; events are validated and published
+to Kafka keyed by player ID, and a consumer maintains a leaderboard or flags
+impossible scores before writing a review queue. For the bounded AI element, one
+option is to explain each flagged case using only its rule results and event
+history, with injected cheat cases providing labeled evaluation data. Keep one
+target user, one game mode, one primary output, and a deterministic replay so
+the project demonstrates a verifiable operational result instead of only a toy
+event generator.
+
+**8. Inventory CDC Monitor · realtime · advanced alternative.** Build a
+low-stock monitor for an inventory operator using one PostgreSQL inventory
+table. With the
+[Debezium PostgreSQL connector](https://debezium.io/documentation/reference/stable/connectors/postgresql.html),
+inserts, updates, and deletes flow through Kafka Connect into Kafka keyed by
+item ID; a consumer materializes current inventory state and writes a low-stock
+alert artifact. For the bounded AI element, one option is to summarize or
+prioritize alerts from the computed state, evaluated against a fixed script of
+known database mutations. This direction is advanced because PostgreSQL,
+logical decoding permissions, Kafka Connect, and the connector must all work.
+Validate that path early, restrict the project to one table and one output, and
+keep a deterministic replay of the same change-event contract as the offline
+fallback.
 
 ## Keep the proposal course-sized
 
@@ -83,3 +126,5 @@ original dataset inside the submission unless its terms permit it.
 - Record the owner, link, license, and usage limits of your chosen source; each
   of these datasets has its own terms, and the final package documents them in
   `DATA_SOURCE.md`.
+- For synthetic data, document the generator, seed, schema, and injected test
+  cases in `DATA_SOURCE.md` so another person can reproduce the evaluation.

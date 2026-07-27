@@ -612,9 +612,9 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-ideas.md",
     createdAt: "Created at 4:05 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:20 PM PDT on July 27, 2026",
     wide: true,
-    summary: "Five course-sized project directions with public data, a Kafka path, bounded AI, evaluation, and replay."
+    summary: "Eight course-sized project directions with public or synthetic data, a Kafka path, bounded AI, evaluation, and replay."
   },
   {
     slug: "final-project-proposal-template",
