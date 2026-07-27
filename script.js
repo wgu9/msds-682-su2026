@@ -155,7 +155,7 @@ const pages = {
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
             <div><strong>Presentation</strong><span>Timing will be announced on Canvas</span></div>
           </div>
-          <p><a class="download-link" href="#/handouts/final-project">Open requirements</a> · <a href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a></p>
+          <p><a class="download-link" href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a></p>
         </article>
       </div>
 
@@ -567,31 +567,6 @@ const handouts = [
     summary: "Build from stateless processing to keyed state, time-aware joins, delayed outcomes, and bounded model evaluation."
   },
   {
-    slug: "lec7a-final-project",
-    section: "lec7",
-    category: "Slides",
-    title: "Lecture 7A: Final Project",
-    kind: "html",
-    file: "handouts/lec7a-final-project.html",
-    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
-    wide: true,
-    standalone: true,
-    summary: "Define a feasible streaming project, plan the proposal, establish reproducibility, and package visible evidence."
-  },
-  {
-    slug: "final-project",
-    section: "lec7",
-    category: "Project",
-    title: "Final Project Requirements",
-    kind: "md",
-    file: "handouts/final-project.md",
-    createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 3:54 PM PDT on July 27, 2026",
-    wide: true,
-    summary: "Student-facing requirements for the proposal, reproducible streaming product, AI element, final package, and presentation."
-  },
-  {
     slug: "final-project-proposal-template",
     section: "lec7",
     category: "Template",
@@ -699,8 +674,6 @@ const lectureRoadmap = [
       label: "Lecture slides"
     },
     materials: [
-      { slug: "lec7a-final-project", label: "Final project briefing" },
-      { slug: "final-project", label: "Project requirements" },
       { slug: "final-project-proposal-template", label: "Proposal template" },
       { slug: "final-project-proposal-rubric", label: "Proposal rubric" },
       { slug: "demo07", label: "Demo 07" }
