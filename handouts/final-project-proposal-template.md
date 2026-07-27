@@ -1,4 +1,4 @@
-# MSDS 682 — Final Project Proposal Template
+# MSDS 682 Final Project Proposal Template
 
 ## Submission Requirements
 
@@ -7,8 +7,8 @@
 - **Architecture sketch:** Required and included within the page limit.
 - **Team size:** Individual or a team of up to 2 students.
 
-If you work with a partner, contributions to the entire final project—including
-this proposal—must be approximately 50–50. Both partners must contribute to the
+If you work with a partner, contributions to the entire final project, including
+this proposal, must be approximately 50-50. Both partners must contribute to the
 proposal and be able to explain the complete project. Clearly describe each
 partner's responsibilities below.
 
@@ -28,7 +28,7 @@ Replace the prompts in brackets with concise proposal content.
 
 [For an individual project, state that you own all components. For a two-person
 team, describe each partner's responsibilities and explain how the overall
-contribution—including this proposal—will remain approximately 50–50.]
+contribution, including this proposal, will remain approximately 50-50.]
 
 ## 1. Problem Summary
 
@@ -96,16 +96,31 @@ currently expect to use.]
   if the preferred plan fails?]
 - **Milestones:** [Brief sequence from initial pipeline to final validation]
 
-## 6. AI Use and Disclosure
+## 6. AI Element and Disclosure
 
-If AI will be used in the final project or was used to prepare this proposal,
-identify:
+### Planned bounded AI element (required)
+
+Every final project must include one bounded AI-related element or AI-assisted
+workflow, so every proposal must name the one you plan to build:
+
+- **Planned AI element:** [Classification, summarization, RAG, evaluation,
+  memory, or disclosed and verified AI-assisted development]
+- **Input and output boundary:** [What goes in, what comes out]
+- **Verification method:** [Tests, metrics, source checks, failure cases, or
+  human review]
+- **Fallback:** [What the project does when the AI element is unavailable or
+  its output is rejected]
+
+"No AI" is not an option for this section.
+
+### AI use in preparing this proposal (disclosure)
+
+If AI helped you write this proposal, identify:
 
 - the AI tool(s) or model(s);
 - which parts AI helped with;
 - which parts were completed by the student or team;
-- how AI-generated output was verified, tested, rejected, or modified;
-- what evidence or evaluation will be retained.
+- how AI-generated output was verified, tested, rejected, or modified.
 
 Follow the same AI-use disclosure expectations used in the course assignments.
 If no AI was used to prepare this proposal, state: **"No AI was used to prepare

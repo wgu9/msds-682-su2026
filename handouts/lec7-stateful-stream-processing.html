@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MSDS 682 Lecture 7 slides: stateful stream processing, streams and tables, joins, delayed outcomes, and real-time model evaluation.">
-  <title>MSDS 682 · Lecture 7 · Stateful Stream Processing</title>
+  <meta name="description" content="MSDS 682 Lecture 7B slides: stateful stream processing, streams and tables, joins, delayed outcomes, and real-time model evaluation.">
+  <title>MSDS 682 · Lecture 7B · Stateful Stream Processing</title>
   <script>
     window.MathJax = {
       tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["$$", "$$"]] },
@@ -620,15 +620,15 @@
         <div class="card chip"><span class="tag">Released</span><h2>Thursday, July 23</h2></div>
         <div class="card chip"><span class="tag">Due</span><h2>Friday, July 31</h2><p><strong>11:59 PM PDT</strong></p></div>
       </div>
-      <div class="takeaway caveat"><strong>HW2 and Lecture 7 share patterns, not data.</strong> Follow the published HW2 handout as its SSOT.</div>
+      <div class="takeaway caveat"><strong>HW2 and Lecture 7B share patterns, not data.</strong> Follow the published HW2 handout as its SSOT.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment02" target="_blank" rel="noreferrer">Open Assignment 2</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide hero" id="lecture-7-title">
+  <section class="slide hero" id="lecture-7b-title">
     <div class="frame">
-      <p class="kicker">MSDS 682 · <b>Lecture 7</b></p>
+      <p class="kicker">MSDS 682 · <b>Lecture 7B</b></p>
       <h1>State turns event history<br>into a decision.</h1>
       <p class="sub">Stream processing, keyed state, joins, delayed outcomes, and real-time model evaluation.</p>
       <div class="rail">
@@ -644,15 +644,16 @@
         <span class="pill">confluent-kafka 2.15.0</span>
         <span class="pill">scikit-learn 1.9.0</span>
       </div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7a-final-project" target="_blank" rel="noreferrer">Review Lecture 7A: Final Project</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="lecture-7-overview">
+  <section class="slide" id="lecture-7b-overview">
     <div class="frame">
-      <p class="kicker">Lecture 7 overview</p>
+      <p class="kicker">Lecture 7B overview</p>
       <h1>Five modules, one stateful decision path</h1>
-      <nav class="module-toc" aria-label="Lecture 7 modules">
+      <nav class="module-toc" aria-label="Lecture 7B modules">
         <a href="#module-1-define"><span class="number">01</span><h2>Define</h2><p>What stream processing adds.</p></a>
         <a href="#module-2-model"><span class="number">02</span><h2>Model</h2><p>Streams, tables, keys, and time.</p></a>
         <a href="#module-3-join"><span class="number">03</span><h2>Join</h2><p>State, matching, and expiry.</p></a>
@@ -997,7 +998,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node sm n-reg"><b>07F Compare</b><span>Selection recommendation</span></div>
       </div>
-      <div class="takeaway point"><strong>Expected scale:</strong> 4 requests, 8 quotes, 4 outcomes, 8 evaluations.</div>
+      <div class="takeaway point"><strong>Expected scale:</strong> 4 requests, 8 quotes, 4 outcomes, 8 evaluations · <strong>Naming:</strong> 07A–07F are Demo 07 steps inside Lecture 7B.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1160,9 +1161,9 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="lecture-7-synthesis">
+  <section class="slide" id="lecture-7b-synthesis">
     <div class="frame narrow">
-      <p class="kicker">Lecture 7 synthesis</p>
+      <p class="kicker">Lecture 7B synthesis</p>
       <h1>Five ideas organize stateful streaming</h1>
       <ol class="final-list">
         <li>Kafka retains history; the processor computes meaning.</li>

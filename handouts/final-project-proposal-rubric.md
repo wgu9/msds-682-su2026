@@ -1,4 +1,4 @@
-# MSDS 682 — Final Project Proposal Rubric
+# MSDS 682 Final Project Proposal Rubric
 
 ## Scope
 
@@ -35,8 +35,8 @@ polish does not earn separate points.
 | | **3.2 Other components and boundaries:** Shows applicable ML models, dashboards, external tools, data generation, storage, or data-preparation/ETL components and clearly connects them to the streaming layer. | 1 |
 | **4. Tools and Feasibility** | **4.1 Planned tools and packages:** Names the main tools/packages and maps each one to a specific project responsibility without unnecessary technology. | 1 |
 | | **4.2 Feasibility plan:** Defines a minimum working demo, material risks, realistic milestones, and a credible fallback or scope-reduction plan. | 1 |
-| **5. Contribution and AI Disclosure** | **5.1 Contribution plan:** For an individual project, clearly states individual ownership. For a two-person project, assigns meaningful responsibilities and presents a credible approximately 50–50 contribution plan covering both the proposal and final project. | 1 |
-| | **5.2 AI disclosure:** Identifies any AI tools used or planned, what AI helped with, what the student/team completed, and how outputs will be verified, tested, rejected, or modified. An explicit no-AI statement satisfies the disclosure requirement when no AI was used to prepare the proposal. | 1 |
+| **5. Contribution and AI Disclosure** | **5.1 Contribution plan:** For an individual project, clearly states individual ownership. For a two-person project, assigns meaningful responsibilities and presents a credible approximately 50-50 contribution plan covering both the proposal and final project. | 1 |
+| | **5.2 AI element and disclosure:** Names the one bounded AI-related element or AI-assisted workflow planned for the final project, with its input/output boundary and verification method, and discloses any AI used to prepare the proposal. A planned AI element is required and cannot be omitted; an explicit no-AI statement covers only the proposal-preparation disclosure. | 1 |
 |  | **Total** | **10** |
 
 ## Scoring Clarifications
@@ -53,3 +53,7 @@ polish does not earn separate points.
 - For a two-person project, criterion 5.1 requires a meaningful,
   approximately equal contribution plan. A token role, a highly unequal split,
   or one partner completing the proposal alone does not satisfy the criterion.
+- Criterion 5.2 covers two separate things. Naming the planned bounded AI
+  element is required and cannot be satisfied by a no-AI statement. Disclosing
+  whether AI helped write the proposal is a separate statement, and "No AI was
+  used to prepare this proposal" is a valid answer for that part.
