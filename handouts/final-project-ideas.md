@@ -42,39 +42,41 @@ depend on an earthquake occurring during the demonstration.
 **3. Citi Bike Station Availability Monitor · hybrid · medium difficulty.**
 Design an operations tool for a bike-share dispatcher or commuter using the
 realtime GBFS feeds and historical trip files linked from the
-[Citi Bike System Data page](https://citibikenyc.com/system-data). Publish
-station-status snapshots to Kafka keyed by station ID, maintain the latest
-availability state, and emit a CSV, alert stream, or dashboard-ready file for
-stations that are nearly empty or full; a small historical sample can provide
-context or replay data. A bounded AI component could explain a proposed
-rebalancing action from the calculated station facts, and an evaluation should
-check whether the explanation preserves those facts. Limit the first version to
-one `station_information` and `station_status` feed pair, one borough or station
-subset, and cached snapshots for offline use.
+[Citi Bike System Data page](https://citibikenyc.com/system-data). Validate and
+publish station-status snapshots to Kafka keyed by station ID, maintain the
+latest availability state, and emit a CSV, alert stream, or dashboard-ready
+file for stations that are nearly empty or full; a small historical sample can
+provide context or replay data. For the bounded AI element, one option is to
+explain a proposed rebalancing action from the calculated station facts; the
+evaluation checks whether the explanation preserves those facts. Limit the
+first version to one `station_information` and `station_status` feed pair, one
+borough or station subset, and cached snapshots for offline use.
 
 **4. NYC Taxi Demand Replay and Anomaly Report · batch replay · medium
 difficulty.** Build a demand-monitoring pipeline for a transportation analyst
 using a small fixed sample from one monthly Parquet file on the
 [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
-A replay producer emits trips in timestamp order at an accelerated rate, Kafka
-events are keyed by pickup zone, and a consumer computes bounded time-window
-metrics such as trip count, fare, or tip rate before writing an anomaly report
-or dashboard-ready dataset. For the bounded AI element, one option is to explain
-already detected anomalies; the evaluation compares every explanation with the
-underlying metrics. Do not download many months or make a live dashboard the
-minimum success path; a fixed sample and a reproducible output file are enough.
+A replay producer validates and emits trips in timestamp order at an
+accelerated rate, Kafka events are keyed by pickup zone, and a consumer computes
+bounded time-window metrics such as trip count, fare, or tip rate before writing
+an anomaly report or dashboard-ready dataset. For the bounded AI element, one
+option is to explain already detected anomalies; the evaluation compares every
+explanation with the underlying metrics. Do not download many months or make a
+live dashboard the minimum success path; a fixed sample and a reproducible
+output file are enough.
 
 **5. MovieLens Streaming Recommendations · batch replay · medium to high
 difficulty.** Create a small recommendation service for a movie application
 using the education-sized
 [MovieLens Latest Small dataset](https://grouplens.org/datasets/movielens/latest/).
-Replay a bounded set of ratings as user events, publish them to Kafka keyed by
-user ID, and maintain simple state such as recent ratings, movie popularity, or
-item-to-item co-occurrence before producing a top-N recommendation artifact.
-For the bounded AI element, one option is to explain a recommendation using
-only the computed evidence, with tests for unsupported movie facts and
-consistency with the ranking. Cite GroupLens, follow the dataset README and
-usage license, and do not redistribute data unless those terms permit it.
+Validate and replay a bounded set of ratings as user events, publish them to
+Kafka keyed by user ID, and maintain simple state such as recent ratings, movie
+popularity, or item-to-item co-occurrence before producing a top-N
+recommendation artifact. For the bounded AI element, one option is to explain a
+recommendation using only the computed evidence, with tests for unsupported
+movie facts and consistency with the ranking. Cite GroupLens, follow the dataset
+README and usage license, and do not redistribute data unless those terms
+permit it.
 
 **6. Application Reliability Monitor · realtime synthetic · low to medium
 difficulty.** Build an incident-monitoring tool for a developer or site
