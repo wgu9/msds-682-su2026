@@ -597,14 +597,14 @@
   <section class="slide hero" id="lecture-7b-title">
     <div class="frame">
       <p class="kicker">MSDS 682 · <b>Lecture 7B</b></p>
-      <h1>State turns event history<br>into a decision.</h1>
-      <p class="sub">Choose the operation, define its correctness policy, then apply both in Demo 07.</p>
+      <h1>Join fare quotes with<br>delayed trip outcomes</h1>
+      <p class="sub">Demo 07 uses stateful processing to compare two pricing methods.</p>
       <div class="rail">
-        <div class="rail-node n-kafka"><b>Events</b><span>Requests, quotes, outcomes</span></div>
+        <div class="rail-node n-kafka"><b>Fare quotes now</b><span>rule-v1 and ridge-v2</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Processor</b><span>Filter, map, aggregate, join</span></div>
+        <div class="rail-node n-proc"><b>Join by <code>trip_id</code></b><span>Wait for the outcome</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-reg"><b>Derived fact</b><span>A result that can be evaluated</span></div>
+        <div class="rail-node n-reg"><b>Pricing evaluations</b><span>Compare error from 20%</span></div>
       </div>
       <div class="hero-meta">
         <span class="pill">Python 3.11.14</span>
@@ -617,56 +617,61 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="two-design-questions">
+  <section class="slide" id="project-first">
     <div class="frame">
-      <p class="kicker">The mental model</p>
-      <h1>Begin with two questions, not a framework</h1>
-      <div class="duo" style="margin-top: 3vh;">
+      <p class="kicker">The project first</p>
+      <h1>The join has two inputs and one measurable output</h1>
+      <div class="trio" style="margin-top: 3vh;">
         <div class="card">
-          <span class="tag">Question 1 · Memory</span>
-          <h2>Is one record enough?</h2>
-          <p><strong>Yes:</strong> usually stateless. <strong>No:</strong> stateful because an earlier record must be remembered.</p>
+          <span class="tag">Input now</span>
+          <h2>Eight fare quotes</h2>
+          <p>Four trip requests each produce a rule-v1 quote and a ridge-v2 quote.</p>
         </div>
         <div class="card">
-          <span class="tag">Question 2 · Meaning</span>
-          <h2>History or current value?</h2>
-          <p><strong>Stream:</strong> every change. <strong>Table:</strong> the latest value by key.</p>
+          <span class="tag">Input later</span>
+          <h2>Four trip outcomes</h2>
+          <p>Each outcome provides the synthetic actual cost for one completed trip.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Output</span>
+          <h2>Eight evaluations</h2>
+          <p>Join by <code>trip_id</code>, measure both versions, and recommend the lower-error version.</p>
         </div>
       </div>
-      <div class="takeaway point"><strong>State begins when one record is not enough.</strong> Stream versus table tells us how to interpret the history we retain.</div>
+      <div class="takeaway point"><strong>Business target:</strong> choose the pricing method closer to 20% realized markup, where markup = (fare − actual cost) / actual cost.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
   <section class="slide" id="operations-at-a-glance">
     <div class="frame">
-      <p class="kicker">The operation map</p>
-      <h1>Four operations organize the processor</h1>
+      <p class="kicker">Choose the operation</p>
+      <h1>Use the operation that matches the required output</h1>
       <div class="quad" style="margin-top: 3vh;">
         <div class="card"><span class="tag">Usually stateless</span><h2>Filter</h2><p>Keep or drop each record.</p></div>
-        <div class="card"><span class="tag">Usually stateless</span><h2>Map</h2><p>Transform one record.</p></div>
+        <div class="card"><span class="tag">Usually stateless</span><h2>Map</h2><p>Turn one request into a quote.</p></div>
         <div class="card"><span class="tag">Stateful</span><h2>Aggregate</h2><p>Update a running result.</p></div>
-        <div class="card"><span class="tag">Stateful · today</span><h2>Join</h2><p>Relate two histories.</p></div>
+        <div class="card"><span class="tag">Stateful · today</span><h2>Join</h2><p>Combine a quote with its outcome.</p></div>
       </div>
-      <div class="takeaway caveat"><strong>Demo 07 is the worked example for Join.</strong> Aggregate is introduced here but is not implemented in today’s demo.</div>
+      <div class="takeaway caveat"><strong>Demo 07 uses map and join.</strong> It maps requests to quotes, then joins each quote with one delayed outcome. It does not implement aggregate.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
   <section class="slide" id="stateful-correctness-map">
     <div class="frame narrow">
-      <p class="kicker">The correctness map</p>
-      <h1>Stateful work needs an explicit policy</h1>
+      <p class="kicker">Define correctness</p>
+      <h1>A stateful operation must answer four questions</h1>
       <table>
-        <thead><tr><th>Question</th><th>What must be declared?</th></tr></thead>
+        <thead><tr><th>Question</th><th>Required decision</th></tr></thead>
         <tbody>
-          <tr><td><strong>Which records belong together?</strong></td><td>Contract, key, and partition alignment</td></tr>
-          <tr><td><strong>When may they relate?</strong></td><td>Event time, processing time, and window or expiry</td></tr>
-          <tr><td><strong>What must survive?</strong></td><td>State, cleanup, checkpoint, changelog, or replay</td></tr>
-          <tr><td><strong>What happens when reality is messy?</strong></td><td>Late or missing data and delivery or deduplication policy</td></tr>
+          <tr><td><strong>Which records match?</strong></td><td>Contract, key, and partition alignment</td></tr>
+          <tr><td><strong>How long may a match wait?</strong></td><td>Clock, window, completion, or expiry rule</td></tr>
+          <tr><td><strong>How is state recovered?</strong></td><td>Cleanup, checkpoint, changelog, or replay</td></tr>
+          <tr><td><strong>What can go wrong?</strong></td><td>Late, missing, or duplicate input and delivery policy</td></tr>
         </tbody>
       </table>
-      <div class="takeaway point"><strong>Operation tells us what to compute.</strong> This checklist tells us whether the stateful result is trustworthy.</div>
+      <div class="takeaway point"><strong>Demo 07 answer:</strong> match on <code>trip_id</code>, wait for the complete bounded set, keep state in memory, and publish with at-least-once delivery.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -676,11 +681,11 @@
       <div class="module-divider-shell">
         <div><div class="module-index">01</div><div class="module-label">Operations</div></div>
         <div>
-          <h1>Choose the operation before adding state policy</h1>
+          <h1>Know what each operation does</h1>
           <ul class="module-points">
-            <li><strong>Boundary:</strong> Kafka retains events; the processor computes.</li>
-            <li><strong>Stateless:</strong> filter and map usually handle one record at a time.</li>
-            <li><strong>Stateful:</strong> aggregate and join remember earlier records.</li>
+            <li><strong>Kafka</strong> stores and delivers events.</li>
+            <li><strong>Filter and map</strong> usually process one record at a time.</li>
+            <li><strong>Aggregate and join</strong> remember earlier records.</li>
           </ul>
         </div>
       </div>
@@ -690,8 +695,8 @@
 
   <section class="slide" id="broker-vs-processor">
     <div class="frame">
-      <p class="kicker">Responsibility boundary</p>
-      <h1>Kafka stores the history; a processor interprets it</h1>
+      <p class="kicker">Kafka versus processor</p>
+      <h1>Kafka stores events; your processor computes results</h1>
       <div class="duo" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Kafka broker</span>
@@ -705,7 +710,7 @@
         </div>
       </div>
       <p class="factline">Classroom scripts stay <strong>bounded</strong> for evidence; the production processor keeps polling as new records arrive.</p>
-      <div class="takeaway caveat"><strong>Kafka is not the business computation.</strong> Client code or a processing framework performs that work.</div>
+      <div class="takeaway caveat"><strong>For the final project, name the component that owns each computation.</strong> Do not describe Kafka itself as the filter, map, aggregate, join, or model.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -713,7 +718,7 @@
   <section class="slide" id="stateless-vs-stateful">
     <div class="frame">
       <p class="kicker">Stateless operations</p>
-      <h1>Filter decides; map transforms</h1>
+      <h1>Filter and map usually process one record at a time</h1>
       <div class="duo" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Filter · one in → zero or one out</span>
@@ -726,7 +731,7 @@
           <p>Extract fields, convert units, or enrich from a fixed lookup before emitting a new record.</p>
         </div>
       </div>
-      <div class="takeaway caveat"><strong>“Usually stateless” is deliberate.</strong> A changing lookup table or external history introduces state and failure policy.</div>
+      <div class="takeaway caveat"><strong>They become stateful when they read changing history.</strong> A changing lookup table or earlier event adds state and failure policy.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -734,7 +739,7 @@
   <section class="slide" id="aggregate-and-join">
     <div class="frame">
       <p class="kicker">Stateful operations</p>
-      <h1>Aggregate updates a result; join completes a relationship</h1>
+      <h1>Aggregate remembers a value; join remembers an unmatched record</h1>
       <div class="duo" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Aggregate · many → running result</span>
@@ -747,7 +752,7 @@
           <p>Correlate by key, apply a time or completion policy, emit a joined fact, then clean up state.</p>
         </div>
       </div>
-      <div class="takeaway point"><strong>Demo 07 follows the Join column.</strong> Its state is visible in Python so matching, failure, and commit boundaries remain inspectable.</div>
+      <div class="takeaway point"><strong>Demo 07 uses join:</strong> each quote waits in keyed state until the outcome with the same <code>trip_id</code> arrives.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -768,7 +773,7 @@
           <p><code>trip_id → latest trip status</code>. Later updates replace the current view.</p>
         </div>
       </div>
-      <div class="takeaway point"><strong>Stream and table are interpretations.</strong> Kafka topics remain ordered event logs.</div>
+      <div class="takeaway point"><strong>Demo 07 treats quotes and outcomes as streams.</strong> Every quote and every outcome remains part of the evaluation history.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -776,7 +781,7 @@
   <section class="slide" id="keys-and-partitions">
     <div class="frame">
       <p class="kicker">Keyed computation</p>
-      <h1>The key decides which events belong together</h1>
+      <h1>Use <code>trip_id</code> to match each quote with its outcome</h1>
       <div class="rail">
         <div class="rail-node"><b><code>trip_id=682-A</code></b><span>Fare quote</span></div>
         <div class="rail-arrow">→</div>
@@ -784,7 +789,7 @@
         <div class="rail-arrow">←</div>
         <div class="rail-node"><b><code>trip_id=682-A</code></b><span>Delayed outcome</span></div>
       </div>
-      <div class="takeaway caveat"><strong>A shared key is necessary for a keyed join, but not sufficient.</strong> Contracts, time bounds, state, and recovery policy still matter.</div>
+      <div class="takeaway caveat"><strong>The same key is required, but it does not fully define the join.</strong> Also define contracts, time bounds, state, and recovery.</div>
       <p class="factline">Demo 07 uses <strong>one partition per topic</strong>. Larger systems must align partition count and partitioning strategy across joined inputs.</p>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -793,7 +798,7 @@
   <section class="slide" id="event-time-processing-time">
     <div class="frame narrow">
       <p class="kicker">Two clocks</p>
-      <h1>When did the event happen, and when did we process it?</h1>
+      <h1>Event time says when it happened; processing time says when code saw it</h1>
       <table>
         <thead><tr><th>Clock</th><th>Meaning</th><th>Why it matters</th></tr></thead>
         <tbody>
@@ -809,7 +814,7 @@
   <section class="slide" id="windows-and-late-events">
     <div class="frame">
       <p class="kicker">Bounded state</p>
-      <h1>A <span class="term" tabindex="0" data-def="A declared time bound within which records may be matched or aggregated.">join window</span> bounds how long related records may arrive</h1>
+      <h1>A <span class="term" tabindex="0" data-def="A declared time bound within which records may be matched or aggregated.">join window</span> limits how long a quote waits for its outcome</h1>
       <div class="rail">
         <div class="rail-node n-connect"><b>Open</b><span>First side arrives; store keyed state</span></div>
         <div class="rail-arrow">→</div>
@@ -817,7 +822,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node"><b>Expire</b><span>No match by the declared boundary</span></div>
       </div>
-      <div class="takeaway caveat"><strong>A <span class="term" tabindex="0" data-def="A record that arrives after its join window or watermark has passed.">late event</span> is a policy decision.</strong> Drop, update, compensate, quarantine, or reprocess. The business must choose.</div>
+      <div class="takeaway caveat"><strong>Decide what to do with a <span class="term" tabindex="0" data-def="A record that arrives after its join window or watermark has passed.">late event</span>.</strong> Drop it, update the result, compensate, quarantine, or reprocess.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -827,11 +832,11 @@
       <div class="module-divider-shell">
         <div><div class="module-index">02</div><div class="module-label">Stateful joins</div></div>
         <div>
-          <h1>Subscribing receives records; joining creates a relationship</h1>
+          <h1>Implement the join explicitly</h1>
           <ul class="module-points">
-            <li><strong>Store</strong> the unmatched side by key.</li>
-            <li><strong>Match</strong> when the other side arrives.</li>
-            <li><strong>Expire or recover</strong> state under an explicit policy.</li>
+            <li><strong>Store</strong> each unmatched quote or outcome by key.</li>
+            <li><strong>Match</strong> records with the same <code>trip_id</code>.</li>
+            <li><strong>Emit, expire, and recover</strong> under a declared policy.</li>
           </ul>
         </div>
       </div>
@@ -842,7 +847,7 @@
   <section class="slide" id="subscribe-is-not-join">
     <div class="frame">
       <p class="kicker">Common misconception</p>
-      <h1>Two subscriptions do not automatically produce one joined fact</h1>
+      <h1>Reading two topics is not a join</h1>
       <div class="duo" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Subscribe</span>
@@ -855,7 +860,7 @@
           <p>Extract key, store unmatched input, match, compute, emit, and clean up.</p>
         </div>
       </div>
-      <div class="takeaway point"><strong>The application owns the join semantics.</strong></div>
+      <div class="takeaway point"><strong>Your code must define the join:</strong> store, match, compute, emit, and clean up.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -863,7 +868,7 @@
   <section class="slide" id="join-lifecycle">
     <div class="frame">
       <p class="kicker">Join lifecycle</p>
-      <h1>A keyed join follows four explicit steps</h1>
+      <h1>Join in four steps: receive, remember, match, emit</h1>
       <div class="rail rail-seq">
         <div class="rail-node"><b>1 · Receive</b><span>Decode and validate</span></div>
         <div class="rail-arrow">→</div>
@@ -881,14 +886,14 @@
   <section class="slide" id="join-policy">
     <div class="frame narrow">
       <p class="kicker">A join needs more than a key</p>
-      <h1>Write the policy before writing the loop</h1>
+      <h1>Specify what matches and when the run ends</h1>
       <table>
         <thead><tr><th>Question</th><th>Demo 07 answer</th></tr></thead>
         <tbody>
           <tr><td>What matches?</td><td>Fare quote and trip outcome with the same <code>trip_id</code></td></tr>
           <tr><td>How many results?</td><td>One evaluation per quote version and trip</td></tr>
           <tr><td>When is input complete?</td><td>Eight expected quote-outcome pairs in the bounded run</td></tr>
-          <tr><td>What is late or missing?</td><td>Reported as a production gap, not silently invented</td></tr>
+          <tr><td>What is late or missing?</td><td>Report the missing input; do not create a match</td></tr>
         </tbody>
       </table>
     </div>
@@ -898,13 +903,13 @@
   <section class="slide" id="state-recovery">
     <div class="frame">
       <p class="kicker">Crash boundary</p>
-      <h1>In-memory state teaches the join, not production recovery</h1>
+      <h1>A restart deletes in-memory join state</h1>
       <div class="trio" style="margin-top: 3vh;">
         <div class="card"><span class="tag">Classroom</span><h2>Finite dictionaries</h2><p>Transparent and easy to inspect.</p></div>
         <div class="card"><span class="tag">Failure</span><h2>Memory disappears</h2><p>A restart must rebuild or restore state.</p></div>
         <div class="card"><span class="tag">Production</span><h2>Durable state</h2><p>Checkpoint, changelog, replay, or managed state store.</p></div>
       </div>
-      <div class="takeaway caveat"><strong>Bounded stateful teaching code is not a durable stream processor.</strong></div>
+      <div class="takeaway caveat"><strong>Demo 07 keeps state in memory for clarity.</strong> A production processor must rebuild or restore that state after a restart.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -914,11 +919,11 @@
       <div class="module-divider-shell">
         <div><div class="module-index">03</div><div class="module-label">Demo 07</div></div>
         <div>
-          <h1>Apply the Join row from request to delayed evaluation</h1>
+          <h1>Build Demo 07: four topics, two prices, one join</h1>
           <ul class="module-points">
-            <li><strong>Estimate</strong> distance and duration.</li>
-            <li><strong>Quote</strong> with a rule and a trained model.</li>
-            <li><strong>Evaluate</strong> both versions after the outcome arrives.</li>
+            <li><strong>Publish</strong> requests and two quotes per trip.</li>
+            <li><strong>Publish</strong> one delayed outcome per trip.</li>
+            <li><strong>Join and compare</strong> both pricing versions.</li>
           </ul>
         </div>
       </div>
@@ -928,8 +933,8 @@
 
   <section class="slide" id="pricing-business-problem">
     <div class="frame">
-      <p class="kicker">Ridesharing pricing case</p>
-      <h1>Quote now; evaluate after the outcome arrives</h1>
+      <p class="kicker">Declared classroom inputs</p>
+      <h1>Use controlled inputs so both pricing methods get the same test</h1>
       <div class="trio" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Request</span>
@@ -947,7 +952,7 @@
           <p>07D independently varies realized miles and minutes, then computes actual cost.</p>
         </div>
       </div>
-      <div class="takeaway caveat"><strong>07D has no GPS and does not wait for a real trip.</strong> The business target is realized markup close to 20%.</div>
+      <div class="takeaway caveat"><strong>This is a controlled classroom comparison.</strong> 07D uses synthetic outcomes; it has no GPS and does not wait for a real trip.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -955,7 +960,7 @@
   <section class="slide" id="demo07-system-loop">
     <div class="frame">
       <p class="kicker">Demo 07 workflow</p>
-      <h1>Offline training feeds online quoting and delayed evaluation</h1>
+      <h1>Demo 07 runs in six steps</h1>
       <p class="rail-title">Offline · 07A</p>
       <div class="rail">
         <div class="rail-node sm"><b>Historical examples</b><span>Deterministic labels</span></div>
@@ -978,7 +983,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node sm n-reg"><b>07F Compare</b><span>Selection recommendation</span></div>
       </div>
-      <div class="takeaway point"><strong>Expected scale:</strong> 4 requests, 8 quotes, 4 outcomes, 8 evaluations · <strong>Naming:</strong> 07A–07F are Demo 07 steps inside Lecture 7B.</div>
+      <div class="takeaway point"><strong>Expected output:</strong> 4 requests, 8 quotes, 4 outcomes, and 8 evaluations. <strong>07A–07F are Demo 07 script labels, not lecture sections.</strong></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -986,14 +991,14 @@
   <section class="slide" id="demo07-four-topics">
     <div class="frame">
       <p class="kicker">Event boundaries</p>
-      <h1>Four topics represent four natural business events</h1>
+      <h1>Use four topics: requests, quotes, outcomes, evaluations</h1>
       <div class="quad" style="margin-top: 3vh;">
         <div class="card"><span class="tag">01 · Input</span><h2>Trip requests</h2><p>Key <code>trip_id</code></p></div>
         <div class="card"><span class="tag">02 · Prediction</span><h2>Fare quotes</h2><p>Key <code>trip_id</code></p></div>
         <div class="card"><span class="tag">03 · Delayed label</span><h2>Trip outcomes</h2><p>Key <code>trip_id</code></p></div>
         <div class="card"><span class="tag">04 · Comparison</span><h2>Pricing evaluations</h2><p>Key <code>quote_id</code></p></div>
       </div>
-      <div class="takeaway point"><strong>Lecture 6 sketched three source histories.</strong> Demo 07 adds the derived pricing-evaluations topic as topic 4; distance, duration, and fare stay together in each quote event.</div>
+      <div class="takeaway point"><strong>Keep distance, duration, and fare in the quote event.</strong> The evaluation is a new event produced by joining a quote with its delayed outcome.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1009,7 +1014,7 @@
           <tr><td><strong>ridge-v2</strong></td><td><code>USD fare = predicted cost × 1.20</code></td><td>Trained model plus explicit markup policy</td></tr>
         </tbody>
       </table>
-      <div class="takeaway caveat"><strong>Why Ridge?</strong> It revisits Lecture 6's question about correlated distance and duration features with a bounded teaching baseline. The rule is not ML, and neither version claims production optimality.</div>
+      <div class="takeaway caveat"><strong>Ridge is a small teaching model.</strong> The demo tests whether it beats rule-v1 on the same four outcomes; it makes no production claim.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1035,7 +1040,7 @@
   <section class="slide" id="architecture-a-vs-b">
     <div class="frame narrow">
       <p class="kicker">Architecture decision</p>
-      <h1>Keep fields together when one owner computes them together</h1>
+      <h1>Do not split one route response into two topics just to create a join</h1>
       <table>
         <thead><tr><th>Design</th><th>Pipeline</th><th>Consequence</th></tr></thead>
         <tbody>
@@ -1051,7 +1056,7 @@
   <section class="slide" id="safe-commit-boundary">
     <div class="frame">
       <p class="kicker">Correctness boundary</p>
-      <h1>Publish the derived fact before committing its input</h1>
+      <h1>Publish the output before committing the input offset</h1>
       <div class="rail rail-seq">
         <div class="rail-node sm"><b>Consume</b><span>Read one input</span></div>
         <div class="rail-arrow">→</div>
@@ -1063,7 +1068,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node sm n-proc"><b>Commit</b><span>Input offset</span></div>
       </div>
-      <div class="takeaway caveat"><strong>This is <span class="term" tabindex="0" data-def="A crash between output acknowledgement and input commit can reprocess the same input, so a duplicate output is possible.">at-least-once</span>.</strong> A stable output ID or key makes a duplicate identifiable; downstream logic must still deduplicate it.</div>
+      <div class="takeaway caveat"><strong>This is <span class="term" tabindex="0" data-def="A crash between output acknowledgement and input commit can reprocess the same input, so a duplicate output is possible.">at-least-once</span>.</strong> A crash between output acknowledgement and input commit can duplicate the output. Use a stable output ID and downstream deduplication.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1071,7 +1076,7 @@
   <section class="slide" id="evaluation-metric">
     <div class="frame narrow">
       <p class="kicker">Evaluate and bound</p>
-      <h1>Use shared outcomes, one metric, and a limited claim</h1>
+      <h1>Choose the version with lower markup error</h1>
       <div class="metric">
         <div class="equation">MAE<sub>markup</sub> = average(|realized markup − 20%|)</div>
         <p>Lower error is better. The report expresses the result in percentage points.</p>
@@ -1088,7 +1093,7 @@
   <section class="slide" id="real-time-ml-coverage">
     <div class="frame">
       <p class="kicker">Coverage map</p>
-      <h1>Demo 07 closes a teaching loop, not a production ML platform</h1>
+      <h1>Demo 07 evaluates two models; it does not deploy them</h1>
       <div class="coverage">
         <div class="done"><strong>Event source</strong><span>Complete</span></div>
         <div class="done"><strong>Kafka event log</strong><span>Four topics</span></div>
@@ -1110,14 +1115,14 @@
   <section class="slide" id="lecture-7b-synthesis">
     <div class="frame narrow">
       <p class="kicker">Lecture 7B synthesis</p>
-      <h1>Return to the same map</h1>
+      <h1>Design every stateful processor in four steps</h1>
       <ol class="final-list">
-        <li>Ask whether one record is enough and whether you need history or current state.</li>
-        <li>Choose the operation: filter, map, aggregate, or join.</li>
-        <li>For stateful work, declare key, time, bounds, state, late-data, and delivery policy.</li>
-        <li>Demo 07 applies Join: quote plus delayed outcome becomes an evaluation.</li>
+        <li>Define the input event and the required output event.</li>
+        <li>Choose filter, map, aggregate, or join.</li>
+        <li>Declare key, time bound, state, recovery, late-data, and delivery policy.</li>
+        <li>Prove the path with an observable output and a failure case.</li>
       </ol>
-      <div class="takeaway point"><strong>The operation says what to compute; the policy makes the result trustworthy.</strong></div>
+      <div class="takeaway point"><strong>Demo 07:</strong> <code>FareQuote + TripOutcome</code> with the same <code>trip_id</code> produces <code>PricingEvaluation</code>.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Demo 07 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec6-kafka-connect-stream-processing" target="_blank" rel="noreferrer">Review Lecture 6</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>

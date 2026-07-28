@@ -95,7 +95,7 @@ const pages = {
               <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Lecture 7B: Stateful Stream Processing</td>
-              <td>Streams, tables, keys, time, joins, delayed outcomes, and Demo 07</td>
+              <td>Join fare quotes with delayed trip outcomes and compare rule-v1 with ridge-v2 in Demo 07</td>
             </tr>
             <tr>
               <td>9</td>
@@ -303,7 +303,7 @@ const handoutSections = [
     id: "lec7b",
     label: "Lecture 7B",
     title: "Stateful Stream Processing",
-    summary: "Apply streams, tables, keys, time, joins, and delayed outcomes in the Demo 07 decision path."
+    summary: "Join fare quotes with delayed outcomes, then compare two pricing methods in Demo 07."
   }
 ];
 
@@ -652,10 +652,10 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7b-stateful-stream-processing.html",
     createdAt: "Created at 4:26 PM PDT on July 23, 2026",
-    lastUpdatedAt: "Last updated at 4:33 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:31 PM PDT on July 27, 2026",
     wide: true,
     standalone: true,
-    summary: "Build from stateless processing to keyed state, time-aware joins, delayed outcomes, and bounded model evaluation."
+    summary: "Join fare quotes with delayed outcomes, compare two pricing methods, and define the state, time, recovery, and delivery policies."
   },
   {
     slug: "demo07",
