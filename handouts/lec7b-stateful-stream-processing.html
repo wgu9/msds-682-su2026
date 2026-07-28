@@ -801,7 +801,7 @@
           <tr><td><strong><span class="term" tabindex="0" data-def="The clock time at which the processor observes and handles the record.">Processing time</span></strong></td><td>Time the processor sees the record</td><td>Network delay and replay can move it later</td></tr>
         </tbody>
       </table>
-      <div class="takeaway point"><strong>Demo 07 uses a finite classroom join.</strong> Production systems must state which clock governs expiry.</div>
+      <div class="takeaway point"><strong>Demo 07 is bounded by 8 expected pairs, not by event time.</strong> A production join must declare which clock and expiry policy govern its window.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -863,7 +863,7 @@
   <section class="slide" id="join-lifecycle">
     <div class="frame">
       <p class="kicker">Join lifecycle</p>
-      <h1>One key moves through four explicit states</h1>
+      <h1>A keyed join follows four explicit steps</h1>
       <div class="rail rail-seq">
         <div class="rail-node"><b>1 · Receive</b><span>Decode and validate</span></div>
         <div class="rail-arrow">→</div>
@@ -1063,7 +1063,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node sm n-proc"><b>Commit</b><span>Input offset</span></div>
       </div>
-      <div class="takeaway caveat"><strong>This is <span class="term" tabindex="0" data-def="A crash between output acknowledgement and input commit can reprocess the same input, so a duplicate output is possible.">at-least-once</span>.</strong> A stable key exposes duplicates for downstream deduplication.</div>
+      <div class="takeaway caveat"><strong>This is <span class="term" tabindex="0" data-def="A crash between output acknowledgement and input commit can reprocess the same input, so a duplicate output is possible.">at-least-once</span>.</strong> A stable output ID or key makes a duplicate identifiable; downstream logic must still deduplicate it.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
