@@ -5,7 +5,7 @@ produces one useful result, and includes one bounded AI-related element or
 AI-assisted workflow.
 
 The goal is not to use the largest number of tools. The goal is to build one
-complete path that another person can understand, run, and verify.
+complete path that another person can understand, review, and verify.
 
 ## Milestones
 
@@ -60,14 +60,16 @@ The project must:
 5. Include one bounded AI-related element or AI-assisted workflow.
 6. Include repeatable tests, metrics, acceptance checks, or an evaluation
    harness.
-7. Be reasonably reproducible on the TA's computer.
+7. Provide a complete review path: full reviewer access when cloud services are
+   part of the core path, or a locally runnable minimum demo for a non-cloud
+   path.
 
 Batch, realtime, and hybrid inputs are all acceptable. A historical file may
 enter Kafka record by record through a producer or replay script. A notebook
 that reads the entire file and produces one chart without a streaming path is
 not sufficient.
 
-## Platform and reproducibility
+## Platform and review path
 
 You may use:
 
@@ -75,29 +77,47 @@ You may use:
 - GCP or another cloud provider;
 - a local Kafka-compatible setup on one computer.
 
-No specific cloud provider is required. The hard requirement is reasonable
-reproducibility on the TA's computer.
+No specific cloud provider is required. Use the review path that matches the
+project:
+
+- **Cloud-based core path:** Give the course reviewer full access to every
+  required service and resource for review. Include the code, pinned
+  dependencies, resource and configuration inventory, setup steps, sample
+  input, expected output, validation evidence, and cleanup instructions. The
+  reviewer is not required to reproduce cloud-only services on a local
+  computer.
+- **Non-cloud path:** Provide a minimum end-to-end demo that the course reviewer
+  can run locally with pinned dependencies, sample or replay data, one clear run
+  command, expected output, and validation evidence.
+
+A local or cached fallback for a cloud project is strongly recommended when
+practical, but it is not required when the submitted cloud review path is fully
+accessible and verifiable.
 
 If the project depends on cloud services, provide:
 
 - code and pinned dependencies;
 - a resource inventory with required topics, buckets, endpoints, and services;
-- access instructions for the TA;
+- full course-reviewer access to the required services and resources;
 - sample data and a minimum success path;
 - expected output and cleanup instructions;
 - a local or cached fallback when practical.
 
-Do not submit credentials. Keep secrets outside source code, exclude `.env`,
-and provide a blank `.env.example` when environment variables are required.
+Do not place credentials in the submitted code or documents. Keep secrets
+outside source code, exclude `.env`, and provide a blank `.env.example` when
+environment variables are required. Grant cloud access through the provider's
+normal account, project, or role mechanism rather than sharing a personal
+password or secret.
 
 Additional requirements by project type:
 
-| Project type | Required reproducibility evidence |
+| Project type | Required review evidence |
 |---|---|
+| Cloud-based core path | Full reviewer access, code, resource/configuration inventory, setup, sample input/output, validation evidence, cleanup |
+| Non-cloud/local path | Pinned dependencies, one run command, sample or replay data, output, validation |
 | External API | Credential setup, rate-limit notes, cached sample, deterministic replay |
 | Machine learning | Training and prediction data, preparation code, training code, model artifact, inference code, metrics |
 | Dashboard | Startup and access steps, expected view, data path, screenshot or fallback output |
-| Cloud-only component | Resource inventory, TA access, configuration, sample data, cleanup |
 
 ## AI requirement
 
@@ -149,12 +169,13 @@ limit.
 ### Required proposal content
 
 1. Problem summary, target user, intended result, and course-sized scope.
-2. Planned data source, access limitations, local fallback, and batch,
-   realtime, or hybrid classification.
+2. Planned data source, access limitations, batch, realtime, or hybrid
+   classification, and the applicable cloud-access or local-demo review path.
 3. Architecture sketch separating the realtime streaming layer from other
    components.
 4. Planned tools and packages with one responsibility for each.
-5. Minimum working demo, feasibility risks, fallbacks, and milestones.
+5. Minimum end-to-end result, review path, feasibility risks, fallbacks, and
+   milestones.
 6. Individual or approximately 50-50 team contribution plan, planned AI role,
    and AI-use disclosure.
 
@@ -216,8 +237,8 @@ dependency folders, and unrelated large files.
 
 ### Final package checklist
 
-- [ ] The README gives setup, one minimum run path, expected output, validation,
-      and cleanup.
+- [ ] The README gives setup, one minimum review path, expected output,
+      validation, and cleanup.
 - [ ] The data source file documents source, owner, link, access, rights,
       schema, rate limits, and replay.
 - [ ] The AI usage file explains the AI task, evidence, student decisions,
@@ -227,7 +248,8 @@ dependency folders, and unrelated large files.
 - [ ] Sample or replay data is included and contains no private information.
 - [ ] A representative output artifact is included.
 - [ ] A validation or evaluation artifact is included.
-- [ ] Cloud resources and access requirements are documented.
+- [ ] Cloud resources and full course-reviewer access are documented when the
+      core path is cloud-based.
 - [ ] Individual contributions are documented for a two-person team.
 - [ ] No credentials, `.env`, caches, or virtual environments are included.
 
@@ -252,7 +274,7 @@ The presentation should explain:
 1. the problem and target user;
 2. the data and event contract;
 3. the streaming architecture;
-4. the minimum working demo;
+4. the minimum end-to-end result and review path;
 5. the useful output and evaluation evidence;
 6. the bounded AI element;
 7. limitations, failures, and next steps.

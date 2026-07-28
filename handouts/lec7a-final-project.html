@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MSDS 682 Lecture 7A slides: final project scope, proposal, reproducibility, evidence, and submission requirements.">
+  <meta name="description" content="MSDS 682 Lecture 7A slides: final project scope, proposal, review paths, evidence, and submission requirements.">
   <title>MSDS 682 · Lecture 7A · Final Project</title>
   <style>
     :root {
@@ -642,7 +642,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node sm n-proc"><b>Thu · Lecture 7B</b><span>State, joins, and evaluation</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-reg"><b>Final Project</b><span>One reproducible streaming product</span></div>
+        <div class="rail-node sm n-reg"><b>Final Project</b><span>One reviewable streaming product</span></div>
       </div>
       <div class="takeaway point"><strong>The demos are building blocks.</strong> Your project connects the right blocks around one clear problem.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7b-stateful-stream-processing" target="_blank" rel="noreferrer">Continue to Lecture 7B: Stateful Stream Processing</a></div>
@@ -654,19 +654,19 @@
     <div class="frame">
       <p class="kicker">MSDS 682 · <b>Lecture 7A</b></p>
       <h1>Build one system.<br>Prove that it runs.</h1>
-      <p class="sub">Final project scope, proposal, reproducibility, evidence, and submission.</p>
+      <p class="sub">Final project scope, proposal, review paths, evidence, and submission.</p>
       <div class="rail">
         <div class="rail-node n-connect"><b>Problem</b><span>One user and one useful result</span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Streaming path</b><span>Input, contract, Kafka, processing</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Evidence</b><span>Output, evaluation, reproducibility</span></div>
+        <div class="rail-node n-proc"><b>Evidence</b><span>Output, evaluation, review path</span></div>
       </div>
       <div class="hero-meta">
         <span class="pill">Proposal due Aug 4</span>
         <span class="pill">Final project · 50%</span>
         <span class="pill">Platform neutral</span>
-        <span class="pill">Reproducibility required</span>
+        <span class="pill">Review path required</span>
       </div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -687,7 +687,7 @@
           <span class="tag">20% · Report + code</span>
           <h2>Fri, Aug 14</h2>
           <p><strong>11:59 PM PDT</strong></p>
-          <p>Submit reproducible code and evidence.</p>
+          <p>Submit code, report, and review evidence.</p>
         </article>
         <article class="card">
           <span class="tag">20% · Presentation</span>
@@ -708,7 +708,7 @@
       <nav class="module-toc" aria-label="Lecture 7A modules">
         <a href="#module-1-define"><span class="number">01</span><h2>Define</h2><p>What must the project prove?</p></a>
         <a href="#module-2-plan"><span class="number">02</span><h2>Plan</h2><p>What belongs in the proposal?</p></a>
-        <a href="#module-3-reproduce"><span class="number">03</span><h2>Reproduce</h2><p>What must the TA be able to rerun?</p></a>
+        <a href="#module-3-reproduce"><span class="number">03</span><h2>Review</h2><p>How will the reviewer inspect the result?</p></a>
         <a href="#module-4-deliver"><span class="number">04</span><h2>Deliver</h2><p>What is submitted now and at the end?</p></a>
       </nav>
     </div>
@@ -812,7 +812,7 @@
         <ul class="module-points">
           <li><strong>Problem:</strong> define the user and useful output.</li>
           <li><strong>Architecture:</strong> show owners and boundaries.</li>
-          <li><strong>Risk:</strong> prove the data and fallback exist.</li>
+          <li><strong>Risk:</strong> prove the data and review path exist.</li>
         </ul>
       </div>
     </div>
@@ -829,10 +829,10 @@
         </thead>
         <tbody>
           <tr><td><strong>Problem and result</strong></td><td>Who needs what?</td></tr>
-          <tr><td><strong>Data and classification</strong></td><td>Source, access, type, and replay?</td></tr>
+          <tr><td><strong>Data and classification</strong></td><td>Source, access, type, and review path?</td></tr>
           <tr><td><strong>Architecture sketch</strong></td><td>Source to Kafka to output?</td></tr>
           <tr><td><strong>Tools and packages</strong></td><td>What job does each own?</td></tr>
-          <tr><td><strong>Feasibility plan</strong></td><td>Minimum demo, risk, and fallback?</td></tr>
+          <tr><td><strong>Feasibility plan</strong></td><td>Minimum result, review path, risk, and fallback?</td></tr>
           <tr><td><strong>Contribution and AI</strong></td><td>Who owns what? What AI is planned, and did AI help prepare this PDF?</td></tr>
         </tbody>
       </table>
@@ -857,7 +857,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node n-reg"><b>Evidence</b><span>Output plus evaluation</span></div>
       </div>
-      <p class="factline"><strong>Also label:</strong> the bounded AI element, local fallback, and any cloud-only dependency.</p>
+      <p class="factline"><strong>Also label:</strong> the bounded AI element, review path, and any cloud-only dependency.</p>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -893,12 +893,12 @@
         <article class="card">
           <span class="tag">Keep</span>
           <h2>One complete path</h2>
-          <p>Clear problem, accessible data, contract, Kafka flow, useful output, bounded AI, evaluation, and replay.</p>
+          <p>Clear problem, accessible data, contract, Kafka flow, useful output, bounded AI, evaluation, and a complete review path.</p>
         </article>
         <article class="card">
           <span class="tag">Optional</span>
           <h2>Complexity without proof</h2>
-          <p>Multiple clouds, unnecessary topics, a large UI, many models, or services that cannot be reproduced.</p>
+          <p>Multiple clouds, unnecessary topics, a large UI, many models, or services that cannot be reviewed reliably.</p>
         </article>
       </div>
       <div class="takeaway point"><strong>A strong proposal removes risk.</strong> Test data access before designing the rest of the system around it.</div>
@@ -907,19 +907,19 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide module-divider" id="module-3-reproduce" data-tone="amber" data-module="Reproduce">
+  <section class="slide module-divider" id="module-3-reproduce" data-tone="amber" data-module="Review">
     <div class="frame module-divider-shell">
       <div>
         <div class="module-index">03</div>
-        <div class="module-label">Reproduce</div>
+        <div class="module-label">Review</div>
       </div>
       <div>
         <p class="kicker">Hard requirement</p>
-        <h1>The TA must be able to reproduce the result</h1>
+        <h1>The reviewer must be able to reach and verify the result</h1>
         <ul class="module-points">
           <li><strong>Platform neutral:</strong> cloud or laptop can work.</li>
-          <li><strong>Access complete:</strong> code, data, resources, and instructions.</li>
-          <li><strong>Fallback clear:</strong> cached input or deterministic replay.</li>
+          <li><strong>Review path explicit:</strong> full cloud access or a local minimum demo.</li>
+          <li><strong>Evidence complete:</strong> code, data, resources, instructions, and output.</li>
         </ul>
       </div>
     </div>
@@ -928,46 +928,46 @@
 
   <section class="slide" id="platform-neutral">
     <div class="frame">
-      <p class="kicker">Failure plan</p>
-      <h1>Your minimum path must survive an account or network problem</h1>
+      <p class="kicker">Platform-neutral review</p>
+      <h1>Match the minimum review path to the infrastructure</h1>
       <div class="trio">
         <article class="card">
-          <span class="tag">Credits or access</span>
-          <h2>Preserve a short run</h2>
-          <p>Stop unused resources, save configuration, and keep representative input and output.</p>
+          <span class="tag">Cloud core path</span>
+          <h2>Grant full review access</h2>
+          <p>Keep required services and resources available through grading; document code, configuration, input, output, and cleanup.</p>
         </article>
         <article class="card">
-          <span class="tag">Live source unavailable</span>
-          <h2>Replay the same contract</h2>
-          <p>Use a cached sample or deterministic generator through the same event path.</p>
+          <span class="tag">Non-cloud path</span>
+          <h2>Provide a local minimum demo</h2>
+          <p>Pin dependencies and provide sample or replay data, one run command, expected output, and validation.</p>
         </article>
         <article class="card">
-          <span class="tag">Local setup fails</span>
-          <h2>Reduce startup friction</h2>
-          <p>Pin dependencies, document ports, and provide one minimum run command.</p>
+          <span class="tag">Dependency risk</span>
+          <h2>Keep a practical fallback</h2>
+          <p>When practical, replay the same contract or reduce scope before a service, quota, or live source becomes a blocker.</p>
         </article>
       </div>
-      <div class="takeaway point"><strong>A fallback is not a separate toy demo.</strong> It should exercise the same contract, processing logic, and expected result.</div>
+      <div class="takeaway point"><strong>The review path must be explicit.</strong> A practical fallback should exercise the same contract and expected result.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
   <section class="slide" id="reproducibility-contract">
     <div class="frame">
-      <p class="kicker">Reproducibility contract</p>
-      <h1>Cloud changes the evidence, not the standard</h1>
+      <p class="kicker">Review contract</p>
+      <h1>Choose evidence that matches the review path</h1>
       <table>
         <thead>
           <tr><th>Project path</th><th>The final submission must provide</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>Cloud</strong></td><td>Code, <span class="term" tabindex="0" data-def="A list of required cloud services, topics, buckets, endpoints, and configuration.">resource inventory</span>, TA access, setup, sample data, expected output, cleanup</td></tr>
+          <tr><td><strong>Cloud core</strong></td><td>Full reviewer access, code, <span class="term" tabindex="0" data-def="A list of required cloud services, topics, buckets, endpoints, and configuration.">resource inventory</span>, configuration, setup, sample input/output, validation, cleanup; local reproduction is not required</td></tr>
           <tr><td><strong>External API</strong></td><td>Credential setup, rate-limit note, cached sample, deterministic replay</td></tr>
-          <tr><td><strong>Laptop-only</strong></td><td>Pinned dependencies, single run path, sample data, output, validation</td></tr>
+          <tr><td><strong>Non-cloud/local</strong></td><td>Pinned dependencies, one run path, sample or replay data, output, validation</td></tr>
           <tr><td><strong>Dashboard</strong></td><td>Data path, service startup, access steps, expected view, fallback evidence</td></tr>
         </tbody>
       </table>
-      <div class="takeaway caveat"><strong>Do not make the TA guess hidden steps or depend on your personal account.</strong></div>
+      <div class="takeaway caveat"><strong>Do not make the reviewer guess hidden steps or depend on your personal account.</strong></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -985,7 +985,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node n-proc"><b>Prediction</b><span>Prediction data, inference code, metrics</span></div>
       </div>
-      <div class="takeaway point"><strong>The TA should be able to trace data into the model and predictions out of it.</strong></div>
+      <div class="takeaway point"><strong>The reviewer should be able to trace data into the model and predictions out of it.</strong></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1028,7 +1028,7 @@
         <h1>Package the next decision and the final evidence</h1>
         <ul class="module-points">
           <li><strong>Now:</strong> one proposal PDF that proves feasibility.</li>
-          <li><strong>At the end:</strong> one ZIP with a runnable minimum path.</li>
+          <li><strong>At the end:</strong> one ZIP with a complete review path.</li>
           <li><strong>Both:</strong> make ownership, assumptions, and evidence explicit.</li>
         </ul>
       </div>
@@ -1045,12 +1045,12 @@
           <tr><th>Required item</th><th>Purpose</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>README.md</code></td><td>Setup, run, expected output, validation, and cleanup</td></tr>
+          <tr><td><code>README.md</code></td><td>Setup, review path, expected output, validation, and cleanup</td></tr>
+          <tr><td><code>report.pdf</code></td><td>Problem, architecture, implementation, results, evaluation, limitations, citations</td></tr>
           <tr><td><code>DATA_SOURCE.md</code></td><td>Source, owner, link, schema, rights, limits, cache/replay</td></tr>
           <tr><td><code>AI_USAGE.md</code></td><td>AI task, output, student decision, verification, limitations</td></tr>
-          <tr><td><strong>Runnable code</strong></td><td>Ingestion, contracts, processing, output, and evaluation</td></tr>
-          <tr><td><strong>Sample or replay data</strong></td><td>Reproduce the minimum path without missing private data</td></tr>
-          <tr><td><strong>Output + evaluation</strong></td><td>Show both the result and why it is acceptable</td></tr>
+          <tr><td><strong>Code + dependencies</strong></td><td>Ingestion/replay, contracts, processing, output, evaluation, and environment template</td></tr>
+          <tr><td><strong>Sample + output + evaluation</strong></td><td>Representative inputs, results, and validation evidence</td></tr>
         </tbody>
       </table>
       <p class="factline"><strong>Submission:</strong> one ZIP through Canvas, named with the USF username(s), with one top-level project folder.</p>
@@ -1112,7 +1112,7 @@
         <li><strong>Contract:</strong> define minimum event fields.</li>
         <li><strong>Path:</strong> draw source, Kafka, processor, result.</li>
         <li><strong>AI:</strong> define the project boundary; separately disclose proposal-writing AI.</li>
-        <li><strong>Replay:</strong> save a cached or deterministic input.</li>
+        <li><strong>Review:</strong> name full cloud access or a local demo.</li>
         <li><strong>Risk:</strong> list the three likely blockers.</li>
         <li><strong>Scope:</strong> remove work that threatens completion.</li>
       </ul>
@@ -1130,7 +1130,7 @@
         <li>Start with a useful problem, not a long tool list.</li>
         <li>Connect input, contract, Kafka, processing, result, and evaluation.</li>
         <li>Use Confluent, GCP, another cloud, or a laptop when it fits the problem.</li>
-        <li>Make the required result reproducible on the TA's computer.</li>
+        <li>Use full reviewer access for a cloud core path or a local minimum demo for a non-cloud path.</li>
         <li>Submit evidence that makes every claim easy to verify.</li>
       </ol>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Project requirements</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-ideas" target="_blank" rel="noreferrer">Project ideas</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Proposal rubric</a></div>

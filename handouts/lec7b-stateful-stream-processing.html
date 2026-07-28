@@ -594,88 +594,93 @@
 </head>
 <body>
 
-  <section class="slide" id="course-arc">
-    <div class="frame">
-      <p class="kicker">Where we are</p>
-      <h1>From Kafka mechanics to a real-time decision</h1>
-      <div class="rail">
-        <div class="rail-node sm"><b>L2–L3</b><span>Produce, consume, commit</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-reg"><b>L4</b><span>Contracts and schemas</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm"><b>L5</b><span>HTTP application boundary</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-connect"><b>L6</b><span>Connect and derived events</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-proc"><b>L7A → L7B</b><span>Project contract, then state, join, evaluate</span></div>
-      </div>
-      <div class="takeaway point"><strong>Lecture 6 drew the big picture; Lecture 7B opens the processor.</strong> We now make state, time, joins, and commits explicit.</div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="assignment-2-reminder">
-    <div class="frame narrow">
-      <p class="kicker">Assignment 2 reminder</p>
-      <h1>Consumer correctness remains the foundation</h1>
-      <div class="duo" style="margin-top: 3vh;">
-        <div class="card chip"><span class="tag">Released</span><h2>Thursday, July 23</h2></div>
-        <div class="card chip"><span class="tag">Due</span><h2>Friday, July 31</h2><p><strong>11:59 PM PDT</strong></p></div>
-      </div>
-      <div class="takeaway caveat"><strong>HW2 and Lecture 7B share patterns, not data.</strong> Follow the published HW2 handout as its SSOT.</div>
-      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/assignment02" target="_blank" rel="noreferrer">Open Assignment 2</a></div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
   <section class="slide hero" id="lecture-7b-title">
     <div class="frame">
       <p class="kicker">MSDS 682 · <b>Lecture 7B</b></p>
       <h1>State turns event history<br>into a decision.</h1>
-      <p class="sub">Stream processing, keyed state, joins, delayed outcomes, and real-time model evaluation.</p>
+      <p class="sub">Choose the operation, define its correctness policy, then apply both in Demo 07.</p>
       <div class="rail">
         <div class="rail-node n-kafka"><b>Events</b><span>Requests, quotes, outcomes</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Stateful processor</b><span>Remember, match, evaluate</span></div>
+        <div class="rail-node n-proc"><b>Processor</b><span>Filter, map, aggregate, join</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-reg"><b>Decision evidence</b><span>Which version is closer to target?</span></div>
+        <div class="rail-node n-reg"><b>Derived fact</b><span>A result that can be evaluated</span></div>
       </div>
       <div class="hero-meta">
         <span class="pill">Python 3.11.14</span>
         <span class="pill">Confluent Cloud</span>
-        <span class="pill">confluent-kafka 2.15.0</span>
-        <span class="pill">scikit-learn 1.9.0</span>
+        <span class="pill">Demo 07 · bounded classroom run</span>
+        <span class="pill">HW2 due July 31</span>
       </div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7a-final-project" target="_blank" rel="noreferrer">Review Lecture 7A: Final Project</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="lecture-7b-overview">
+  <section class="slide" id="two-design-questions">
     <div class="frame">
-      <p class="kicker">Lecture 7B overview</p>
-      <h1>Five modules, one stateful decision path</h1>
-      <nav class="module-toc" aria-label="Lecture 7B modules">
-        <a href="#module-1-define"><span class="number">01</span><h2>Define</h2><p>What stream processing adds.</p></a>
-        <a href="#module-2-model"><span class="number">02</span><h2>Model</h2><p>Streams, tables, keys, and time.</p></a>
-        <a href="#module-3-join"><span class="number">03</span><h2>Join</h2><p>State, matching, and expiry.</p></a>
-        <a href="#module-4-demo"><span class="number">04</span><h2>Build</h2><p>Demo 07 pricing pipeline.</p></a>
-        <a href="#module-5-evaluate"><span class="number">05</span><h2>Evaluate</h2><p>Compare versions and limits.</p></a>
-      </nav>
+      <p class="kicker">The mental model</p>
+      <h1>Begin with two questions, not a framework</h1>
+      <div class="duo" style="margin-top: 3vh;">
+        <div class="card">
+          <span class="tag">Question 1 · Memory</span>
+          <h2>Is one record enough?</h2>
+          <p><strong>Yes:</strong> usually stateless. <strong>No:</strong> stateful because an earlier record must be remembered.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Question 2 · Meaning</span>
+          <h2>History or current value?</h2>
+          <p><strong>Stream:</strong> every change. <strong>Table:</strong> the latest value by key.</p>
+        </div>
+      </div>
+      <div class="takeaway point"><strong>State begins when one record is not enough.</strong> Stream versus table tells us how to interpret the history we retain.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide module-divider" id="module-1-define" data-module="Define">
+  <section class="slide" id="operations-at-a-glance">
+    <div class="frame">
+      <p class="kicker">The operation map</p>
+      <h1>Four operations organize the processor</h1>
+      <div class="quad" style="margin-top: 3vh;">
+        <div class="card"><span class="tag">Usually stateless</span><h2>Filter</h2><p>Keep or drop each record.</p></div>
+        <div class="card"><span class="tag">Usually stateless</span><h2>Map</h2><p>Transform one record.</p></div>
+        <div class="card"><span class="tag">Stateful</span><h2>Aggregate</h2><p>Update a running result.</p></div>
+        <div class="card"><span class="tag">Stateful · today</span><h2>Join</h2><p>Relate two histories.</p></div>
+      </div>
+      <div class="takeaway caveat"><strong>Demo 07 is the worked example for Join.</strong> Aggregate is introduced here but is not implemented in today’s demo.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="stateful-correctness-map">
+    <div class="frame narrow">
+      <p class="kicker">The correctness map</p>
+      <h1>Stateful work needs an explicit policy</h1>
+      <table>
+        <thead><tr><th>Question</th><th>What must be declared?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Which records belong together?</strong></td><td>Contract, key, and partition alignment</td></tr>
+          <tr><td><strong>When may they relate?</strong></td><td>Event time, processing time, and window or expiry</td></tr>
+          <tr><td><strong>What must survive?</strong></td><td>State, cleanup, checkpoint, changelog, or replay</td></tr>
+          <tr><td><strong>What happens when reality is messy?</strong></td><td>Late or missing data and delivery or deduplication policy</td></tr>
+        </tbody>
+      </table>
+      <div class="takeaway point"><strong>Operation tells us what to compute.</strong> This checklist tells us whether the stateful result is trustworthy.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide module-divider" id="module-1-operations" data-module="Operations">
     <div class="frame">
       <div class="module-divider-shell">
-        <div><div class="module-index">01</div><div class="module-label">Define stream processing</div></div>
+        <div><div class="module-index">01</div><div class="module-label">Operations</div></div>
         <div>
-          <h1>Computation begins while the event history is still growing</h1>
+          <h1>Choose the operation before adding state policy</h1>
           <ul class="module-points">
-            <li><strong>Continuous input:</strong> events keep arriving.</li>
-            <li><strong>Incremental work:</strong> process new records as they appear.</li>
-            <li><strong>New facts:</strong> emit transformed, aggregated, or joined results.</li>
+            <li><strong>Boundary:</strong> Kafka retains events; the processor computes.</li>
+            <li><strong>Stateless:</strong> filter and map usually handle one record at a time.</li>
+            <li><strong>Stateful:</strong> aggregate and join remember earlier records.</li>
           </ul>
         </div>
       </div>
@@ -706,50 +711,43 @@
   </section>
 
   <section class="slide" id="stateless-vs-stateful">
-    <div class="frame narrow">
-      <p class="kicker">The first design question</p>
-      <h1>Does one input record contain everything you need?</h1>
-      <table>
-        <thead><tr><th>Pattern</th><th>Needs memory?</th><th>Example</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Stateless</strong></td><td>No prior record required</td><td>Validate one order and compute one metric</td></tr>
-          <tr><td><strong>Stateful</strong></td><td>Must remember earlier records</td><td>Wait for a fare quote and its later trip outcome</td></tr>
-        </tbody>
-      </table>
-      <div class="takeaway point"><strong><span class="term" tabindex="0" data-def="Information a processor retains across records so later inputs can update or complete a result.">State</span> begins when one record is not enough.</strong></div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="processing-operations">
     <div class="frame">
-      <p class="kicker">Operation map</p>
-      <h1>Four operations cover most teaching examples</h1>
-      <div class="quad" style="margin-top: 3vh;">
-        <div class="card"><span class="tag">Filter</span><h2>Keep?</h2><p>One record in, zero or one out.</p></div>
-        <div class="card"><span class="tag">Map</span><h2>Transform</h2><p>One record becomes a new record.</p></div>
-        <div class="card"><span class="tag">Aggregate</span><h2>Accumulate</h2><p>Many records update one result.</p></div>
-        <div class="card"><span class="tag">Join</span><h2>Relate</h2><p>Records from two histories become one fact.</p></div>
-      </div>
-      <div class="takeaway caveat"><strong>Filter and map are often stateless.</strong> Aggregate and join normally require state.</div>
-      <p class="factline"><strong>Streaming SQL crosswalk:</strong> ksqlDB expresses these ideas declaratively; Demo 07 uses Python so state, failure, and commit boundaries remain visible.</p>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide module-divider" id="module-2-model" data-tone="green" data-module="Model">
-    <div class="frame">
-      <div class="module-divider-shell">
-        <div><div class="module-index">02</div><div class="module-label">Model the data</div></div>
-        <div>
-          <h1>Keys and time determine what can be remembered</h1>
-          <ul class="module-points">
-            <li><strong>Stream:</strong> the history of events.</li>
-            <li><strong>Table:</strong> the latest value by key.</li>
-            <li><strong>Time:</strong> when an event happened and how long state remains useful.</li>
-          </ul>
+      <p class="kicker">Stateless operations</p>
+      <h1>Filter decides; map transforms</h1>
+      <div class="duo" style="margin-top: 3vh;">
+        <div class="card">
+          <span class="tag">Filter · one in → zero or one out</span>
+          <h2>Keep valid trip requests</h2>
+          <p>Evaluate a predicate against one record: required fields, valid coordinates, or a business threshold.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Map · one in → one out</span>
+          <h2>Reshape one contract</h2>
+          <p>Extract fields, convert units, or enrich from a fixed lookup before emitting a new record.</p>
         </div>
       </div>
+      <div class="takeaway caveat"><strong>“Usually stateless” is deliberate.</strong> A changing lookup table or external history introduces state and failure policy.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="aggregate-and-join">
+    <div class="frame">
+      <p class="kicker">Stateful operations</p>
+      <h1>Aggregate updates a result; join completes a relationship</h1>
+      <div class="duo" style="margin-top: 3vh;">
+        <div class="card">
+          <span class="tag">Aggregate · many → running result</span>
+          <h2>Remember an accumulator</h2>
+          <p>Group by key, update count or average, optionally bound by a window, then emit on update or close.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Join · two histories → one fact</span>
+          <h2>Remember unmatched records</h2>
+          <p>Correlate by key, apply a time or completion policy, emit a joined fact, then clean up state.</p>
+        </div>
+      </div>
+      <div class="takeaway point"><strong>Demo 07 follows the Join column.</strong> Its state is visible in Python so matching, failure, and commit boundaries remain inspectable.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -824,10 +822,10 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide module-divider" id="module-3-join" data-tone="amber" data-module="Join">
+  <section class="slide module-divider" id="module-2-join" data-tone="amber" data-module="Join">
     <div class="frame">
       <div class="module-divider-shell">
-        <div><div class="module-index">03</div><div class="module-label">Stateful joins</div></div>
+        <div><div class="module-index">02</div><div class="module-label">Stateful joins</div></div>
         <div>
           <h1>Subscribing receives records; joining creates a relationship</h1>
           <ul class="module-points">
@@ -911,12 +909,12 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide module-divider" id="module-4-demo" data-tone="purple" data-module="Build">
+  <section class="slide module-divider" id="module-3-demo" data-tone="purple" data-module="Demo 07">
     <div class="frame">
       <div class="module-divider-shell">
-        <div><div class="module-index">04</div><div class="module-label">Demo 07</div></div>
+        <div><div class="module-index">03</div><div class="module-label">Demo 07</div></div>
         <div>
-          <h1>Build one pricing pipeline from request to delayed evaluation</h1>
+          <h1>Apply the Join row from request to delayed evaluation</h1>
           <ul class="module-points">
             <li><strong>Estimate</strong> distance and duration.</li>
             <li><strong>Quote</strong> with a rule and a trained model.</li>
@@ -931,46 +929,25 @@
   <section class="slide" id="pricing-business-problem">
     <div class="frame">
       <p class="kicker">Ridesharing pricing case</p>
-      <h1>Set an upfront fare before actual trip cost is known</h1>
-      <div class="rail">
-        <div class="rail-node"><b>Trip request</b><span>Request time + pickup/dropoff coordinates</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node n-connect"><b>Routing response</b><span>Estimated miles + minutes</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Fare quote</b><span>Fixed before the trip begins</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node"><b>Delayed outcome</b><span>Synthetic realized miles, minutes, and cost</span></div>
-      </div>
-      <div class="metric">
-        <div class="equation">realized markup = (fare − actual cost) / actual cost</div>
-        <p>Business target: realized markup close to 20%.</p>
-      </div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="demo07-route-simulation">
-    <div class="frame">
-      <p class="kicker">Inputs, estimates, and outcomes</p>
-      <h1>Request coordinates, route estimates, and outcomes are different facts</h1>
+      <h1>Quote now; evaluate after the outcome arrives</h1>
       <div class="trio" style="margin-top: 3vh;">
         <div class="card">
           <span class="tag">Request</span>
-          <h2>Predefined coordinates</h2>
-          <p>Four fixed latitude/longitude pairs in decimal degrees.</p>
+          <h2>Known coordinates</h2>
+          <p>Four predefined pickup and dropoff pairs in decimal degrees.</p>
         </div>
         <div class="card">
           <span class="tag">Quote time</span>
-          <h2>Fixture or OSRM</h2>
-          <p>Meters/seconds become miles/minutes. Fixture is controlled; OSRM is live.</p>
+          <h2>Estimated route</h2>
+          <p>Fixture or OSRM meters and seconds become miles and minutes before pricing.</p>
         </div>
         <div class="card">
           <span class="tag">After pricing</span>
           <h2>Synthetic outcome</h2>
-          <p>07D varies miles/minutes and computes synthetic cost in cents.</p>
+          <p>07D independently varies realized miles and minutes, then computes actual cost.</p>
         </div>
       </div>
-      <div class="takeaway caveat"><strong>07D has no GPS and does not wait for a real trip.</strong> It is an independent bounded outcome source.</div>
+      <div class="takeaway caveat"><strong>07D has no GPS and does not wait for a real trip.</strong> The business target is realized markup close to 20%.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1091,53 +1068,19 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide module-divider" id="module-5-evaluate" data-tone="green" data-module="Evaluate">
-    <div class="frame">
-      <div class="module-divider-shell">
-        <div><div class="module-index">05</div><div class="module-label">Evaluate and bound</div></div>
-        <div>
-          <h1>A model comparison needs shared outcomes and one declared metric</h1>
-          <ul class="module-points">
-            <li><strong>Measure</strong> both versions on the same trips.</li>
-            <li><strong>Select</strong> the lower-error version under the stated rule.</li>
-            <li><strong>Separate</strong> recommendation from production deployment.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
   <section class="slide" id="evaluation-metric">
     <div class="frame narrow">
-      <p class="kicker">One business metric</p>
-      <h1>Compare absolute distance from the 20% markup target</h1>
+      <p class="kicker">Evaluate and bound</p>
+      <h1>Use shared outcomes, one metric, and a limited claim</h1>
       <div class="metric">
         <div class="equation">MAE<sub>markup</sub> = average(|realized markup − 20%|)</div>
         <p>Lower error is better. The report expresses the result in percentage points.</p>
       </div>
       <div class="duo">
         <div class="card"><span class="tag">Fair comparison</span><h2>Same evidence</h2><p>Both versions use the same requests, routes, and delayed outcomes.</p></div>
-        <div class="card"><span class="tag">Selection rule</span><h2>Lower target error</h2><p>Recommend the version with the smaller reported error.</p></div>
+        <div class="card"><span class="tag">Governance boundary</span><h2>Recommend, do not deploy</h2><p>Prefer the lower-error version, then review sample size, risk, and limits.</p></div>
       </div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="selection-not-deployment">
-    <div class="frame">
-      <p class="kicker">Governance boundary</p>
-      <h1>A recommendation is evidence, not a deployment</h1>
-      <div class="rail">
-        <div class="rail-node n-proc"><b>Evaluate</b><span>Compute the declared metric</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node n-reg"><b>Recommend</b><span>Prefer the lower-error version</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node"><b>Review</b><span>Check sample size, risk, and limits</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node"><b>Deploy later</b><span>Outside Demo 07</span></div>
-      </div>
-      <div class="takeaway caveat"><strong><span class="term" tabindex="0" data-def="The governed production decision to approve a model version for serving.">Model promotion</span></strong> is the production act of approving a version. Demo 07 stops at a selection recommendation.</div>
+      <div class="takeaway caveat"><strong>Demo 07 stops at a selection recommendation.</strong> Model promotion, deployment, and rollback remain outside the demo.</div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -1167,15 +1110,14 @@
   <section class="slide" id="lecture-7b-synthesis">
     <div class="frame narrow">
       <p class="kicker">Lecture 7B synthesis</p>
-      <h1>Five ideas organize stateful streaming</h1>
+      <h1>Return to the same map</h1>
       <ol class="final-list">
-        <li>Kafka retains history; the processor computes meaning.</li>
-        <li>State begins when one record is not enough.</li>
-        <li>Keys and time define what may relate.</li>
-        <li>Joining stores, matches, emits, and expires.</li>
-        <li>A prediction needs a later outcome to evaluate.</li>
+        <li>Ask whether one record is enough and whether you need history or current state.</li>
+        <li>Choose the operation: filter, map, aggregate, or join.</li>
+        <li>For stateful work, declare key, time, bounds, state, late-data, and delivery policy.</li>
+        <li>Demo 07 applies Join: quote plus delayed outcome becomes an evaluation.</li>
       </ol>
-      <div class="takeaway point"><strong>Demo 07:</strong> train, request, quote, outcome, join, compare.</div>
+      <div class="takeaway point"><strong>The operation says what to compute; the policy makes the result trustworthy.</strong></div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Demo 07 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec6-kafka-connect-stream-processing" target="_blank" rel="noreferrer">Review Lecture 6</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>

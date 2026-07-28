@@ -44,7 +44,10 @@ small enough to complete and demonstrate during this course.]
 - **Why this classification applies:** [One concise explanation]
 - **Access and limitations:** [API key, rate limit, license, cost, privacy, or
   availability concerns]
-- **Local fallback:** [Cached sample, fixture, or deterministic replay plan]
+- **Review path:** [For a cloud-based core path, explain how the course reviewer
+  will receive full access to the required services and resources. For a
+  non-cloud path, name the cached sample, fixture, or deterministic replay used
+  by the locally runnable minimum demo.]
 
 ## 3. Architecture Sketch
 
@@ -88,12 +91,14 @@ currently expect to use.]
 
 ## 5. Feasibility Risks and Plan
 
-- **Minimum working demo:** [What is the smallest end-to-end result that can be
-  run and inspected?]
+- **Minimum end-to-end result:** [What is the smallest complete result that can
+  be inspected? State whether the reviewer reaches it through full cloud access
+  or a locally runnable minimum demo.]
 - **Primary risks:** [Data access, credentials, cost, time, technical
   complexity, data quality, privacy, or integration risks]
-- **Fallback plan:** [How will you reduce scope or use local sample/replay data
-  if the preferred plan fails?]
+- **Fallback plan:** [How will you reduce scope or use sample/replay data if the
+  preferred plan fails? A local fallback for a cloud path is recommended when
+  practical, but it is not required when full cloud review access is provided.]
 - **Milestones:** [Brief sequence from initial pipeline to final validation]
 
 ## 6. AI Element and Disclosure

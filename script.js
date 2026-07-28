@@ -88,7 +88,7 @@ const pages = {
               <td><strong>Mon · Jul 27</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
               <td>Lecture 7A: Final Project</td>
-              <td>Project scope, proposal contract, bounded AI, reproducibility, and evidence; Lecture 7B follows Thursday</td>
+              <td>Project scope, proposal contract, bounded AI, review paths, and evidence; Lecture 7B follows Thursday</td>
             </tr>
             <tr>
               <td>8</td>
@@ -297,7 +297,7 @@ const handoutSections = [
     id: "lec7a",
     label: "Lecture 7A",
     title: "Final Project",
-    summary: "Define the project contract, proposal, bounded AI element, reproducibility plan, and required evidence."
+    summary: "Define the project contract, proposal, bounded AI element, review path, and required evidence."
   },
   {
     id: "lec7b",
@@ -587,10 +587,10 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7a-final-project.html",
     createdAt: "Created at 4:06 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:33 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
     wide: true,
     standalone: true,
-    summary: "Define a feasible streaming project, proposal contract, bounded AI element, reproducibility plan, and visible evidence."
+    summary: "Define a feasible streaming project, proposal contract, bounded AI element, review path, and visible evidence."
   },
   {
     slug: "final-project",
@@ -600,9 +600,9 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project.md",
     createdAt: "Created at 4:01 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
     wide: true,
-    summary: "Student-facing contract for the proposal, reproducible streaming product, bounded AI element, final package, and presentation."
+    summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
   },
   {
     slug: "final-project-ideas",
@@ -624,8 +624,12 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-proposal-template.md",
     createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
     wide: true,
+    download: {
+      filename: "MSDS-682-Final-Project-Proposal-Template.md",
+      label: "Download Markdown template (.md)"
+    },
     summary: "One-PDF proposal structure covering the problem, data source, streaming architecture, tools, feasibility, contributions, required AI element, and disclosure."
   },
   {
@@ -636,7 +640,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-proposal-rubric.md",
     createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
     wide: true,
     summary: "Student-facing proposal rubric with five 2-point buckets and ten independently scored criteria."
   },
@@ -766,6 +770,15 @@ function handoutMetaHtml(h) {
     .filter(Boolean)
     .map((line) => `<span>${escapeHtml(line)}</span>`)
     .join("");
+}
+
+function handoutDownloadHtml(h) {
+  if (!h.download) return "";
+  const fallbackName = h.file.split("/").pop();
+  const filename = h.download.filename || fallbackName;
+  const label = h.download.label || "Download file";
+  return `<p class="handout-actions"><a class="download-link" href="${escapeHtml(h.file)}" ` +
+    `download="${escapeHtml(filename)}">${escapeHtml(label)}</a></p>`;
 }
 
 function handoutListMeta(h) {
@@ -1185,7 +1198,8 @@ async function renderHandout(slug) {
       }
     }
     const articleClass = meta.wide ? "handout handout-wide" : "handout";
-    content.innerHTML = `${backLink}<article class="${articleClass}">${html}</article>`;
+    content.innerHTML = `${backLink}${handoutDownloadHtml(meta)}` +
+      `<article class="${articleClass}">${html}</article>`;
     const article = content.querySelector("article");
     if (article && mathBlocks.length) {
       restoreDisplayMath(article, mathBlocks);
