@@ -36,7 +36,7 @@ polish does not earn separate points.
 | **4. Tools and Feasibility** | **4.1 Planned tools and packages:** Names the main tools/packages and maps each one to a specific project responsibility without unnecessary technology. | 1 |
 | | **4.2 Feasibility plan:** Defines a minimum end-to-end result, the applicable cloud-access or local-demo review path, material risks, realistic milestones, and a credible fallback or scope-reduction plan. | 1 |
 | **5. Contribution and AI Disclosure** | **5.1 Contribution plan:** For an individual project, clearly states individual ownership. For a two-person project, assigns meaningful responsibilities and presents a credible approximately 50-50 contribution plan covering both the proposal and final project. | 1 |
-| | **5.2 AI element and disclosure:** Names the one bounded AI-related element or AI-assisted workflow planned for the final project, with its input/output boundary and verification method, and discloses any AI used to prepare the proposal. A planned AI element is required and cannot be omitted; an explicit no-AI statement covers only the proposal-preparation disclosure. | 1 |
+| | **5.2 AI element and disclosure:** Names the one bounded AI-related element or AI-assisted workflow planned for the final project, with its input/output boundary, verification method, and fallback, and discloses any AI used to prepare the proposal. A planned AI element is required and cannot be omitted; an explicit no-AI statement covers only the proposal-preparation disclosure. | 1 |
 |  | **Total** | **10** |
 
 ## Scoring Clarifications

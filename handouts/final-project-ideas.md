@@ -3,10 +3,10 @@
 These examples are starting points, not assigned topics. You may adapt one,
 combine parts of several, or propose a different project. Choose a problem that
 you can explain clearly and reduce to one complete Kafka path with an observable
-result. A smaller system that another person can run and verify is stronger than
-a large design that remains unfinished. Each idea below includes one possible
-bounded AI component; you may replace it with another disclosed and evaluated
-AI-assisted workflow. Before submitting the proposal, review the
+result. A smaller system that another person can review and verify is stronger
+than a large design that remains unfinished. Each idea below includes one
+possible bounded AI component; you may replace it with another disclosed and
+evaluated AI-assisted workflow. Before submitting the proposal, review the
 [Final Project requirements](#/handouts/final-project), the
 [Proposal Template](#/handouts/final-project-proposal-template), and the
 [10-Point Proposal Rubric](#/handouts/final-project-proposal-rubric).
@@ -120,11 +120,13 @@ fallback.
 
 ## Keep the proposal course-sized
 
-- Name one target user, one useful output, and one minimum end-to-end demo.
+- Name one target user, one useful output, one minimum end-to-end result, and
+  the applicable review path.
 - Show where validation, Kafka, state or windowing, AI, and evaluation enter the
   data flow; extra technologies do not earn extra proposal points.
-- Test data access early and include a local sample, replay, or scope-reduction
-  fallback in the proposal.
+- Test data access early. For a cloud-based core path, plan full reviewer access;
+  for a non-cloud path, plan a locally runnable sample or replay demo. A local
+  fallback for a cloud path is recommended when practical.
 - Record the owner, link, license, and usage limits of your chosen source; each
   of these datasets has its own terms, and the final package documents them in
   `DATA_SOURCE.md`.

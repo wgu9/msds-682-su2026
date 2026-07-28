@@ -95,7 +95,7 @@ const pages = {
               <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Lecture 7B: Stateful Stream Processing</td>
-              <td>Streams, tables, keys, time, joins, delayed outcomes, streaming SQL crosswalk, and Demo 07</td>
+              <td>Streams, tables, keys, time, joins, delayed outcomes, and Demo 07</td>
             </tr>
             <tr>
               <td>9</td>
@@ -587,7 +587,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7a-final-project.html",
     createdAt: "Created at 4:06 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:16 PM PDT on July 27, 2026",
     wide: true,
     standalone: true,
     summary: "Define a feasible streaming project, proposal contract, bounded AI element, review path, and visible evidence."
@@ -612,7 +612,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-ideas.md",
     createdAt: "Created at 4:05 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:20 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:16 PM PDT on July 27, 2026",
     wide: true,
     summary: "Eight course-sized project directions with public or synthetic data, a Kafka path, bounded AI, evaluation, and replay."
   },
@@ -640,7 +640,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-proposal-rubric.md",
     createdAt: "Created at 3:54 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 5:16 PM PDT on July 27, 2026",
     wide: true,
     summary: "Student-facing proposal rubric with five 2-point buckets and ten independently scored criteria."
   },
