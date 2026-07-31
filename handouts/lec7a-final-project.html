@@ -631,42 +631,23 @@
 </head>
 <body>
 
-  <section class="slide" id="course-arc">
-    <div class="frame">
-      <p class="kicker">Course arc</p>
-      <h1>The course now shifts from demos to your system</h1>
-      <div class="rail rail-seq">
-        <div class="rail-node sm n-connect"><b>Lectures 1 to 6</b><span>Kafka foundations and demos</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-reg"><b>Mon · Lecture 7A</b><span>Project contract and next submission</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-proc"><b>Thu · Lecture 7B</b><span>State, joins, and evaluation</span></div>
-        <div class="rail-arrow">→</div>
-        <div class="rail-node sm n-reg"><b>Final Project</b><span>One reviewable streaming product</span></div>
-      </div>
-      <div class="takeaway point"><strong>The demos are building blocks.</strong> Your project connects the right blocks around one clear problem.</div>
-      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7b-stateful-stream-processing" target="_blank" rel="noreferrer">Continue to Lecture 7B: Stateful Stream Processing</a></div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
   <section class="slide hero" id="lecture-7a-title">
     <div class="frame">
       <p class="kicker">MSDS 682 · <b>Lecture 7A</b></p>
-      <h1>Build one system.<br>Prove that it runs.</h1>
-      <p class="sub">Final project scope, proposal, review paths, evidence, and submission.</p>
+      <h1>Build one streaming product.<br>Show that it works.</h1>
+      <p class="sub">What to build, what to submit, and how the project will be graded.</p>
       <div class="rail">
         <div class="rail-node n-connect"><b>Problem</b><span>One user and one useful result</span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Streaming path</b><span>Input, contract, Kafka, processing</span></div>
         <div class="rail-arrow">→</div>
-        <div class="rail-node n-proc"><b>Evidence</b><span>Output, evaluation, review path</span></div>
+        <div class="rail-node n-proc"><b>Evidence</b><span>Output, evaluation, reviewer instructions</span></div>
       </div>
       <div class="hero-meta">
         <span class="pill">Proposal due Aug 4</span>
         <span class="pill">Final project · 50%</span>
         <span class="pill">Platform neutral</span>
-        <span class="pill">Review path required</span>
+        <span class="pill">Runnable or accessible</span>
       </div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
@@ -691,26 +672,12 @@
         </article>
         <article class="card">
           <span class="tag">20% · Presentation</span>
-          <h2>Canvas will confirm</h2>
-          <p><strong>Timing and format</strong></p>
+          <h2>See Canvas</h2>
+          <p><strong>Date and format</strong></p>
           <p>Explain the system, demo, evidence, and limits.</p>
         </article>
       </div>
       <div class="takeaway caveat"><strong>Late policy:</strong> up to 1 day late, 10% deduction; up to 2 days late, 20% deduction; day 3 or later, zero credit.</div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="lecture-7a-overview">
-    <div class="frame">
-      <p class="kicker">Lecture 7A overview</p>
-      <h1>Four modules, one executable story</h1>
-      <nav class="module-toc" aria-label="Lecture 7A modules">
-        <a href="#module-1-define"><span class="number">01</span><h2>Define</h2><p>What must the project prove?</p></a>
-        <a href="#module-2-plan"><span class="number">02</span><h2>Plan</h2><p>What belongs in the proposal?</p></a>
-        <a href="#module-3-reproduce"><span class="number">03</span><h2>Review</h2><p>How will the reviewer inspect the result?</p></a>
-        <a href="#module-4-deliver"><span class="number">04</span><h2>Deliver</h2><p>What is submitted now and at the end?</p></a>
-      </nav>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -723,7 +690,7 @@
       </div>
       <div>
         <p class="kicker">Project objective</p>
-        <h1>Start with the problem, not the tool list</h1>
+        <h1>Define one user, one Kafka path, and one result</h1>
         <ul class="module-points">
           <li><strong>One user:</strong> who needs the result?</li>
           <li><strong>One path:</strong> how does an event become a useful output?</li>
@@ -737,14 +704,16 @@
   <section class="slide" id="project-definition">
     <div class="frame">
       <p class="kicker">What you are building</p>
-      <h1>A streaming data product, not a collection of tools</h1>
-      <p class="sub">The minimum project connects a real question to one useful and verifiable result.</p>
+      <h1>Build one complete streaming data product</h1>
+      <p class="sub">Connect one clear problem to one useful, verifiable result.</p>
       <div class="rail rail-seq">
         <div class="rail-node n-connect"><b>Data</b><span>Live source, public file, or <span class="term" tabindex="0" data-def="A repeatable run that republishes the same saved records in the same order.">deterministic replay</span></span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-reg"><b>Contract</b><span>Fields, types, meaning, and version</span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-kafka"><b>Kafka</b><span>Durable event path</span></div>
+        <div class="rail-arrow">→</div>
+        <div class="rail-node"><b>Processor</b><span>Transform, join, score, or summarize</span></div>
         <div class="rail-arrow">→</div>
         <div class="rail-node n-proc"><b>Result</b><span>Alert, metric, report, score, or validated output</span></div>
       </div>
@@ -756,7 +725,7 @@
   <section class="slide" id="required-path">
     <div class="frame">
       <p class="kicker">Required path</p>
-      <h1>Every project needs visible ownership from input to evidence</h1>
+      <h1>Your project must show these five layers</h1>
       <table>
         <thead>
           <tr><th>Layer</th><th>Question to answer</th><th>Visible evidence</th></tr>
@@ -777,7 +746,7 @@
   <section class="slide" id="scope-boundary">
     <div class="frame">
       <p class="kicker">Scope</p>
-      <h1>Batch, realtime, and hybrid are all valid</h1>
+      <h1>Your input may be batch replay, realtime, or hybrid</h1>
       <div class="trio">
         <article class="card">
           <span class="tag">Batch input</span>
@@ -808,11 +777,11 @@
       </div>
       <div>
         <p class="kicker">Project proposal</p>
-        <h1>Make feasibility visible before implementation expands</h1>
+        <h1>Use the proposal to prove the project is feasible</h1>
         <ul class="module-points">
           <li><strong>Problem:</strong> define the user and useful output.</li>
           <li><strong>Architecture:</strong> show owners and boundaries.</li>
-          <li><strong>Risk:</strong> prove the data and review path exist.</li>
+          <li><strong>Risk:</strong> test data access and reviewer access.</li>
         </ul>
       </div>
     </div>
@@ -822,18 +791,18 @@
   <section class="slide" id="proposal-six-items">
     <div class="frame">
       <p class="kicker">Proposal requirements</p>
-      <h1>The proposal answers six concrete questions</h1>
+      <h1>Your proposal must include these six items</h1>
       <table>
         <thead>
           <tr><th>Required item</th><th>Question to answer</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>Problem and result</strong></td><td>Who needs what?</td></tr>
-          <tr><td><strong>Data and classification</strong></td><td>Source, access, type, and review path?</td></tr>
-          <tr><td><strong>Architecture sketch</strong></td><td>Source to Kafka to output?</td></tr>
-          <tr><td><strong>Tools and packages</strong></td><td>What job does each own?</td></tr>
-          <tr><td><strong>Feasibility plan</strong></td><td>Minimum result, review path, risk, and fallback?</td></tr>
-          <tr><td><strong>Contribution and AI</strong></td><td>Who owns what? What AI is planned, and did AI help prepare this PDF?</td></tr>
+          <tr><td><strong>Problem and result</strong></td><td>Target user, useful output, and course-sized scope</td></tr>
+          <tr><td><strong>Data and classification</strong></td><td>Source, owner, access, limits, classification, and cloud/local review path</td></tr>
+          <tr><td><strong>Architecture sketch</strong></td><td>Source → Kafka → processor → output, plus other components</td></tr>
+          <tr><td><strong>Tools and packages</strong></td><td>Each tool mapped to one project responsibility</td></tr>
+          <tr><td><strong>Feasibility plan</strong></td><td>Minimum result, review path, risks, fallback, and milestones</td></tr>
+          <tr><td><strong>Contribution and AI</strong></td><td>Ownership, planned AI boundary, verification, fallback, and proposal AI disclosure</td></tr>
         </tbody>
       </table>
       <div class="takeaway point"><strong>Submit one PDF through Canvas, at most 550 words and 2 pages.</strong> Ideally, use 1 page.</div>
@@ -845,7 +814,7 @@
   <section class="slide" id="architecture-sketch">
     <div class="frame">
       <p class="kicker">Architecture sketch</p>
-      <h1>Show the data path and the owner of each boundary</h1>
+      <h1>Draw source → Kafka → processor → result</h1>
       <div class="rail rail-seq">
         <div class="rail-node n-connect"><b>Source</b><span>Live input or cached sample</span></div>
         <div class="rail-arrow">→</div>
@@ -857,30 +826,7 @@
         <div class="rail-arrow">→</div>
         <div class="rail-node n-reg"><b>Evidence</b><span>Output plus evaluation</span></div>
       </div>
-      <p class="factline"><strong>Also label:</strong> the bounded AI element, review path, and any cloud-only dependency.</p>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="ai-conversation-kafka">
-    <div class="frame">
-      <p class="kicker">Architecture example</p>
-      <h1>AI conversation is realtime; Kafka usually sits behind it</h1>
-      <div class="duo">
-        <article class="card">
-          <span class="tag">User-facing path</span>
-          <h2>Return the response</h2>
-          <p><strong>Browser ↔ HTTP/<span class="term" tabindex="0" data-def="Server-Sent Events: a one-way HTTP stream commonly used to deliver generated tokens to a browser.">SSE</span>/WebSocket ↔ AI service</strong></p>
-          <p>Low-latency interaction and streamed tokens.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Event backbone</span>
-          <h2>Preserve and fan out events</h2>
-          <p><strong>Conversation event → Kafka → consumers</strong></p>
-          <p>Moderation, audit, analytics, evaluation, memory, and <span class="term" tabindex="0" data-def="Delivering one event stream to multiple independent downstream consumers.">fan-out</span>.</p>
-        </article>
-      </div>
-      <div class="takeaway point"><strong>Kafka handles bursts.</strong> Use it when durability, decoupling, replay, or multiple consumers create value.</div>
+      <p class="factline"><strong>Also label:</strong> the bounded AI element, reviewer access, and any cloud-only dependency.</p>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>
@@ -888,12 +834,12 @@
   <section class="slide" id="scope-decision">
     <div class="frame">
       <p class="kicker">Feasibility</p>
-      <h1>Reduce features before you reduce correctness</h1>
+      <h1>Keep one complete path; cut optional complexity</h1>
       <div class="duo">
         <article class="card">
           <span class="tag">Keep</span>
           <h2>One complete path</h2>
-          <p>Clear problem, accessible data, contract, Kafka flow, useful output, bounded AI, evaluation, and a complete review path.</p>
+          <p>Clear problem, accessible data, contract, Kafka flow, useful output, bounded AI, evaluation, and clear review steps.</p>
         </article>
         <article class="card">
           <span class="tag">Optional</span>
@@ -915,10 +861,10 @@
       </div>
       <div>
         <p class="kicker">Hard requirement</p>
-        <h1>The reviewer must be able to reach and verify the result</h1>
+        <h1>The reviewer must be able to access or run the project</h1>
         <ul class="module-points">
           <li><strong>Platform neutral:</strong> cloud or laptop can work.</li>
-          <li><strong>Review path explicit:</strong> full cloud access or a local minimum demo.</li>
+          <li><strong>Reviewer access:</strong> full cloud access or a local minimum demo.</li>
           <li><strong>Evidence complete:</strong> code, data, resources, instructions, and output.</li>
         </ul>
       </div>
@@ -926,36 +872,10 @@
     <div class="crumb"></div><div class="pager"></div>
   </section>
 
-  <section class="slide" id="platform-neutral">
-    <div class="frame">
-      <p class="kicker">Platform-neutral review</p>
-      <h1>Match the minimum review path to the infrastructure</h1>
-      <div class="trio">
-        <article class="card">
-          <span class="tag">Cloud core path</span>
-          <h2>Grant full review access</h2>
-          <p>Keep required services and resources available through grading; document code, configuration, input, output, and cleanup.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Non-cloud path</span>
-          <h2>Provide a local minimum demo</h2>
-          <p>Pin dependencies and provide sample or replay data, one run command, expected output, and validation.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Dependency risk</span>
-          <h2>Keep a practical fallback</h2>
-          <p>When practical, replay the same contract or reduce scope before a service, quota, or live source becomes a blocker.</p>
-        </article>
-      </div>
-      <div class="takeaway point"><strong>The review path must be explicit.</strong> A practical fallback should exercise the same contract and expected result.</div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
   <section class="slide" id="reproducibility-contract">
     <div class="frame">
       <p class="kicker">Review contract</p>
-      <h1>Choose evidence that matches the review path</h1>
+      <h1>Choose how the reviewer will verify the project</h1>
       <table>
         <thead>
           <tr><th>Project path</th><th>The final submission must provide</th></tr>
@@ -975,7 +895,7 @@
   <section class="slide" id="ml-reproducibility">
     <div class="frame">
       <p class="kicker">Machine learning projects</p>
-      <h1>A model file alone is not reproducible</h1>
+      <h1>ML projects must include data, training, and inference</h1>
       <div class="rail rail-seq">
         <div class="rail-node n-connect"><b>Training data</b><span>Accessible sample and source notes</span></div>
         <div class="rail-arrow">→</div>
@@ -993,7 +913,7 @@
   <section class="slide" id="ai-boundary">
     <div class="frame">
       <p class="kicker">AI reproducibility</p>
-      <h1>Make the AI step reproducible like every other processor</h1>
+      <h1>Document what AI does and how you verify it</h1>
       <div class="trio">
         <article class="card">
           <span class="tag">Boundary</span>
@@ -1025,10 +945,10 @@
       </div>
       <div>
         <p class="kicker">Submission checkpoints</p>
-        <h1>Package the next decision and the final evidence</h1>
+        <h1>Submit one proposal PDF, then one final ZIP</h1>
         <ul class="module-points">
           <li><strong>Now:</strong> one proposal PDF that proves feasibility.</li>
-          <li><strong>At the end:</strong> one ZIP with a complete review path.</li>
+          <li><strong>At the end:</strong> one ZIP with complete reviewer access or run steps.</li>
           <li><strong>Both:</strong> make ownership, assumptions, and evidence explicit.</li>
         </ul>
       </div>
@@ -1039,13 +959,13 @@
   <section class="slide" id="final-package">
     <div class="frame">
       <p class="kicker">Final ZIP</p>
-      <h1>The package must run without guesswork</h1>
+      <h1>The final ZIP must include these items</h1>
       <table>
         <thead>
           <tr><th>Required item</th><th>Purpose</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>README.md</code></td><td>Setup, review path, expected output, validation, and cleanup</td></tr>
+          <tr><td><code>README.md</code></td><td>Setup, reviewer access or run steps, expected output, validation, and cleanup</td></tr>
           <tr><td><code>report.pdf</code></td><td>Problem, architecture, implementation, results, evaluation, limitations, citations</td></tr>
           <tr><td><code>DATA_SOURCE.md</code></td><td>Source, owner, link, schema, rights, limits, cache/replay</td></tr>
           <tr><td><code>AI_USAGE.md</code></td><td>AI task, output, student decision, verification, limitations</td></tr>
@@ -1062,12 +982,12 @@
   <section class="slide" id="grading-evidence">
     <div class="frame">
       <p class="kicker">Final project weights</p>
-      <h1>The final 40% separates the package from its explanation</h1>
+      <h1>Grading: 10% proposal, 20% package, 20% presentation</h1>
       <div class="duo">
         <article class="card">
           <span class="tag">20% · Report + code</span>
           <h2>Build and prove the path</h2>
-          <p>Problem, data, contract, Kafka architecture, review path, useful output, bounded AI, evaluation, and documentation.</p>
+          <p>Problem, data, contract, Kafka architecture, reviewer access or run steps, useful output, bounded AI, evaluation, and documentation.</p>
         </article>
         <article class="card">
           <span class="tag">20% · Presentation</span>
@@ -1084,7 +1004,7 @@
   <section class="slide" id="team-and-presentation">
     <div class="frame">
       <p class="kicker">Collaboration and presentation</p>
-      <h1>Teams may divide tasks, but not understanding</h1>
+      <h1>Two-person teams: split the work, share the understanding</h1>
       <div class="duo">
         <article class="card">
           <span class="tag">Individual or two-person team</span>
@@ -1105,35 +1025,19 @@
   <section class="slide" id="proposal-checklist">
     <div class="frame">
       <p class="kicker">Your next deadline · Aug 4</p>
-      <h1>Work backward from the final package to a feasible proposal</h1>
+      <h1>Before Aug 4, complete these eight checks</h1>
       <ul class="checklist">
-        <li><strong>Problem:</strong> one target user and useful output.</li>
-        <li><strong>Data:</strong> inspect the actual source.</li>
-        <li><strong>Contract:</strong> define minimum event fields.</li>
-        <li><strong>Path:</strong> draw source, Kafka, processor, result.</li>
-        <li><strong>AI:</strong> define the project boundary; separately disclose proposal-writing AI.</li>
-        <li><strong>Review:</strong> name full cloud access or a local demo.</li>
-        <li><strong>Risk:</strong> list the three likely blockers.</li>
-        <li><strong>Scope:</strong> remove work that threatens completion.</li>
+        <li><strong>Problem:</strong> name the user, output, and course-sized scope.</li>
+        <li><strong>Data:</strong> give the source, owner, access, and limits.</li>
+        <li><strong>Classification:</strong> choose batch, realtime, or hybrid and explain why.</li>
+        <li><strong>Architecture:</strong> draw source, contract, Kafka, processor, output, and other components.</li>
+        <li><strong>Tools:</strong> give each tool one responsibility.</li>
+        <li><strong>Feasibility:</strong> define the minimum result, risks, fallback, and milestones.</li>
+        <li><strong>Review + contribution:</strong> state cloud access or local demo and who owns each part.</li>
+        <li><strong>AI:</strong> define its boundary, verification, fallback, and proposal-use disclosure.</li>
       </ul>
       <div class="takeaway point"><strong>By Aug 4, you need a credible and testable plan, not a finished system.</strong></div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Open proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Open 10-point proposal rubric</a></div>
-    </div>
-    <div class="crumb"></div><div class="pager"></div>
-  </section>
-
-  <section class="slide" id="lecture-7a-synthesis">
-    <div class="frame narrow">
-      <p class="kicker">Lecture 7A synthesis</p>
-      <h1>Five ideas to remember</h1>
-      <ol class="final-list">
-        <li>Start with a useful problem, not a long tool list.</li>
-        <li>Connect input, contract, Kafka, processing, result, and evaluation.</li>
-        <li>Use Confluent, GCP, another cloud, or a laptop when it fits the problem.</li>
-        <li>Use full reviewer access for a cloud core path or a local minimum demo for a non-cloud path.</li>
-        <li>Submit evidence that makes every claim easy to verify.</li>
-      </ol>
-      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noreferrer">Project requirements</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-ideas" target="_blank" rel="noreferrer">Project ideas</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-template" target="_blank" rel="noreferrer">Proposal template</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-proposal-rubric" target="_blank" rel="noreferrer">Proposal rubric</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>

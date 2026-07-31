@@ -87,15 +87,15 @@ const pages = {
               <td>7</td>
               <td><strong>Mon · Jul 27</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
-              <td>Lecture 7A: Final Project</td>
-              <td>Project scope, proposal contract, bounded AI, review paths, and evidence; Lecture 7B follows Thursday</td>
+              <td>Lecture 7A/7B: Final Project and Stateful Stream Processing</td>
+              <td>Project scope and proposal contract, followed by joins, delayed outcomes, and stateful correctness</td>
             </tr>
             <tr>
               <td>8</td>
               <td><strong>Thu · Jul 30</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Lecture 7B: Stateful Stream Processing</td>
-              <td>Join fare quotes with delayed trip outcomes and compare rule-v1 with ridge-v2 in Demo 07</td>
+              <td>Lecture 8: Project Systems and End-to-End Architecture</td>
+              <td>Proposal scope through 2023 examples, an insurance document-to-answer system, and a minimum compute-owner framework</td>
             </tr>
             <tr>
               <td>9</td>
@@ -304,6 +304,12 @@ const handoutSections = [
     label: "Lecture 7B",
     title: "Stateful Stream Processing",
     summary: "Join fare quotes with delayed outcomes, then compare two pricing methods in Demo 07."
+  },
+  {
+    id: "lec8",
+    label: "Lecture 8",
+    title: "Project Systems and End-to-End Architecture",
+    summary: "Scope one complete project path, learn from 2023 examples, study an insurance document-to-answer system, and choose a compute owner from durable requirements."
   }
 ];
 
@@ -668,6 +674,58 @@ const handouts = [
     lastUpdatedAt: "Last updated at 4:13 PM PDT on July 27, 2026",
     wide: true,
     summary: "Compare a rule baseline with a trained cost model, then join fare quotes to delayed outcomes and evaluate the 20% markup target."
+  },
+  {
+    slug: "lec8-system-design",
+    section: "lec8",
+    category: "Slides",
+    title: "Lecture 8: Project Systems and End-to-End Architecture",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture8-Three-Part-Index.html",
+    createdAt: "Created at 4:46 PM PDT on July 30, 2026",
+    lastUpdatedAt: "Last updated at 4:46 PM PDT on July 30, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Course map and classroom entry point: project design through 2023 evidence, an insurance end-to-end case, and a minimum compute-owner framework."
+  },
+  {
+    slug: "lec8-project-design-2023",
+    section: "lec8",
+    category: "Part 1",
+    title: "Lecture 8 Part 1: Project Design Through 2023 Evidence",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture8-2023-Project-Retrospective.html",
+    createdAt: "Created at 4:46 PM PDT on July 30, 2026",
+    lastUpdatedAt: "Last updated at 4:46 PM PDT on July 30, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Use one proposal architecture contract and seven sanitized historical examples to identify closed loops, stateful products, and scope gaps."
+  },
+  {
+    slug: "lec8-insurance-end-to-end",
+    section: "lec8",
+    category: "Part 2",
+    title: "Lecture 8 Part 2: Insurance Document Events to Authorized Answers",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture8-Insurance-RAG-MCP-Reviewed.html",
+    createdAt: "Created at 4:46 PM PDT on July 30, 2026",
+    lastUpdatedAt: "Last updated at 4:46 PM PDT on July 30, 2026",
+    wide: true,
+    standalone: true,
+    summary: "A complete industrial case with versioned object storage, Kafka change events, idempotent consumers, active knowledge, authorized retrieval, RAG, and MCP."
+  },
+  {
+    slug: "lec8-compute-owner-decisions",
+    section: "lec8",
+    category: "Part 3",
+    title: "Lecture 8 Part 3: Minimum Compute-Owner Decision Framework",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture8-Stream-Processing-Decision-Guide.html",
+    createdAt: "Created at 4:46 PM PDT on July 30, 2026",
+    lastUpdatedAt: "Last updated at 4:46 PM PDT on July 30, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Choose a plain consumer, stateful SQL engine, or embedded processing library from state, time, recovery, scale, and ownership requirements; specific products continue in Lecture 9."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -755,6 +813,18 @@ const lectureRoadmap = [
     },
     materials: [
       { slug: "demo07", label: "Demo 07" }
+    ]
+  },
+  {
+    section: "lec8",
+    slides: {
+      slug: "lec8-system-design",
+      label: "Lecture 8 overview"
+    },
+    materials: [
+      { slug: "lec8-project-design-2023", label: "Part 1 · Project design + 2023 evidence" },
+      { slug: "lec8-insurance-end-to-end", label: "Part 2 · Insurance end to end" },
+      { slug: "lec8-compute-owner-decisions", label: "Part 3 · Compute-owner framework" }
     ]
   }
 ];

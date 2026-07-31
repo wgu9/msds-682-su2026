@@ -427,6 +427,278 @@
     .metric .equation sub { font-size: .62em; }
     .metric p { margin: 14px 0 0; color: var(--muted); }
 
+    .datechip {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+      padding: 6px 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: var(--fs-kicker);
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .datechip.now {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .thennow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+      gap: clamp(16px, 1.8vw, 30px);
+      align-items: stretch;
+      margin-top: 3vh;
+    }
+
+    .thennow-col {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--panel);
+      padding: clamp(20px, 2vw, 32px);
+      box-shadow: var(--shadow);
+    }
+
+    .thennow-col.open {
+      border-color: var(--accent-line);
+      background: var(--accent-soft);
+      box-shadow: none;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: 21px minmax(0, 1fr);
+      gap: 10px;
+      align-items: baseline;
+      color: var(--muted);
+      font-size: var(--fs-small);
+      line-height: 1.45;
+    }
+
+    .checklist li::before {
+      content: "\2713";
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .checklist li > span { display: block; min-width: 0; }
+    .checklist strong, .checklist code { color: var(--ink); }
+
+    .openq {
+      margin: 20px 0 0;
+      font-size: clamp(23px, 1.75vw, 33px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.18;
+    }
+
+    .opennote { margin: 14px 0 0; color: #4b5470; font-size: var(--fs-small); }
+    .opennote strong, .opennote code { color: #313b5a; }
+
+    .method-steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 1.5vw, 24px);
+      margin: 3vh 0 0;
+    }
+
+    .method-step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 15px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: clamp(16px, 1.6vw, 24px);
+      box-shadow: var(--shadow);
+    }
+
+    .method-step .n {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #ffffff;
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .method-step b {
+      display: block;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: var(--fs-kicker);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .method-step .expr {
+      display: block;
+      margin-top: 9px;
+      font-family: var(--mono);
+      font-size: clamp(15px, 1.12vw, 20px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.35;
+    }
+
+    .scale { margin: 2.6vh 0 0; }
+
+    .scale-head,
+    .scale-row,
+    .scale-axis {
+      display: grid;
+      grid-template-columns: clamp(150px, 15vw, 205px) minmax(0, 1fr) clamp(104px, 10.5vw, 148px);
+      gap: clamp(14px, 1.4vw, 24px);
+      align-items: center;
+    }
+
+    .scale-head {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: var(--fs-kicker);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .scale-head .right { text-align: right; }
+
+    .scale-row {
+      border-top: 1px solid var(--line);
+      padding: clamp(13px, 1.7vh, 21px) 0;
+    }
+
+    .scale-row:last-of-type { border-bottom: 1px solid var(--line); }
+
+    .scale-name {
+      font-size: clamp(19px, 1.35vw, 25px);
+      font-weight: 700;
+      letter-spacing: -.015em;
+    }
+
+    .scale-name em {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: var(--fs-kicker);
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .scale-name em.avg { margin-top: 3px; color: var(--muted); text-transform: none; letter-spacing: .02em; }
+    .scale-row.best .scale-name em { color: #14604e; }
+    .scale-row.best .scale-name em.avg { color: var(--muted); }
+
+    .plot {
+      position: relative;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+    }
+
+    .plot .loss {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-radius: 6px 0 0 6px;
+      background: #fbeede;
+    }
+
+    .plot .zero,
+    .plot .target {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+    }
+
+    .plot .zero { background: #ddc7a2; }
+    .plot .target { background: var(--green); }
+
+    .dot {
+      position: absolute;
+      top: 50%;
+      width: 15px;
+      height: 15px;
+      margin: -7.5px 0 0 -7.5px;
+      border-radius: 999px;
+      background: #6d737e;
+      box-shadow: 0 0 0 2px var(--panel);
+    }
+
+    .scale-row.best .dot { background: var(--green); }
+
+    .scale-gap {
+      text-align: right;
+      font-size: clamp(27px, 2.3vw, 40px);
+      font-weight: 780;
+      letter-spacing: -.04em;
+      line-height: 1;
+    }
+
+    .scale-gap small {
+      margin-left: 4px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: .36em;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .ticks {
+      position: relative;
+      height: 34px;
+      margin-top: 9px;
+    }
+
+    .ticks span {
+      position: absolute;
+      top: 0;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .ticks span.tick-end { transform: translateX(-100%); }
+    .ticks span em { display: block; margin-top: 3px; font-size: 11px; font-style: normal; }
+    .ticks span.at-zero { color: #8a6a2f; }
+    .ticks span.at-target { color: var(--green); }
+
+    .scale-note {
+      margin: 2.2vh 0 0;
+      color: var(--muted);
+      font-size: var(--fs-small);
+      line-height: 1.5;
+    }
+
+    .scale-note strong, .scale-note code { color: var(--ink); }
+
     .coverage {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -477,6 +749,13 @@
       font-size: 14px;
       font-weight: 800;
     }
+
+    .final-list li > span {
+      display: block;
+      min-width: 0;
+    }
+
+    .final-list li > span strong { color: var(--ink); }
 
     .term {
       position: relative;
@@ -582,13 +861,21 @@
       .rail { flex-direction: column; }
       .rail-arrow { transform: rotate(90deg); }
       .module-divider-shell { grid-template-columns: 120px 1fr; }
+      .thennow { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
       section.slide { padding: 7vh 5vw; }
       .duo, .quad, .module-toc { grid-template-columns: 1fr; }
+      .method-steps { grid-template-columns: 1fr; }
       .module-divider-shell { grid-template-columns: 1fr; }
       .module-index { font-size: 72px; }
+      .scale-head { display: none; }
+      .scale-row, .scale-axis { grid-template-columns: minmax(0, 1fr) auto; }
+      .scale-name { grid-column: 1; grid-row: 1; }
+      .scale-gap { grid-column: 2; grid-row: 1; }
+      .plot { grid-column: 1 / -1; grid-row: 2; margin-top: 14px; }
+      .ticks { grid-column: 1 / -1; }
     }
   </style>
 </head>
@@ -1124,6 +1411,121 @@
       </ol>
       <div class="takeaway point"><strong>Demo 07:</strong> <code>FareQuote + TripOutcome</code> with the same <code>trip_id</code> produces <code>PricingEvaluation</code>.</div>
       <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Demo 07 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec6-kafka-connect-stream-processing" target="_blank" rel="noreferrer">Review Lecture 6</a></div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pickup-pricing-comparison">
+    <div class="frame">
+      <p class="kicker">Continued session</p>
+      <h1>Pick up where we left off</h1>
+      <div class="thennow">
+        <div class="thennow-col">
+          <span class="datechip">7/23/2026 · already built</span>
+          <ul class="checklist">
+            <li><span><strong>Eight fare quotes</strong> from four trip requests, one per pricing model.</span></li>
+            <li><span><strong>Four delayed outcomes</strong> carrying the actual cost of each finished trip.</span></li>
+            <li><span><strong>Eight evaluations</strong> from one stateful join on <code>trip_id</code>.</span></li>
+            <li><span><strong>One at-least-once path</strong>, acknowledging each output before committing the input offset.</span></li>
+          </ul>
+        </div>
+        <div class="thennow-col open">
+          <span class="datechip now">7/30/2026 · today</span>
+          <p class="openq">Which pricing model keeps realized markup closer to the 20% target?</p>
+          <p class="opennote">Both models scored the same four trips, so the evidence is already in the topic. One step is left: group the eight evaluations by <strong><code>model_version</code></strong> and score each model against the target.</p>
+        </div>
+      </div>
+      <div class="takeaway"><strong>Three slides finish Lecture 7B:</strong> the evidence we already have, the metric that ranks the two versions, and the recommendation it supports.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="pricing-comparison-result">
+    <div class="frame">
+      <p class="kicker">7/30/2026 · Method and result</p>
+      <h1><code>ridge-v2</code> holds the 20% target; <code>rule-v1</code> loses money</h1>
+      <p class="sub">Higher markup is not the goal. 20% is: enough to cover cost plus margin, low enough to keep riders.</p>
+      <div class="scale">
+        <div class="scale-head">
+          <span></span>
+          <span>Realized markup, one dot per trip</span>
+          <span class="right">Avg gap to target</span>
+        </div>
+        <div class="scale-row">
+          <span class="scale-name"><code>rule-v1</code><em>baseline</em><em class="avg">avg markup −3.8%</em></span>
+          <div class="plot">
+            <div class="loss" style="width: 45.45%;"></div>
+            <div class="zero" style="left: 45.45%;"></div>
+            <div class="target" style="left: 81.82%;"></div>
+            <span class="dot" style="left: 11.95%;" title="trip_7650 · fare $10.00 · cost $12.26 · markup −18.4%"></span>
+            <span class="dot" style="left: 29.84%;" title="trip_7652 · fare $10.85 · cost $11.87 · markup −8.6%"></span>
+            <span class="dot" style="left: 47.51%;" title="trip_7651 · fare $12.50 · cost $12.36 · markup +1.1%"></span>
+            <span class="dot" style="left: 65.18%;" title="trip_7653 · fare $16.45 · cost $14.84 · markup +10.9%"></span>
+          </div>
+          <strong class="scale-gap">23.76<small>pp</small></strong>
+        </div>
+        <div class="scale-row best">
+          <span class="scale-name"><code>ridge-v2</code><em>recommended</em><em class="avg">avg markup +20.6%</em></span>
+          <div class="plot">
+            <div class="loss" style="width: 45.45%;"></div>
+            <div class="zero" style="left: 45.45%;"></div>
+            <div class="target" style="left: 81.82%;"></div>
+            <span class="dot" style="left: 74.22%;" title="trip_7650 · fare $14.20 · cost $12.26 · markup +15.8%"></span>
+            <span class="dot" style="left: 78.07%;" title="trip_7652 · fare $14.00 · cost $11.87 · markup +17.9%"></span>
+            <span class="dot" style="left: 86.13%;" title="trip_7653 · fare $18.16 · cost $14.84 · markup +22.4%"></span>
+            <span class="dot" style="left: 93.11%;" title="trip_7651 · fare $15.60 · cost $12.36 · markup +26.2%"></span>
+          </div>
+          <strong class="scale-gap">3.70<small>pp</small></strong>
+        </div>
+        <div class="scale-axis">
+          <span></span>
+          <div class="ticks">
+            <span style="left: 9.09%;">−20%</span>
+            <span style="left: 27.27%;">−10%</span>
+            <span class="at-zero" style="left: 45.45%;">0%<em>break even</em></span>
+            <span style="left: 63.64%;">+10%</span>
+            <span class="at-target" style="left: 81.82%;">+20%<em>target</em></span>
+            <span class="tick-end" style="left: 100%;">+30%</span>
+          </div>
+          <span></span>
+        </div>
+      </div>
+      <p class="scale-note">
+        <strong>Read the signs, not just the size.</strong> Two of <code>rule-v1</code>'s four trips landed in the shaded zone below cost, so it averages −$0.38 profit per trip. <code>ridge-v2</code> straddles the target, so its signed errors (−4.2, −2.1, +2.4, +6.2 pp) would cancel to +0.6; taking the absolute value first keeps the real spread of <strong>3.70 pp</strong> visible.
+      </p>
+      <div class="method-steps">
+        <div class="method-step">
+          <span class="n">1</span>
+          <div>
+            <b>Per trip, keep the sign</b>
+            <span class="expr">realized markup = (fare − actual cost) / actual cost</span>
+          </div>
+        </div>
+        <div class="method-step">
+          <span class="n">2</span>
+          <div>
+            <b>Per model, drop the sign last</b>
+            <span class="expr">gap = average( |realized markup − 20%| )</span>
+          </div>
+        </div>
+      </div>
+      <div class="takeaway caveat"><strong>Bounded comparison:</strong> four trips, one run, the same outcomes for both models. Enough to rank these two here, not a statistically powered production A/B test.</div>
+    </div>
+    <div class="crumb"></div><div class="pager"></div>
+  </section>
+
+  <section class="slide" id="demo07-lecture7b-complete">
+    <div class="frame narrow">
+      <p class="kicker">7/30/2026 · Lecture 7B ends here</p>
+      <h1>Demo 07 is complete</h1>
+      <p class="sub">4 trip requests → 8 fare quotes → 4 delayed outcomes → 8 evaluations → 1 recommendation.</p>
+      <ol class="final-list">
+        <li><span><strong>Produce:</strong> quote every request with both <code>rule-v1</code> and <code>ridge-v2</code>.</span></li>
+        <li><span><strong>Join:</strong> hold each quote in state until its delayed outcome arrives on the same <code>trip_id</code>.</span></li>
+        <li><span><strong>Evaluate:</strong> rank both models by their average gap to the 20% markup target.</span></li>
+      </ol>
+      <div class="takeaway point"><strong>Recommendation: prefer <code>ridge-v2</code>.</strong> It holds a 20.6% average markup, while <code>rule-v1</code> priced two of four trips below cost. Deployment, rollback, and causal lift stay outside Demo 07.</div>
+      <div class="links"><a href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo07" target="_blank" rel="noreferrer">Demo 07 handout</a> · <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/lec7a-final-project" target="_blank" rel="noreferrer">Lecture 7A: Final Project</a></div>
     </div>
     <div class="crumb"></div><div class="pager"></div>
   </section>

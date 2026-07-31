@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="MSDS 682 Lecture 8 Part 1: a proposal architecture contract followed by an anonymized retrospective of seven Fall 2023 final projects."
+  />
+  <title>MSDS 682 · Lecture 8 · 2023 Project Retrospective</title>
+  <link rel="stylesheet" href="lecture8-three-part.css" />
+</head>
+<body data-deck="Part 1 · Project design and 2023 evidence">
+<div class="progress" aria-hidden="true"></div>
+
+<section class="slide hero" id="project-retrospective-title" data-timing="8–9 min">
+  <a class="back-link" href="MSDS682-Lecture8-Three-Part-Index.html">← Lecture 8 index</a>
+  <div class="frame">
+    <p class="kicker">MSDS 682 · <b>Lecture 8 · Part 1</b></p>
+    <h1>Scope the proposal through real examples</h1>
+    <p class="sub">
+      Start with one architecture contract, then use seven reviewed 2023 projects
+      as evidence about closed loops, stateful products, and scope.
+    </p>
+    <div class="hero-meta">
+      <span class="pill">27 minutes</span>
+      <span class="pill">Proposal due Aug 4</span>
+      <span class="pill">Seven identifiable projects</span>
+      <span class="pill">Student-safe summary</span>
+      <span class="pill">Architecture → evidence → lesson</span>
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="proposal-architecture-contract" data-timing="9–15 min">
+  <div class="frame">
+    <p class="kicker">Proposal scope gate</p>
+    <h1>Every proposal needs one complete, inspectable path</h1>
+    <figure class="architecture-figure">
+      <img
+        src="MSDS682-Lecture8-Proposal-Architecture-Contract.svg"
+        alt="Proposal architecture contract from user decision through event source, Kafka contract, compute and state, inspectable output, and evidence."
+      />
+      <figcaption>Use this left-to-right contract to remove unnecessary layers before implementation begins.</figcaption>
+    </figure>
+    <div class="takeaway green">
+      <strong>Proposal test:</strong> name the owner and proof for every arrow.
+      If the middle cannot be built by the final deadline, cut scope now.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="seven-projects" data-timing="15–18 min">
+  <div class="frame">
+    <p class="kicker">The cohort in one page</p>
+    <h1>Seven different products built around Kafka</h1>
+    <table class="compact">
+      <thead>
+        <tr><th>Project</th><th>Event source</th><th>Kafka-era processing</th><th>Output</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>BART transit service</strong></td><td>GTFS-Realtime feed</td><td>Avro producer → consumer → DynamoDB</td><td>FastAPI site + live map</td></tr>
+        <tr><td><strong>SF 311 analytics</strong></td><td>Socrata API via daily Airflow</td><td>Avro producer → PostgreSQL path</td><td>Streamlit + resolution-time model</td></tr>
+        <tr><td><strong>Market anomaly detection</strong></td><td>Finnhub WebSocket</td><td>Event-time window + watermark + model</td><td>Delta table + Databricks charts</td></tr>
+        <tr><td><strong>Music behavior analytics</strong></td><td>Eventsim synthetic events</td><td>Kafka → Spark → GCS → hourly warehouse load</td><td>BigQuery + dashboard</td></tr>
+        <tr><td><strong>Bitcoin anomaly system</strong></td><td>Historical blockchain Parquet</td><td>Planned online inference and MongoDB path</td><td>Model/API/UI modules; core consumer incomplete</td></tr>
+        <tr><td><strong>NYC taxi operations</strong></td><td>S3 historical Parquet replay</td><td>Avro producer → ksqlDB aggregates</td><td>Database/dashboard remained planned</td></tr>
+        <tr><td><strong>TSLA live chart</strong></td><td>Finnhub WebSocket</td><td>Python producer + consumer</td><td>Streamlit price/volume chart</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="architecture-patterns" data-timing="18–23 min">
+  <div class="frame">
+    <p class="kicker">Three architecture patterns</p>
+    <h1>The delivered middle matters more than the planned tool count</h1>
+    <figure class="architecture-figure">
+      <img
+        src="MSDS682-Lecture8-2023-Architecture-Patterns.svg"
+        alt="Three project architecture patterns: a narrow closed loop, state and time as the product, and a planned architecture with an incomplete middle."
+      />
+      <figcaption>Solid arrows are delivered paths; dashed red arrows mark a planned bridge without sufficient evidence.</figcaption>
+    </figure>
+    <div class="takeaway amber">
+      <strong>Better trade:</strong> cut one planned layer early and use the saved time for
+      replay, failure handling, tests, documentation, and one believable output.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="real-time-spectrum" data-timing="23–27 min">
+  <div class="frame">
+    <p class="kicker">Not every source was truly live</p>
+    <h1>“Streaming” described several different source patterns</h1>
+    <table>
+      <thead>
+        <tr><th>Pattern</th><th>2023 examples</th><th>What students should say</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Live external events</strong></td><td>BART GTFS-RT; Finnhub market feeds</td><td>Near-real-time or real-time source, with the polling/WebSocket boundary stated</td></tr>
+        <tr><td><strong>Synthetic event stream</strong></td><td>Music behavior Eventsim</td><td>Simulated events used to test a streaming system</td></tr>
+        <tr><td><strong>Historical replay</strong></td><td>NYC taxi and blockchain Parquet</td><td>Batch data replayed as events—not a live source</td></tr>
+        <tr><td><strong>Scheduled batch through Kafka</strong></td><td>Daily SF 311 ingestion</td><td>Batch ingestion plus Kafka transport, not continuous source generation</td></tr>
+      </tbody>
+    </table>
+    <div class="takeaway">
+      Precise language strengthens the project. Historical replay is completely acceptable when the student explains what is simulated and what is genuinely continuous.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="shared-strengths-and-risks" data-timing="27–30 min">
+  <div class="frame">
+    <p class="kicker">Across the cohort</p>
+    <h1>Recurring strengths and recurring risks</h1>
+    <div class="duo">
+      <article class="card green">
+        <span class="tag">What worked</span>
+        <h2>Concrete product thinking</h2>
+        <ul>
+          <li>Real or believable event source</li>
+          <li>Kafka producer and downstream consumer</li>
+          <li>Visible database, table, dashboard, or web output</li>
+          <li>Architecture tied to a recognizable user problem</li>
+        </ul>
+      </article>
+      <article class="card red">
+        <span class="tag">What broke trust</span>
+        <h2>Evidence and reproducibility gaps</h2>
+        <ul>
+          <li>Planned layers described as if they were implemented</li>
+          <li>Core consumer or persistence bridge missing</li>
+          <li>Cloud-only systems without a replay path</li>
+          <li>Secrets, environment folders, or generated state included in submissions</li>
+        </ul>
+      </article>
+    </div>
+    <div class="takeaway red">
+      This lecture uses sanitized architecture summaries only. The archived 2023 bundle is professor-only and must not be distributed.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="review-five-questions" data-timing="30–33 min">
+  <div class="frame narrow">
+    <p class="kicker">Review every proposal the same way</p>
+    <h1>Five questions reveal the real project</h1>
+    <ol class="number-list">
+      <li><strong>Problem:</strong> who uses the result, and what decision changes?</li>
+      <li><strong>Events:</strong> what arrives, at what rate, and what is real versus replayed?</li>
+      <li><strong>Kafka:</strong> what are the topic, key, contract, retention, and replay reason?</li>
+      <li><strong>State:</strong> what join, window, aggregate, dedupe, or current answer must be maintained?</li>
+      <li><strong>Evidence:</strong> what output, metric, failure case, and fallback will be demonstrated?</li>
+    </ol>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="retrospective-summary" data-timing="33–35 min">
+  <div class="frame narrow">
+    <p class="kicker">Part 1 takeaway</p>
+    <h1>Do less. Close the loop. Show the evidence.</h1>
+    <div class="rail">
+      <div class="rail-node"><b>One source</b><span>Real, synthetic, or replay—named honestly</span></div>
+      <div class="rail-arrow">→</div>
+      <div class="rail-node kafka"><b>One Kafka path</b><span>Key, contract, and retained events</span></div>
+      <div class="rail-arrow">→</div>
+      <div class="rail-node compute"><b>One meaningful operation</b><span>State, time, or transformation</span></div>
+      <div class="rail-arrow">→</div>
+      <div class="rail-node output"><b>One inspectable result</b><span>Plus failure and replay evidence</span></div>
+    </div>
+    <div class="takeaway green">
+      The 2023 projects are valuable because they show both the ambition of real products and the cost of leaving the middle of the pipeline unfinished.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<script src="lecture8-three-part.js"></script>
+</body>
+</html>
