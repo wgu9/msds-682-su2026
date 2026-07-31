@@ -25,47 +25,13 @@
       <span class="pill wip">Work in progress · products in Lecture 9</span>
       <span class="pill">15 minutes</span>
       <span class="pill">Five questions, three owners</span>
-      <span class="pill">No syntax tutorial</span>
     </div>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="from-lecture-7b" data-timing="93–95 min">
-  <div class="frame">
-    <p class="kicker">From Lecture 7B</p>
-    <h1>You already know what the processor must do</h1>
-    <div class="quad">
-      <article class="card">
-        <span class="tag">Stateless</span>
-        <h2>Filter</h2>
-        <p>Keep or drop each event.</p>
-      </article>
-      <article class="card">
-        <span class="tag">Stateless</span>
-        <h2>Map</h2>
-        <p>Turn one event into another.</p>
-      </article>
-      <article class="card purple">
-        <span class="tag">Stateful</span>
-        <h2>Aggregate</h2>
-        <p>Maintain a running answer per key.</p>
-      </article>
-      <article class="card purple">
-        <span class="tag">Stateful</span>
-        <h2>Join</h2>
-        <p>Match events that arrive apart in time.</p>
-      </article>
-    </div>
-    <div class="takeaway">
-      <strong>And the four questions that decide correctness:</strong>
-      which records match, how long a match may wait, how state is recovered, and what happens to late, missing, or duplicate input.
-    </div>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
 
-<section class="slide" id="the-open-question" data-timing="95–97 min">
+<section class="slide" id="the-open-question" data-timing="93–96 min">
   <div class="frame">
     <p class="kicker">What is still open</p>
     <h1>The operation is settled. The owner is not.</h1>
@@ -93,7 +59,7 @@
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="five-stable-questions" data-timing="97–100 min">
+<section class="slide" id="five-stable-questions" data-timing="96–99 min">
   <div class="frame narrow">
     <p class="kicker">Ask before naming a tool</p>
     <h1>Five questions decide the owner</h1>
@@ -108,7 +74,7 @@
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="three-owners" data-timing="100–105 min">
+<section class="slide" id="three-owners" data-timing="99–104 min">
   <div class="frame">
     <p class="kicker">Three owners</p>
     <h1>Choose the smallest owner that meets the contract</h1>
@@ -139,7 +105,7 @@
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="decision-exit-ticket" data-timing="105–107 min">
+<section class="slide" id="decision-exit-ticket" data-timing="104–107 min">
   <div class="frame narrow">
     <p class="kicker">Part 3 close · Exit ticket</p>
     <h1>One sentence before you name a product</h1>
@@ -147,9 +113,6 @@
       "My project needs <em>this state and time behavior</em>, so I choose
       <em>this owner</em>, and I will prove it with <em>this replay or failure test</em>."
     </p>
-    <div class="takeaway green">
-      <strong>The tool name is not the answer.</strong> The requirement-to-owner reasoning is the answer.
-    </div>
     <div class="links">
       <strong>Work in progress, continues in Lecture 9:</strong> concrete products such as ksqlDB, Flink SQL, and Kafka Streams, compared only against a requirement you can already state.
     </div>
