@@ -13,6 +13,7 @@
 <body data-deck="Part 1 · Project design and 2023 evidence">
 <div class="progress" aria-hidden="true"></div>
 
+
 <section class="slide hero" id="project-retrospective-title" data-timing="8–9 min">
   <a class="back-link" href="MSDS682-Lecture8-Three-Part-Index.html">← Lecture 8 index</a>
   <div class="frame">
@@ -33,7 +34,69 @@
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="proposal-architecture-contract" data-timing="9–15 min">
+<section class="slide" id="retrospective-findings" data-timing="9–11 min">
+  <div class="frame">
+    <p class="kicker">What seven reviewed projects showed</p>
+    <h1>Everyone reached Kafka. Two closed the loop.</h1>
+    <div class="quad">
+      <article class="card green">
+        <span class="tag">Held up</span>
+        <h2>The front half</h2>
+        <p>All seven built a working producer with a schema. Getting events into
+        Kafka was not the hard part for anyone.</p>
+      </article>
+      <article class="card red">
+        <span class="tag">Broke</span>
+        <h2>The same middle</h2>
+        <p>Where projects failed, they failed at the consumer between Kafka and
+        the store. Four of seven never finished it.</p>
+      </article>
+      <article class="card amber">
+        <span class="tag">Blurred</span>
+        <h2>The word "streaming"</h2>
+        <p>It meant a live feed, a generator, a replayed archive, or a nightly
+        job. All four are fine. Only some were declared.</p>
+      </article>
+      <article class="card purple">
+        <span class="tag">Overstated</span>
+        <h2>The diagram</h2>
+        <p>Architecture diagrams were consistently larger than the delivered
+        system. The grade followed what ran.</p>
+      </article>
+    </div>
+    <div class="takeaway red">
+      <strong>The pattern to avoid is specific.</strong> It is not "too
+      ambitious" in general. It is a finished producer, a finished dashboard,
+      and nothing that reliably connects them.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="retrospective-recommendations" data-timing="11–13 min">
+  <div class="frame narrow">
+    <p class="kicker">What to do differently, in your proposal</p>
+    <h1>Five decisions to make before Tuesday</h1>
+    <ol class="number-list">
+      <li><strong>Name the source pattern.</strong> Live feed, synthetic
+      generator, replayed archive, or scheduled batch. Any of the four is
+      acceptable; guessing which one you have is not.</li>
+      <li><strong>Build the middle first.</strong> Write the consumer that lands
+      data in a store before you build the dashboard on top of it.</li>
+      <li><strong>Pick one stateful operation.</strong> One join, one window, or
+      one current-state table. One is enough to demonstrate the course.</li>
+      <li><strong>Decide the evidence now.</strong> A screenshot, a log, or a
+      test that proves it ran end to end, from the code you submit.</li>
+      <li><strong>Cut a layer, not the middle.</strong> Dropping the warehouse is
+      fine. Leaving the consumer unfinished is not.</li>
+    </ol>
+    <div class="takeaway green">
+      Every one of these came from a specific project you are about to see.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+<section class="slide" id="proposal-architecture-contract" data-timing="13–15 min">
   <div class="frame">
     <p class="kicker">Proposal scope gate</p>
     <h1>Every proposal needs one complete, inspectable path</h1>
@@ -52,60 +115,140 @@
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="seven-projects" data-timing="15–18 min">
+<section class="slide" id="how-to-read-projects" data-timing="15–16 min">
   <div class="frame">
-    <p class="kicker">The cohort in one page</p>
-    <h1>Seven different products built around Kafka</h1>
-    <table class="compact">
-      <thead>
-        <tr><th>Project</th><th>Event source</th><th>Kafka-era processing</th><th>Output</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>BART transit service</strong></td><td>GTFS-Realtime feed</td><td>Avro producer → consumer → DynamoDB</td><td>FastAPI site + live map</td></tr>
-        <tr><td><strong>SF 311 analytics</strong></td><td>Socrata API via daily Airflow</td><td>Avro producer → PostgreSQL path</td><td>Streamlit + resolution-time model</td></tr>
-        <tr><td><strong>Market anomaly detection</strong></td><td>Finnhub WebSocket</td><td>Event-time window + watermark + model</td><td>Delta table + Databricks charts</td></tr>
-        <tr><td><strong>Music behavior analytics</strong></td><td>Eventsim synthetic events</td><td>Kafka → Spark → GCS → hourly warehouse load</td><td>BigQuery + dashboard</td></tr>
-        <tr><td><strong>Bitcoin anomaly system</strong></td><td>Historical blockchain Parquet</td><td>Planned online inference and MongoDB path</td><td>Model/API/UI modules; core consumer incomplete</td></tr>
-        <tr><td><strong>NYC taxi operations</strong></td><td>S3 historical Parquet replay</td><td>Avro producer → ksqlDB aggregates</td><td>Database/dashboard remained planned</td></tr>
-        <tr><td><strong>TSLA live chart</strong></td><td>Finnhub WebSocket</td><td>Python producer + consumer</td><td>Streamlit price/volume chart</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
-
-<section class="slide" id="architecture-patterns" data-timing="18–23 min">
-  <div class="frame">
-    <p class="kicker">Three architecture patterns</p>
-    <h1>The delivered middle matters more than the planned tool count</h1>
+    <p class="kicker">How to read the next seven pages</p>
+    <h1>Same five columns every time, so you can compare</h1>
     <figure class="architecture-figure">
       <img
-        src="MSDS682-Lecture8-2023-Architecture-Patterns.svg"
-        alt="Three project architecture patterns: a narrow closed loop, state and time as the product, and a planned architecture with an incomplete middle."
+        src="charts/p1-transit-arrivals.svg"
+        alt="The shared five-column template: source, Kafka, process, store, output, with a status colour on each column."
       />
-      <figcaption>Solid arrows are delivered paths; dashed red arrows mark a planned bridge without sufficient evidence.</figcaption>
+      <figcaption>Every project is drawn in the same five stages. Only the
+      component names and the status colours change.</figcaption>
     </figure>
-    <div class="takeaway amber">
-      <strong>Better trade:</strong> cut one planned layer early and use the saved time for
-      replay, failure handling, tests, documentation, and one believable output.
+    <div class="trio">
+      <article class="card green"><h2>White</h2><p>Delivered and runnable from
+      the submitted code.</p></article>
+      <article class="card amber"><h2>Amber</h2><p>Partly delivered, or the
+      description does not match what the source really is.</p></article>
+      <article class="card red"><h2>Red, dashed</h2><p>Planned in the report,
+      not implemented.</p></article>
     </div>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="real-time-spectrum" data-timing="23–27 min">
+<section class="slide" id="p1-transit-arrivals" data-timing="16–18 min">
+  <div class="frame">
+    <p class="kicker">Project 1 of 7 · <b>live source · closed loop</b></p>
+    <h1>Transit arrival service</h1>
+    <p class="sub"><strong>Goal.</strong> Give a rider the next train, the current delay, and a station map without opening the transit operator's own app.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p1-transit-arrivals.svg" alt="Transit arrival service: A realtime feed is polled every 30 seconds, each update is validated and serialized, and the newest record per station is served to a web page." />
+      <figcaption><strong>Design.</strong> A realtime feed is polled every 30 seconds, each update is validated and serialized, and the newest record per station is served to a web page.</figcaption>
+    </figure>
+    <div class="takeaway green"><strong>Lesson.</strong> The most convincing project in the group was also one of the smallest. Every arrow had an owner, and the ideas that were not built were labelled future work instead of drawn as if finished.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p2-market-anomaly" data-timing="18–20 min">
+  <div class="frame">
+    <p class="kicker">Project 2 of 7 · <b>live source · real stateful processing</b></p>
+    <h1>Market anomaly detection</h1>
+    <p class="sub"><strong>Goal.</strong> Flag one-minute trading windows whose volume and average price look abnormal against recent behaviour.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p2-market-anomaly.svg" alt="Market anomaly detection: Event time with a ten-second watermark and one-minute windows. The model scores each completed window, not each individual tick." />
+      <figcaption><strong>Design.</strong> Event time with a ten-second watermark and one-minute windows. The model scores each completed window, not each individual tick.</figcaption>
+    </figure>
+    <div class="takeaway green"><strong>Lesson.</strong> This is Lecture 7B in production. The window and the watermark did more work than the model did, and the run output was kept as evidence.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p3-civic-requests" data-timing="20–22 min">
+  <div class="frame">
+    <p class="kicker">Project 3 of 7 · <b>scheduled batch · broadest scope</b></p>
+    <h1>Civic request analytics</h1>
+    <p class="sub"><strong>Goal.</strong> Show where city service requests cluster, and predict how long a new request will take to close.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p3-civic-requests.svg" alt="Civic request analytics: A daily job pulls and cleans the data, replays it through Kafka, and a dashboard reads the result. A separate model serves predictions." />
+      <figcaption><strong>Design.</strong> A daily job pulls and cleans the data, replays it through Kafka, and a dashboard reads the result. A separate model serves predictions.</figcaption>
+    </figure>
+    <div class="takeaway amber"><strong>Lesson.</strong> Call a daily pull what it is: batch ingestion replayed through Kafka. And the consumer in the middle has to run from the submitted code, not only in the recorded demo.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p4-listening-behaviour" data-timing="22–23 min">
+  <div class="frame">
+    <p class="kicker">Project 4 of 7 · <b>synthetic source · largest surface</b></p>
+    <h1>Listening behaviour analytics</h1>
+    <p class="sub"><strong>Goal.</strong> Analyse listening, login and page-view behaviour for a music service at a scale the team could control.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p4-listening-behaviour.svg" alt="Listening behaviour analytics: A simulator produces three event streams. Streaming writes partitioned files, and an hourly job loads them into a warehouse for BI." />
+      <figcaption><strong>Design.</strong> A simulator produces three event streams. Streaming writes partitioned files, and an hourly job loads them into a warehouse for BI.</figcaption>
+    </figure>
+    <div class="takeaway amber"><strong>Lesson.</strong> Synthetic events are a legitimate way to obtain a stream, and reusing an open-source pipeline is allowed. What is required is saying plainly which parts you wrote.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p5-transaction-anomaly" data-timing="23–25 min">
+  <div class="frame">
+    <p class="kicker">Project 5 of 7 · <b>replayed history · modules without the bridge</b></p>
+    <h1>Transaction anomaly system</h1>
+    <p class="sub"><strong>Goal.</strong> Separate suspicious transactions from normal ones, store each group, and monitor the split.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p5-transaction-anomaly.svg" alt="Transaction anomaly system: A trained model, a request API and an analytics page all exist. The consumer between Kafka and the database polls and commits, and does nothing else." />
+      <figcaption><strong>Design.</strong> A trained model, a request API and an analytics page all exist. The consumer between Kafka and the database polls and commits, and does nothing else.</figcaption>
+    </figure>
+    <div class="takeaway red"><strong>Lesson.</strong> Component count is not completion. The one piece that would have turned these modules into a system is the piece left as a placeholder.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p6-taxi-operations" data-timing="25–26 min">
+  <div class="frame">
+    <p class="kicker">Project 6 of 7 · <b>replayed history · strong first half</b></p>
+    <h1>Taxi operations analytics</h1>
+    <p class="sub"><strong>Goal.</strong> Track trips, passenger counts, tips, vendors and airport activity as a live operations view.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p6-taxi-operations.svg" alt="Taxi operations analytics: Archived trip files are replayed into Kafka and aggregated with streaming SQL. The database and the dashboard behind it were never built." />
+      <figcaption><strong>Design.</strong> Archived trip files are replayed into Kafka and aggregated with streaming SQL. The database and the dashboard behind it were never built.</figcaption>
+    </figure>
+    <div class="takeaway red"><strong>Lesson.</strong> Getting data into Kafka and aggregating it is the part this course already taught you. The project is judged on what happens after that.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="p7-live-price-chart" data-timing="26–28 min">
+  <div class="frame">
+    <p class="kicker">Project 7 of 7 · <b>live source · smallest system</b></p>
+    <h1>Live price chart</h1>
+    <p class="sub"><strong>Goal.</strong> Watch one ticker's price and volume update live while the market is open.</p>
+    <figure class="architecture-figure">
+      <img src="charts/p7-live-price-chart.svg" alt="Live price chart: A websocket feeds a single topic and a consumer inside the app updates two lines. Nothing is retained between runs." />
+      <figcaption><strong>Design.</strong> A websocket feeds a single topic and a consumer inside the app updates two lines. Nothing is retained between runs.</figcaption>
+    </figure>
+    <div class="takeaway amber"><strong>Lesson.</strong> A small system that runs beats a large one that does not. Anomaly detection, storage, news matching and BI were all proposed and dropped, and the chart still worked.</div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+<section class="slide" id="real-time-spectrum" data-timing="28–30 min">
   <div class="frame">
     <p class="kicker">Not every source was truly live</p>
     <h1>“Streaming” described several different source patterns</h1>
     <table>
       <thead>
-        <tr><th>Pattern</th><th>2023 examples</th><th>What students should say</th></tr>
+        <tr><th>Pattern</th><th>Seen in</th><th>What to say in your proposal</th></tr>
       </thead>
       <tbody>
-        <tr><td><strong>Live external events</strong></td><td>BART GTFS-RT; Finnhub market feeds</td><td>Near-real-time or real-time source, with the polling/WebSocket boundary stated</td></tr>
-        <tr><td><strong>Synthetic event stream</strong></td><td>Music behavior Eventsim</td><td>Simulated events used to test a streaming system</td></tr>
-        <tr><td><strong>Historical replay</strong></td><td>NYC taxi and blockchain Parquet</td><td>Batch data replayed as events—not a live source</td></tr>
-        <tr><td><strong>Scheduled batch through Kafka</strong></td><td>Daily SF 311 ingestion</td><td>Batch ingestion plus Kafka transport, not continuous source generation</td></tr>
+        <tr><td><strong>Live external events</strong></td><td>Projects 1, 2, 7</td><td>A real-time source, with the polling interval or websocket boundary stated</td></tr>
+        <tr><td><strong>Synthetic event stream</strong></td><td>Project 4</td><td>Simulated events, generated to exercise a streaming system</td></tr>
+        <tr><td><strong>Historical replay</strong></td><td>Projects 5, 6</td><td>Archived data replayed as events, which is not a live source</td></tr>
+        <tr><td><strong>Scheduled batch through Kafka</strong></td><td>Project 3</td><td>Batch ingestion plus Kafka transport, not continuous generation</td></tr>
       </tbody>
     </table>
     <div class="takeaway">
@@ -114,40 +257,6 @@
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
-
-<section class="slide" id="shared-strengths-and-risks" data-timing="27–30 min">
-  <div class="frame">
-    <p class="kicker">Across the cohort</p>
-    <h1>Recurring strengths and recurring risks</h1>
-    <div class="duo">
-      <article class="card green">
-        <span class="tag">What worked</span>
-        <h2>Concrete product thinking</h2>
-        <ul>
-          <li>Real or believable event source</li>
-          <li>Kafka producer and downstream consumer</li>
-          <li>Visible database, table, dashboard, or web output</li>
-          <li>Architecture tied to a recognizable user problem</li>
-        </ul>
-      </article>
-      <article class="card red">
-        <span class="tag">What broke trust</span>
-        <h2>Evidence and reproducibility gaps</h2>
-        <ul>
-          <li>Planned layers described as if they were implemented</li>
-          <li>Core consumer or persistence bridge missing</li>
-          <li>Cloud-only systems without a replay path</li>
-          <li>Secrets, environment folders, or generated state included in submissions</li>
-        </ul>
-      </article>
-    </div>
-    <div class="takeaway red">
-      This lecture uses sanitized architecture summaries only. The archived 2023 bundle is professor-only and must not be distributed.
-    </div>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
-
 <section class="slide" id="review-five-questions" data-timing="30–33 min">
   <div class="frame narrow">
     <p class="kicker">Review every proposal the same way</p>
@@ -162,7 +271,6 @@
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
-
 <section class="slide" id="retrospective-summary" data-timing="33–35 min">
   <div class="frame narrow">
     <p class="kicker">Part 1 takeaway</p>
@@ -182,7 +290,6 @@
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
-
 <script src="lecture8-three-part.js"></script>
 </body>
 </html>

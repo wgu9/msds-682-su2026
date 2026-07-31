@@ -199,6 +199,21 @@ code {
   text-transform: uppercase;
 }
 
+.pill.wip {
+  border-color: #eeda9f;
+  color: #6d4705;
+  background: var(--amber-soft);
+}
+
+.card .trap {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(22, 24, 29, .11);
+  font-size: var(--small);
+}
+
+.card .trap strong { color: var(--ink); }
+
 .big-number {
   display: block;
   margin-bottom: 12px;

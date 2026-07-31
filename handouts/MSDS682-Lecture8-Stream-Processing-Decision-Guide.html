@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="MSDS 682 Lecture 8 Part 3: a minimal, durable decision framework for choosing a stream-processing tool."
+    content="MSDS 682 Lecture 8 Part 3: Lecture 7B defined the processing; this part chooses the compute owner that runs it. Products continue in Lecture 9."
   />
   <title>MSDS 682 · Lecture 8 · Stream-Processing Decision Guide</title>
   <link rel="stylesheet" href="lecture8-three-part.css" />
@@ -17,146 +17,141 @@
   <a class="back-link" href="MSDS682-Lecture8-Three-Part-Index.html">← Lecture 8 index</a>
   <div class="frame">
     <p class="kicker">MSDS 682 · <b>Lecture 8 · Part 3</b></p>
-    <h1>Choose the compute owner</h1>
+    <h1>Now choose who runs it</h1>
     <p class="sub">
-      A minimal stream-processing continuation:
-      teach the decision that survives product changes—not a syntax tutorial.
+      Lecture 7B defined what stream processing has to do. This part picks the compute owner that does it.
     </p>
     <div class="hero-meta">
-      <span class="pill">15-minute framework + 3-minute exit ticket</span>
-      <span class="pill">No live product demo required</span>
-      <span class="pill">No SQL memorization</span>
-      <span class="pill">One decision table</span>
-      <span class="pill">Specific products continue in Lecture 9</span>
+      <span class="pill wip">Work in progress · products in Lecture 9</span>
+      <span class="pill">15 minutes</span>
+      <span class="pill">Five questions, three owners</span>
+      <span class="pill">No syntax tutorial</span>
     </div>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="syntax-expires" data-timing="93–94 min">
-  <div class="frame narrow">
-    <p class="kicker">The teaching decision</p>
-    <h1>Syntax expires faster than architecture judgment</h1>
-    <p class="quote">
-      “Do not start with a product name. Start with the state, time, recovery,
-      and ownership the system requires.”
-    </p>
-    <div class="takeaway amber">
-      Product direction, feature lifecycle, tenant availability, and pricing can change.
-      The course should teach students how to re-evaluate tools from first principles.
-    </div>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
-
-<section class="slide" id="five-stable-questions" data-timing="94–97 min">
+<section class="slide" id="from-lecture-7b" data-timing="93–95 min">
   <div class="frame">
+    <p class="kicker">From Lecture 7B</p>
+    <h1>You already know what the processor must do</h1>
+    <div class="quad">
+      <article class="card">
+        <span class="tag">Stateless</span>
+        <h2>Filter</h2>
+        <p>Keep or drop each event.</p>
+      </article>
+      <article class="card">
+        <span class="tag">Stateless</span>
+        <h2>Map</h2>
+        <p>Turn one event into another.</p>
+      </article>
+      <article class="card purple">
+        <span class="tag">Stateful</span>
+        <h2>Aggregate</h2>
+        <p>Maintain a running answer per key.</p>
+      </article>
+      <article class="card purple">
+        <span class="tag">Stateful</span>
+        <h2>Join</h2>
+        <p>Match events that arrive apart in time.</p>
+      </article>
+    </div>
+    <div class="takeaway">
+      <strong>And the four questions that decide correctness:</strong>
+      which records match, how long a match may wait, how state is recovered, and what happens to late, missing, or duplicate input.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="the-open-question" data-timing="95–97 min">
+  <div class="frame">
+    <p class="kicker">What is still open</p>
+    <h1>The operation is settled. The owner is not.</h1>
+    <div class="rail">
+      <div class="rail-node">
+        <b>What must happen</b>
+        <span>Lecture 7B: operation, state, time, recovery, delivery</span>
+      </div>
+      <div class="rail-arrow">→</div>
+      <div class="rail-node compute">
+        <b>Who runs it</b>
+        <span>Today: consumer, SQL engine, or embedded library</span>
+      </div>
+      <div class="rail-arrow">→</div>
+      <div class="rail-node output">
+        <b>Which product</b>
+        <span>Lecture 9: named tools, once the requirement is explicit</span>
+      </div>
+    </div>
+    <div class="takeaway amber">
+      <strong>Do not start from a product name.</strong>
+      Product features, pricing, and availability change; the requirement is what you can still reason about next year.
+    </div>
+  </div>
+  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
+</section>
+
+<section class="slide" id="five-stable-questions" data-timing="97–100 min">
+  <div class="frame narrow">
     <p class="kicker">Ask before naming a tool</p>
-    <h1>Five stable questions</h1>
+    <h1>Five questions decide the owner</h1>
     <ol class="number-list">
-      <li><strong>State:</strong> must the system remember unmatched events or a current keyed answer?</li>
-      <li><strong>Time:</strong> do event time, windows, watermarks, or late records affect correctness?</li>
-      <li><strong>Scale:</strong> what throughput, state size, partitions, and operational load must be handled?</li>
-      <li><strong>Recovery:</strong> how will checkpoints, replay, dedupe, and failure recovery work?</li>
-      <li><strong>Ownership:</strong> does the team prefer SQL, application code, or a managed service boundary?</li>
+      <li><strong>State:</strong> must it remember anything between events?</li>
+      <li><strong>Time:</strong> do windows, event time, or late records change the answer?</li>
+      <li><strong>Scale:</strong> how much throughput, state, and operational load?</li>
+      <li><strong>Recovery:</strong> what happens after a crash or a replay?</li>
+      <li><strong>Ownership:</strong> who maintains it, and in which language?</li>
     </ol>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="decision-table" data-timing="97–101 min">
+<section class="slide" id="three-owners" data-timing="100–105 min">
   <div class="frame">
-    <p class="kicker">Minimal selection table</p>
-    <h1>Choose the smallest owner that satisfies the contract</h1>
-    <table class="compact">
-      <thead>
-        <tr><th>Path</th><th>Choose it when…</th><th>Do not choose it merely because…</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Plain consumer</strong></td>
-          <td>One service validates, transforms, calls an API, or writes a store; state/time needs are small and explicit.</td>
-          <td>“Every Kafka message needs a stream processor.”</td>
-        </tr>
-        <tr>
-          <td><strong>Stateful SQL engine</strong></td>
-          <td>The hard part is a maintained table, join, aggregate, window, event time, or late-data policy and the team owns SQL operations.</td>
-          <td>“SQL removes the need to define state, recovery, and deployment.”</td>
-        </tr>
-        <tr>
-          <td><strong>Embedded processing library</strong></td>
-          <td>The team needs application-code control, typed logic, explicit tests, and one release owner for stateful processing.</td>
-          <td>“Code is always more powerful than SQL.”</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
-
-<section class="slide" id="worked-decisions" data-timing="101–104 min">
-  <div class="frame">
-    <p class="kicker">Three quick decisions</p>
-    <h1>Match the tool to the hard part</h1>
+    <p class="kicker">Three owners</p>
+    <h1>Choose the smallest owner that meets the contract</h1>
     <div class="trio">
       <article class="card green">
-        <span class="tag">Simple effect</span>
-        <h2>Validate → call API → write result</h2>
-        <p>One owner, bounded state, ordinary retry.</p>
-        <p><strong>Likely choice:</strong> plain consumer.</p>
+        <span class="tag">Hard part: a simple effect</span>
+        <h2>Plain consumer</h2>
+        <p>Validate, call an API, write a result. State and time needs are small and explicit.</p>
+        <p class="trap"><strong>Trap:</strong> "every Kafka message needs a stream processor."</p>
       </article>
       <article class="card blue">
-        <span class="tag">Maintained table</span>
-        <h2>Filter → group → current table</h2>
-        <p>The current keyed result is the product; the team owns SQL operations.</p>
-        <p><strong>Possible choice:</strong> stateful SQL engine.</p>
+        <span class="tag">Hard part: a maintained table</span>
+        <h2>Stateful SQL engine</h2>
+        <p>The current answer per key is the product, and the team already operates SQL.</p>
+        <p class="trap"><strong>Trap:</strong> "SQL removes the need to define state and recovery."</p>
       </article>
       <article class="card purple">
-        <span class="tag">Time + state</span>
-        <h2>Quote → delayed outcome → windowed evaluation</h2>
-        <p>Wait, join, late policy, recovery, and metrics are the core problem.</p>
-        <p><strong>Possible choice:</strong> stateful engine or embedded library, depending on ownership.</p>
+        <span class="tag">Hard part: time plus state</span>
+        <h2>Embedded library</h2>
+        <p>Waiting, joining, and late policy belong in typed application code with tests and one release owner.</p>
+        <p class="trap"><strong>Trap:</strong> "code is always more powerful than SQL."</p>
       </article>
     </div>
     <div class="takeaway">
-      There is no universal winner. The correct answer includes the requirement, the trade-off, and why the rejected alternatives are unnecessary or risky.
+      <strong>Demo 07 sat in the third column:</strong> a quote waits for a delayed outcome, joins on <code>trip_id</code>, and publishes an evaluation. There is no universal winner, only a fit.
     </div>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
 </section>
 
-<section class="slide" id="minimum-mental-model" data-timing="104–107 min">
-  <div class="frame">
-    <p class="kicker">The durable mental model</p>
-    <h1>Students need seven concepts—not a product tour</h1>
-    <div class="quad">
-      <article class="card"><span class="tag">Operation</span><h2>Filter / map</h2><p>Keep or transform each event.</p></article>
-      <article class="card"><span class="tag">State</span><h2>Aggregate</h2><p>Maintain a running answer.</p></article>
-      <article class="card"><span class="tag">Relationship</span><h2>Join</h2><p>Match events across streams or tables.</p></article>
-      <article class="card"><span class="tag">Time</span><h2>Window</h2><p>Bound which events belong together.</p></article>
-      <article class="card blue"><span class="tag">Correctness</span><h2>Watermark / late policy</h2><p>Decide how long to wait.</p></article>
-      <article class="card green"><span class="tag">Durability</span><h2>Checkpoint / replay</h2><p>Recover the same state after failure.</p></article>
-      <article class="card amber"><span class="tag">Contract</span><h2>Key / schema</h2><p>Define identity and compatible data.</p></article>
-      <article class="card purple"><span class="tag">Evidence</span><h2>Output / metric</h2><p>Show the maintained answer is correct.</p></article>
-    </div>
-  </div>
-  <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
-</section>
-
-<section class="slide" id="decision-exit-ticket" data-timing="107–110 min">
+<section class="slide" id="decision-exit-ticket" data-timing="105–107 min">
   <div class="frame narrow">
-    <p class="kicker">Lecture 8 exit ticket</p>
-    <h1>One sentence, three clauses</h1>
+    <p class="kicker">Part 3 close · Exit ticket</p>
+    <h1>One sentence before you name a product</h1>
     <p class="quote">
-      “My project needs <em>this state/time behavior</em>, so I choose
-      <em>this compute owner</em>, and I will prove it with <em>this failure or replay test</em>.”
+      "My project needs <em>this state and time behavior</em>, so I choose
+      <em>this owner</em>, and I will prove it with <em>this replay or failure test</em>."
     </p>
     <div class="takeaway green">
-      <strong>Final message:</strong> the tool name is not the answer. The requirement-to-tool reasoning is the answer.
+      <strong>The tool name is not the answer.</strong> The requirement-to-owner reasoning is the answer.
     </div>
     <div class="links">
-      <strong>Lecture 9 preview:</strong> compare concrete owners such as ksqlDB,
-      Flink SQL, and Kafka Streams only after the requirement is explicit.
+      <strong>Work in progress, continues in Lecture 9:</strong> concrete products such as ksqlDB, Flink SQL, and Kafka Streams, compared only against a requirement you can already state.
     </div>
   </div>
   <div class="crumb"></div><div class="timing"></div><div class="pager"></div>
