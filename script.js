@@ -745,6 +745,18 @@ const handouts = [
     wide: true,
     standalone: true,
     summary: "Review Lectures 6–8, then compare Python, ksqlDB, and Flink SQL as three owners of the same Demo 07 stateful evaluation contract."
+  },
+  {
+    slug: "demo09",
+    section: "lec9",
+    category: "Demo",
+    title: "Demo 09: One Problem, Three Compute Owners",
+    kind: "md",
+    file: "handouts/demo09.md",
+    createdAt: "Created at 4:53 PM PDT on August 3, 2026",
+    lastUpdatedAt: "Last updated at 6:05 PM PDT on August 3, 2026",
+    wide: true,
+    summary: "Continue Demo 07 with ksqlDB and Flink SQL output topics, then compare both paths with the unchanged Python owner and one independent verifier."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -852,7 +864,9 @@ const lectureRoadmap = [
       slug: "lec9-compute-owners",
       label: "Lecture slides"
     },
-    materials: []
+    materials: [
+      { slug: "demo09", label: "Demo 09" }
+    ]
   }
 ];
 
