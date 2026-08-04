@@ -101,15 +101,15 @@ const pages = {
               <td>9</td>
               <td><strong>Mon · Aug 03</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
-              <td>Data pipelines / optional Airflow</td>
-              <td>Orchestration concepts and an optional Airflow demo; project proposal due Tue Aug 4, 11:59 PM PDT</td>
+              <td>Streaming SQL: Python, ksqlDB, and Flink SQL</td>
+              <td>Review Lectures 6–8, then map Demo 07 to two SQL compute owners; project proposal due Tue Aug 4, 11:59 PM PDT</td>
             </tr>
             <tr>
               <td>10</td>
               <td><strong>Thu · Aug 06</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Kafka + AI systems</td>
-              <td>RAG, memory, evals, guardrails, project examples</td>
+              <td>Demo 09: One Problem, Three Compute Owners</td>
+              <td>Run and compare the Python, ksqlDB, and Flink SQL paths with one verifier, then stop every continuous owner</td>
             </tr>
             <tr>
               <td>11</td>
@@ -310,6 +310,12 @@ const handoutSections = [
     label: "Lecture 8",
     title: "Project Systems and End-to-End Architecture",
     summary: "Scope one complete project path, learn from 2023 examples, study an insurance document-to-answer system, and choose a compute owner from durable requirements."
+  },
+  {
+    id: "lec9",
+    label: "Lecture 9",
+    title: "One Problem, Three Compute Owners",
+    summary: "Keep Demo 07 fixed while comparing how Python, ksqlDB, and Flink SQL own the same join, evaluation, aggregation, and lifecycle."
   }
 ];
 
@@ -726,6 +732,19 @@ const handouts = [
     wide: true,
     standalone: true,
     summary: "Choose a plain consumer, stateful SQL engine, or embedded processing library from state, time, recovery, scale, and ownership requirements; specific products continue in Lecture 9."
+  },
+  {
+    slug: "lec9-compute-owners",
+    section: "lec9",
+    category: "Slides",
+    title: "Lecture 9: One Problem, Three Compute Owners",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture9-One-Problem-Three-Compute-Owners.html",
+    createdAt: "Created at 4:53 PM PDT on August 3, 2026",
+    lastUpdatedAt: "Last updated at 4:53 PM PDT on August 3, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Review Lectures 6–8, then compare Python, ksqlDB, and Flink SQL as three owners of the same Demo 07 stateful evaluation contract."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -826,6 +845,14 @@ const lectureRoadmap = [
       { slug: "lec8-insurance-end-to-end", label: "Part 2 · Insurance end to end" },
       { slug: "lec8-compute-owner-decisions", label: "Part 3 · Compute-owner framework" }
     ]
+  },
+  {
+    section: "lec9",
+    slides: {
+      slug: "lec9-compute-owners",
+      label: "Lecture slides"
+    },
+    materials: []
   }
 ];
 
