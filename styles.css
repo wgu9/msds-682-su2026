@@ -497,7 +497,7 @@ tbody tr:hover {
 
 .lecture-map-row {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) minmax(250px, auto);
+  grid-template-columns: 42px minmax(220px, 1fr) minmax(0, 2fr);
   gap: 14px;
   align-items: center;
   min-width: 0;

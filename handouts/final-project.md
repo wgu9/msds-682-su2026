@@ -269,14 +269,7 @@ For a two-person project:
 
 ## Final presentation
 
-The presentation should explain:
-
-1. the problem and target user;
-2. the data and event contract;
-3. the streaming architecture;
-4. the minimum end-to-end result and review path;
-5. the useful output and evaluation evidence;
-6. the bounded AI element;
-7. limitations, failures, and next steps.
-
-Presentation timing and format will be confirmed on Canvas.
+The presentation is worth **20% of the course grade**. The authoritative
+timing, team speaking split, required story, evidence expectations, and Q&A
+format are published in the
+[Final Presentation Requirements](#/handouts/final-presentation-requirements).

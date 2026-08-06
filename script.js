@@ -123,7 +123,7 @@ const pages = {
               <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Final class and project presentations</td>
-              <td>Presentation timing will be confirmed on Canvas; report/code due Aug 14, 11:59 PM PDT</td>
+              <td><a href="#/handouts/final-presentation-requirements">Published presentation requirements</a>; report/code due Aug 14, 11:59 PM PDT</td>
             </tr>
           </tbody>
         </table>
@@ -153,7 +153,7 @@ const pages = {
           <div class="milestone-list">
             <div><strong>Proposal</strong><span>Due Tue Aug 4, 2026 · 11:59 PM PDT · 10% course weight</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
-            <div><strong>Presentation</strong><span>Timing will be announced on Canvas</span></div>
+            <div><strong>Presentation</strong><span><a href="#/handouts/final-presentation-requirements">Open the published timing and requirements</a></span></div>
           </div>
           <p><a class="download-link" href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a> · <a href="#/handouts/final-project">Open full project requirements</a></p>
         </article>
@@ -599,7 +599,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7a-final-project.html",
     createdAt: "Created at 4:06 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 5:16 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
     wide: true,
     standalone: true,
     summary: "Define a feasible streaming project, proposal contract, bounded AI element, review path, and visible evidence."
@@ -612,9 +612,21 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project.md",
     createdAt: "Created at 4:01 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 5:07 PM PDT on July 27, 2026",
+    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
     wide: true,
     summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
+  },
+  {
+    slug: "final-presentation-requirements",
+    section: "lec7a",
+    category: "Project",
+    title: "Final Presentation Requirements",
+    kind: "md",
+    file: "handouts/final-presentation-requirements.md",
+    createdAt: "Created at 4:52 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
+    wide: true,
+    summary: "Presentation timing, team speaking split, required five-part story, evidence expectations, Q&A, and hard-stop rules."
   },
   {
     slug: "final-project-ideas",
@@ -831,6 +843,7 @@ const lectureRoadmap = [
     },
     materials: [
       { slug: "final-project", label: "Project requirements" },
+      { slug: "final-presentation-requirements", label: "Final presentation requirements" },
       { slug: "final-project-ideas", label: "Project ideas" },
       { slug: "final-project-proposal-template", label: "Proposal template" },
       { slug: "final-project-proposal-rubric", label: "Proposal rubric" }
