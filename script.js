@@ -623,18 +623,6 @@ const handouts = [
     summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
   },
   {
-    slug: "final-presentation-requirements",
-    section: "lec7a",
-    category: "Project",
-    title: "Final Presentation Requirements",
-    kind: "md",
-    file: "handouts/final-presentation-requirements.md",
-    createdAt: "Created at 4:52 PM PDT on August 6, 2026",
-    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
-    wide: true,
-    summary: "Presentation timing, team speaking split, required five-part story, evidence expectations, Q&A, and hard-stop rules."
-  },
-  {
     slug: "final-project-ideas",
     section: "lec7a",
     category: "Ideas",
@@ -788,6 +776,18 @@ const handouts = [
     wide: true,
     standalone: true,
     summary: "Recap the course through six reusable decisions, Demo 07 and Demo 09 evidence, and the final-project presentation checklist."
+  },
+  {
+    slug: "final-presentation-requirements",
+    section: "lec10",
+    category: "Project",
+    title: "Final Presentation Requirements",
+    kind: "md",
+    file: "handouts/final-presentation-requirements.md",
+    createdAt: "Created at 4:52 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 5:13 PM PDT on August 6, 2026",
+    wide: true,
+    summary: "Presentation timing, team speaking split, required five-part story, evidence expectations, Q&A, and hard-stop rules."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -862,7 +862,6 @@ const lectureRoadmap = [
     },
     materials: [
       { slug: "final-project", label: "Project requirements" },
-      { slug: "final-presentation-requirements", label: "Final presentation requirements" },
       { slug: "final-project-ideas", label: "Project ideas" },
       { slug: "final-project-proposal-template", label: "Proposal template" },
       { slug: "final-project-proposal-rubric", label: "Proposal rubric" }
@@ -907,7 +906,7 @@ const lectureRoadmap = [
       label: "Lecture slides"
     },
     materials: [
-      { slug: "demo09", label: "Demo 09 reference" }
+      { slug: "final-presentation-requirements", label: "Final presentation requirements" }
     ]
   }
 ];
