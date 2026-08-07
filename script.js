@@ -108,7 +108,7 @@ const pages = {
               <td>10</td>
               <td><strong>Thu · Aug 06</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Lecture 10: Six Streaming Decisions</td>
+              <td>Lecture 10: Review Session and Final Presentation</td>
               <td>Course recap, Demo 07/09 synthesis, final-project checklist, and presentation requirements</td>
             </tr>
             <tr>
@@ -320,8 +320,8 @@ const handoutSections = [
   {
     id: "lec10",
     label: "Lecture 10",
-    title: "Six Streaming Decisions",
-    summary: "Connect course concepts, demos, assignments, and final projects through six reusable streaming-system design questions."
+    title: "Review Session and Final Presentation",
+    summary: "Review the course and prepare the final presentation through event, order, resume, contract, state and time, and output."
   }
 ];
 
@@ -768,14 +768,14 @@ const handouts = [
     slug: "lec10-course-recap",
     section: "lec10",
     category: "Slides",
-    title: "Lecture 10: Six Streaming Decisions",
+    title: "Lecture 10: Review Session and Final Presentation",
     kind: "html",
     file: "handouts/MSDS682-Lecture10-Course-Recap.html",
     createdAt: "Created at 5:00 PM PDT on August 6, 2026",
-    lastUpdatedAt: "Last updated at 5:20 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 5:24 PM PDT on August 6, 2026",
     wide: true,
     standalone: true,
-    summary: "Recap the course through six reusable decisions, Demo 07 and Demo 09 evidence, and the final-project presentation checklist."
+    summary: "Review the course through six concrete streaming decisions, Demo 07 and Demo 09 evidence, and the final-presentation checklist."
   },
   {
     slug: "final-presentation-requirements",
