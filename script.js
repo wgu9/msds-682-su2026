@@ -316,6 +316,12 @@ const handoutSections = [
     label: "Lecture 9",
     title: "One Problem, Three Compute Owners",
     summary: "Keep Demo 07 fixed while comparing how Python, ksqlDB, and Flink SQL own the same join, evaluation, aggregation, and lifecycle."
+  },
+  {
+    id: "lec10",
+    label: "Lecture 10",
+    title: "Six Streaming Decisions",
+    summary: "Connect course concepts, demos, assignments, and final projects through six reusable streaming-system design questions."
   }
 ];
 
@@ -769,6 +775,19 @@ const handouts = [
     lastUpdatedAt: "Last updated at 6:05 PM PDT on August 3, 2026",
     wide: true,
     summary: "Continue Demo 07 with ksqlDB and Flink SQL output topics, then compare both paths with the unchanged Python owner and one independent verifier."
+  },
+  {
+    slug: "lec10-course-recap",
+    section: "lec10",
+    category: "Slides",
+    title: "Lecture 10: Six Streaming Decisions",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture10-Course-Recap.html",
+    createdAt: "Created at 5:00 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 5:00 PM PDT on August 6, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Recap the course through six reusable decisions, Demo 07 and Demo 09 evidence, and the final-project presentation checklist."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -879,6 +898,16 @@ const lectureRoadmap = [
     },
     materials: [
       { slug: "demo09", label: "Demo 09" }
+    ]
+  },
+  {
+    section: "lec10",
+    slides: {
+      slug: "lec10-course-recap",
+      label: "Lecture slides"
+    },
+    materials: [
+      { slug: "demo09", label: "Demo 09 reference" }
     ]
   }
 ];
