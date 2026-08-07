@@ -497,11 +497,11 @@ tbody tr:hover {
 
 .lecture-map-row {
   display: grid;
-  grid-template-columns: 42px minmax(220px, 1fr) minmax(0, 2fr);
-  gap: 14px;
-  align-items: center;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 4px 14px;
+  align-items: start;
   min-width: 0;
-  padding: 13px 18px;
+  padding: 15px 18px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -510,6 +510,7 @@ tbody tr:hover {
 }
 
 .lecture-map-number {
+  padding-top: 3px;
   color: var(--usf-green);
   font-size: 0.82rem;
   font-weight: 800;
@@ -533,19 +534,18 @@ tbody tr:hover {
 
 .lecture-map-copy span {
   margin-top: 2px;
-  overflow: hidden;
   color: var(--muted);
   font-size: 0.79rem;
   line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .lecture-map-links {
+  grid-column: 2;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 6px;
+  margin-top: 5px;
 }
 
 .lecture-map-links a {
@@ -567,6 +567,17 @@ tbody tr:hover {
 .lecture-map-links a:hover {
   border-color: var(--usf-green);
   background: var(--accent-soft);
+}
+
+.lecture-map-links a:first-child {
+  border-color: var(--usf-green-dark);
+  background: var(--usf-green-dark);
+  color: #ffffff;
+}
+
+.lecture-map-links a:first-child:hover {
+  border-color: var(--usf-green);
+  background: var(--usf-green);
 }
 
 .handout-library-intro {
@@ -1473,15 +1484,6 @@ tbody tr:hover {
     grid-template-columns: 32px minmax(0, 1fr);
     gap: 8px 10px;
     padding: 13px 14px;
-  }
-
-  .lecture-map-copy span {
-    white-space: normal;
-  }
-
-  .lecture-map-links {
-    grid-column: 2;
-    justify-content: flex-start;
   }
 
   .handout-section-head {

@@ -108,8 +108,8 @@ const pages = {
               <td>10</td>
               <td><strong>Thu · Aug 06</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Demo 09: One Problem, Three Compute Owners</td>
-              <td>Run and compare the Python, ksqlDB, and Flink SQL paths with one verifier, then stop every continuous owner</td>
+              <td>Lecture 10: Six Streaming Decisions</td>
+              <td>Course recap, Demo 07/09 synthesis, final-project checklist, and presentation requirements</td>
             </tr>
             <tr>
               <td>11</td>
@@ -1047,7 +1047,7 @@ function lectureRoadmapHtml() {
 
     return `
       <li class="lecture-map-row">
-        <span class="lecture-map-number" aria-hidden="true">${identity.code.padStart(2, "0")}</span>
+        <span class="lecture-map-number" aria-hidden="true">L${identity.code}</span>
         <div class="lecture-map-copy">
           <strong>${escapeHtml(section.label)}: ${escapeHtml(section.title)}</strong>
           <span>${escapeHtml(section.summary)}</span>
