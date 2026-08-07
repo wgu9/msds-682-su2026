@@ -133,6 +133,26 @@ td.n{font-family:var(--mono);color:var(--blue);font-weight:700;width:34px}
 .chain span.hi{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);font-weight:700}
 .chain i{color:var(--muted);font-style:normal;font-family:var(--mono);font-size:15px}
 
+/* attendance prompt shared by slides 8 and 9 */
+.attendance-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:24px;align-items:start}
+.attendance-main{min-width:0}
+.attendance-card{padding:15px 16px 14px;border:1px solid #d6dffc;border-top:6px solid var(--blue);
+  border-radius:13px;background:var(--blue-soft);box-shadow:var(--shadow)}
+.attendance-label{font-family:var(--mono);font-size:var(--label);font-weight:700;letter-spacing:.08em;
+  color:var(--blue);text-transform:uppercase}
+.attendance-card h3{margin:5px 0 4px;font-size:clamp(20px,1.45vw,24px)}
+.attendance-card p{font-size:var(--tiny);line-height:1.3;color:var(--muted);margin-bottom:9px}
+.attendance-qr{display:block;width:min(100%,215px);aspect-ratio:1;margin:10px auto 8px;
+  border:6px solid var(--panel);border-radius:8px;background:var(--panel)}
+.attendance-qr img{display:block;width:100%;height:100%}
+.attendance-open{display:block;text-align:center;font-family:var(--mono);font-size:var(--tiny);
+  font-weight:700;color:var(--blue);text-decoration:none;margin-bottom:9px}
+.attendance-open:hover{text-decoration:underline}
+.attendance-points{display:grid;gap:4px;padding-top:8px;border-top:1px solid #ccd7fa}
+.attendance-points span{display:flex;justify-content:space-between;gap:10px;font-size:var(--tiny)}
+.attendance-points b{font-family:var(--mono);color:var(--ink)}
+.attendance-card .attendance-email{margin:8px 0 0;font-size:var(--label)}
+
 /* fixed project evidence path: arrows belong to the gaps, never to wrapping cards */
 .project-path{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px;margin:24px 0}
 .project-path .step{position:relative;display:grid;align-content:center;min-height:86px;padding:13px 12px;
@@ -218,6 +238,8 @@ td.n{font-family:var(--mono);color:var(--blue);font-weight:700;width:34px}
   .project-path .step{min-height:58px}
   .project-path .step:not(:last-child)::after{content:'\2193';right:auto;left:50%;top:auto;bottom:-15px;transform:translateX(-50%)}
   .slide.roomy .wrap{display:block;min-height:0}
+  .attendance-layout{grid-template-columns:1fr}
+  .attendance-card{max-width:360px;margin:10px auto 0}
   .pipe.cols-3,.pipe.cols-5{grid-template-columns:1fr}
   .pipe .st{margin-bottom:22px}
   .pipe .st::after{content:'⌄';right:50%;top:auto;bottom:-20px;transform:translateX(50%)}
@@ -359,35 +381,45 @@ td.n{font-family:var(--mono);color:var(--blue);font-weight:700;width:34px}
 <!-- ═══ 8 ═══ -->
 <section class="slide" data-ref="L3 · Demo 03 · Assignment 2"><div class="wrap">
   <h2>Where does processing resume?</h2>
-  <div class="panel">
-    <div class="logrow"><span class="pname">partition</span><div class="log">
-      <div class="cell ok">0</div><div class="cell ok">1</div><div class="cell ok">2</div>
-      <div class="cell warn">3</div><div class="cell warn">4</div><div class="cell hi">5</div><div class="cell ghost">6</div>
-    </div></div>
-    <div class="chain tight">
-      <span>committed offset = 3</span><i>&rarr;</i><span>restart reads 3 again</span><i>&rarr;</i><span>position = 5</span>
+  <div class="attendance-layout">
+    <div class="attendance-main">
+      <div class="panel">
+        <div class="logrow"><span class="pname">partition</span><div class="log">
+          <div class="cell ok">0</div><div class="cell ok">1</div><div class="cell ok">2</div>
+          <div class="cell warn">3</div><div class="cell warn">4</div><div class="cell hi">5</div><div class="cell ghost">6</div>
+        </div></div>
+        <div class="chain tight">
+          <span>committed offset = 3</span><i>&rarr;</i><span>restart reads 3 again</span><i>&rarr;</i><span>position = 5</span>
+        </div>
+      </div>
+      <div class="grid2 mt14">
+        <div class="panel t-blue"><h3>Same group ID</h3><p class="note">Shares partitions and committed progress.</p></div>
+        <div class="panel"><h3>Different group ID</h3><p class="note">Reads independently and can replay retained history.</p></div>
+      </div>
+      <div class="callout"><p><strong>Process first. Commit second.</strong> The committed offset defines restart behavior.</p></div>
     </div>
+    <aside class="attendance-card" data-attendance-card aria-label="MSDS 682 attendance check"></aside>
   </div>
-  <div class="grid2 mt14">
-    <div class="panel t-blue"><h3>Same group ID</h3><p class="note">Shares partitions and committed progress.</p></div>
-    <div class="panel"><h3>Different group ID</h3><p class="note">Reads independently and can replay retained history.</p></div>
-  </div>
-  <div class="callout"><p><strong>Process first. Commit second.</strong> The committed offset defines restart behavior.</p></div>
 </div></section>
 
 <!-- ═══ 9 ═══ -->
 <section class="slide" data-ref="L4–5 · Demo 04–05 · Assignment 2"><div class="wrap">
   <h2>Which boundary enforces the contract?</h2>
-  <div class="pipe cols-3">
-    <div class="st t-blue"><div class="lbl">HTTP boundary</div><strong>FastAPI</strong><span class="q">request shape and response status</span></div>
-    <div class="st"><div class="lbl">Application boundary</div><strong>Pydantic</strong><span class="q">validated Python objects</span></div>
-    <div class="st t-purple"><div class="lbl">Wire boundary</div><strong>Registry-aware serializer</strong><span class="q">Avro bytes compatible between apps</span></div>
+  <div class="attendance-layout">
+    <div class="attendance-main">
+      <div class="pipe cols-3">
+        <div class="st t-blue"><div class="lbl">HTTP boundary</div><strong>FastAPI</strong><span class="q">request shape and response status</span></div>
+        <div class="st"><div class="lbl">Application boundary</div><strong>Pydantic</strong><span class="q">validated Python objects</span></div>
+        <div class="st t-purple"><div class="lbl">Wire boundary</div><strong>Registry-aware serializer</strong><span class="q">Avro bytes compatible between apps</span></div>
+      </div>
+      <div class="chain">
+        <span>validated object</span><i>&rarr;</i><span>serialize</span><i>&rarr;</i>
+        <span class="hi">Kafka bytes</span><i>&rarr;</i><span>deserialize</span><i>&rarr;</i><span>validated object</span>
+      </div>
+      <div class="callout c-purple"><p>“Data contract” is incomplete until you name the boundary and the component enforcing it.</p></div>
+    </div>
+    <aside class="attendance-card" data-attendance-card aria-label="MSDS 682 attendance check"></aside>
   </div>
-  <div class="chain">
-    <span>validated object</span><i>&rarr;</i><span>serialize</span><i>&rarr;</i>
-    <span class="hi">Kafka bytes</span><i>&rarr;</i><span>deserialize</span><i>&rarr;</i><span>validated object</span>
-  </div>
-  <div class="callout c-purple"><p>“Data contract” is incomplete until you name the boundary and the component enforcing it.</p></div>
 </div></section>
 
 <!-- ═══ 10 ═══ -->
@@ -556,8 +588,29 @@ td.n{font-family:var(--mono);color:var(--blue);font-weight:700;width:34px}
   <hr class="rule">
 </div></section>
 
+<template id="attendance-card-template">
+  <div class="attendance-label">Attendance check</div>
+  <h3>MSDS 682 · 8/6</h3>
+  <p>Complete this during class. Responses outside the attendance window may not count.</p>
+  <a class="attendance-qr" href="https://forms.gle/CmEPwY3HGv4vxYjm7" target="_blank" rel="noopener" aria-label="Open the MSDS 682 attendance form">
+    <img src="assets/lecture10-attendance-2026-08-06.svg" alt="QR code for the MSDS 682 attendance form">
+  </a>
+  <a class="attendance-open" href="https://forms.gle/CmEPwY3HGv4vxYjm7" target="_blank" rel="noopener">Scan or open the form</a>
+  <div class="attendance-points" aria-label="Attendance points">
+    <span>Lecture 10 <b>2 pts</b></span>
+    <span>Lecture 11 <b>2 pts</b></span>
+    <span>Lecture 12 <b>4 pts</b></span>
+  </div>
+  <p class="attendance-email">Your email is collected automatically.</p>
+</template>
+
 <script>
 (function(){
+  var attendanceTemplate = document.getElementById('attendance-card-template');
+  document.querySelectorAll('[data-attendance-card]').forEach(function(card){
+    card.appendChild(attendanceTemplate.content.cloneNode(true));
+  });
+
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
   var label  = document.getElementById('num');
   var total  = slides.length;

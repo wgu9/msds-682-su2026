@@ -772,7 +772,7 @@ const handouts = [
     kind: "html",
     file: "handouts/MSDS682-Lecture10-Course-Recap.html",
     createdAt: "Created at 5:00 PM PDT on August 6, 2026",
-    lastUpdatedAt: "Last updated at 5:00 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 5:20 PM PDT on August 6, 2026",
     wide: true,
     standalone: true,
     summary: "Recap the course through six reusable decisions, Demo 07 and Demo 09 evidence, and the final-project presentation checklist."
