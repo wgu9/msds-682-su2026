@@ -605,7 +605,7 @@ const handouts = [
     kind: "html",
     file: "handouts/lec7a-final-project.html",
     createdAt: "Created at 4:06 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
     wide: true,
     standalone: true,
     summary: "Define a feasible streaming project, proposal contract, bounded AI element, review path, and visible evidence."
@@ -618,7 +618,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project.md",
     createdAt: "Created at 4:01 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 4:52 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
     wide: true,
     summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
   },
@@ -661,6 +661,18 @@ const handouts = [
     lastUpdatedAt: "Last updated at 5:16 PM PDT on July 27, 2026",
     wide: true,
     summary: "Student-facing proposal rubric with five 2-point buckets and ten independently scored criteria."
+  },
+  {
+    slug: "final-project-rubric",
+    section: "lec7a",
+    category: "Rubric",
+    title: "Final Written Report and Code Rubric",
+    kind: "md",
+    file: "handouts/final-project-rubric.md",
+    createdAt: "Created at 1:16 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    wide: true,
+    summary: "Atomic 20-point final-package rubric with three optional bonus points for failure recovery, comparative evaluation, and reviewer automation."
   },
   {
     slug: "lec7b-stateful-stream-processing",
@@ -785,9 +797,45 @@ const handouts = [
     kind: "md",
     file: "handouts/final-presentation-requirements.md",
     createdAt: "Created at 4:52 PM PDT on August 6, 2026",
-    lastUpdatedAt: "Last updated at 5:13 PM PDT on August 6, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
     wide: true,
-    summary: "Presentation timing, team speaking split, required five-part story, evidence expectations, Q&A, and hard-stop rules."
+    summary: "Presentation timing, five-part elevator pitch, attendance reminder, bonus links, team speaking split, Q&A, and hard-stop rules."
+  },
+  {
+    slug: "final-presentation-rubric",
+    section: "lec10",
+    category: "Rubric",
+    title: "Final Presentation Rubric",
+    kind: "md",
+    file: "handouts/final-presentation-rubric.md",
+    createdAt: "Created at 1:16 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    wide: true,
+    summary: "Atomic 20-point presentation rubric plus three optional presentation-specific bonus points."
+  },
+  {
+    slug: "final-presentation-schedule",
+    section: "lec10",
+    category: "Schedule",
+    title: "Final Presentation Schedule",
+    kind: "md",
+    file: "handouts/final-presentation-schedule.md",
+    createdAt: "Created at 1:16 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 1:16 PM PDT on August 8, 2026",
+    wide: true,
+    summary: "Frozen randomized order and exact presentation times for all eight teams and four individual projects."
+  },
+  {
+    slug: "final-presentation-peer-reviews",
+    section: "lec10",
+    category: "Extra Credit",
+    title: "Final Presentation Peer-Review Extra Credit",
+    kind: "md",
+    file: "handouts/final-presentation-peer-reviews.md",
+    createdAt: "Created at 1:20 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    wide: true,
+    summary: "Atomic rules and copyable template for earning up to two individual points by reviewing three other projects."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -864,7 +912,8 @@ const lectureRoadmap = [
       { slug: "final-project", label: "Project requirements" },
       { slug: "final-project-ideas", label: "Project ideas" },
       { slug: "final-project-proposal-template", label: "Proposal template" },
-      { slug: "final-project-proposal-rubric", label: "Proposal rubric" }
+      { slug: "final-project-proposal-rubric", label: "Proposal rubric" },
+      { slug: "final-project-rubric", label: "Final report + code rubric" }
     ]
   },
   {
@@ -906,7 +955,10 @@ const lectureRoadmap = [
       label: "Lecture slides"
     },
     materials: [
-      { slug: "final-presentation-requirements", label: "Final presentation requirements" }
+      { slug: "final-presentation-requirements", label: "Final presentation requirements" },
+      { slug: "final-presentation-rubric", label: "Presentation rubric" },
+      { slug: "final-presentation-schedule", label: "Presentation schedule" },
+      { slug: "final-presentation-peer-reviews", label: "Peer-review extra credit" }
     ]
   }
 ];

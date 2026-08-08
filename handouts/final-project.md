@@ -13,10 +13,23 @@ complete path that another person can understand, review, and verify.
 |---|---:|---|
 | Project proposal | 10% | Tuesday, August 4, 2026 at 11:59 PM PDT |
 | Written report and code | 20% | Friday, August 14, 2026 at 11:59 PM PDT |
-| Presentation | 20% | Timing and format will be confirmed on Canvas |
+| Presentation | 20% | Thursday, August 13, 2026, 5:30–7:20 PM PDT |
 | **Final Project total** | **50%** | |
 
 Canvas is the official submission platform.
+
+### Optional extra-credit map
+
+| Area | Maximum extra credit | Authoritative rules |
+|---|---:|---|
+| Written report and code | **+3 points** | [Final Written Report and Code Rubric](#/handouts/final-project-rubric) |
+| Final presentation | **+3 points** | [Final Presentation Rubric](#/handouts/final-presentation-rubric) |
+| Three individual peer reviews | **+2 points** | [Peer-Review Extra-Credit Rules](#/handouts/final-presentation-peer-reviews) |
+| **Maximum Final Project bonus** | **+8 points** | Bonus cannot replace missing base requirements. |
+
+The Final Project base remains 50% of the course grade. The values above are
+optional raw extra-credit points across the final-project components, not eight
+additional required percentage points.
 
 Late policy for project deliverables:
 
@@ -237,6 +250,11 @@ dependency folders, and unrelated large files.
 
 ### Final package checklist
 
+The written report and code package is graded with the published
+[20-Point Final Written Report and Code Rubric](#/handouts/final-project-rubric).
+The rubric contains 20 independently scored base criteria and up to 3 optional
+bonus points. Bonus evidence cannot replace a missing base requirement.
+
 - [ ] The README gives setup, one minimum review path, expected output,
       validation, and cleanup.
 - [ ] The data source file documents source, owner, link, access, rights,
@@ -273,3 +291,9 @@ The presentation is worth **20% of the course grade**. The authoritative
 timing, team speaking split, required story, evidence expectations, and Q&A
 format are published in the
 [Final Presentation Requirements](#/handouts/final-presentation-requirements).
+The project order and start times are in the
+[Final Presentation Schedule](#/handouts/final-presentation-schedule), and the
+presentation is scored with the
+[20-Point Final Presentation Rubric](#/handouts/final-presentation-rubric).
+Students may also complete the optional
+[Peer-Review Extra Credit](#/handouts/final-presentation-peer-reviews).
