@@ -23,13 +23,10 @@ Canvas is the official submission platform.
 | Area | Maximum extra credit | Authoritative rules |
 |---|---:|---|
 | Written report and code | **+3 points** | [Final Written Report and Code Rubric](#/handouts/final-project-rubric) |
-| Final presentation | **+3 points** | [Final Presentation](#/handouts/final-presentation) |
-| Three individual peer reviews | **+2 points** | [Final Presentation](#/handouts/final-presentation) |
-| **Maximum Final Project bonus** | **+8 points** | Bonus cannot replace missing base requirements. |
+| **Maximum Final Project bonus** | **+3 points** | Bonus cannot replace missing base requirements. |
 
-The Final Project base remains 50% of the course grade. The values above are
-optional raw extra-credit points across the final-project components, not eight
-additional required percentage points.
+The Final Project base remains 50% of the course grade. The optional bonus
+applies only to the written report and code package.
 
 Late policy for project deliverables:
 
@@ -252,8 +249,8 @@ dependency folders, and unrelated large files.
 
 The written report and code package is graded with the published
 [20-Point Final Written Report and Code Rubric](#/handouts/final-project-rubric).
-The rubric contains eight 2–3 point categories and up to 3 optional bonus
-points. Bonus evidence cannot replace a missing base requirement.
+The rubric contains four 5-point categories and up to 3 optional bonus points.
+Bonus evidence cannot replace a missing base requirement.
 
 - [ ] The README gives setup, one minimum review path, expected output,
       validation, and cleanup.
@@ -289,5 +286,4 @@ For a two-person project:
 
 The presentation is worth **20% of the course grade**. Use the single
 [Final Presentation page](#/handouts/final-presentation) for timing, the
-recommended five-slide story, the 20-point rubric, project order, Q&A, bonus,
-and optional peer-review extra credit.
+recommended five-slide story, the 20-point rubric, project order, and Q&A.

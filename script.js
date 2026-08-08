@@ -327,7 +327,7 @@ const handoutSections = [
     id: "lec11",
     label: "Lecture 11",
     title: "Final Review and Project Workshop",
-    summary: "Review final-project scoring, practice the concise presentation story, confirm the schedule, and prepare peer feedback."
+    summary: "Review final-project scoring, practice the concise presentation story, and confirm the schedule."
   }
 ];
 
@@ -676,9 +676,9 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-rubric.md",
     createdAt: "Created at 1:16 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:18 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:32 PM PDT on August 8, 2026",
     wide: true,
-    summary: "Simplified eight-category final-package rubric: 20 base points plus three optional bonus points."
+    summary: "Four 5-point final-package categories: 20 base points plus three optional package-only bonus points."
   },
   {
     slug: "lec7b-stateful-stream-processing",
@@ -803,9 +803,9 @@ const handouts = [
     kind: "html",
     file: "handouts/final-presentation.html",
     createdAt: "Created at 2:03 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:28 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:32 PM PDT on August 8, 2026",
     wide: true,
-    summary: "One concise handout for presentation timing, rubric, schedule, bonus, peer reviews, and attendance."
+    summary: "One concise handout for presentation timing, four-category rubric, schedule, and attendance."
   }
   // PDF example (uncomment and add the file to publish):
   // {
