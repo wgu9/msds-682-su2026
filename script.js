@@ -123,7 +123,7 @@ const pages = {
               <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Final class and project presentations</td>
-              <td><a href="#/handouts/final-presentation-requirements">Published presentation requirements</a>; report/code due Aug 14, 11:59 PM PDT</td>
+              <td><a href="#/handouts/final-presentation">Published presentation page</a>; report/code due Aug 14, 11:59 PM PDT</td>
             </tr>
           </tbody>
         </table>
@@ -153,7 +153,7 @@ const pages = {
           <div class="milestone-list">
             <div><strong>Proposal</strong><span>Due Tue Aug 4, 2026 · 11:59 PM PDT · 10% course weight</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
-            <div><strong>Presentation</strong><span><a href="#/handouts/final-presentation-requirements">Open the published timing and requirements</a></span></div>
+            <div><strong>Presentation</strong><span><a href="#/handouts/final-presentation">Open the format, rubric, and schedule</a></span></div>
           </div>
           <p><a class="download-link" href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a> · <a href="#/handouts/final-project">Open full project requirements</a></p>
         </article>
@@ -676,9 +676,9 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-rubric.md",
     createdAt: "Created at 1:16 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:03 PM PDT on August 8, 2026",
     wide: true,
-    summary: "Atomic 20-point final-package rubric with three optional bonus points for failure recovery, comparative evaluation, and reviewer automation."
+    summary: "Simplified eight-category final-package rubric: 20 base points plus three optional bonus points."
   },
   {
     slug: "lec7b-stateful-stream-processing",
@@ -796,52 +796,17 @@ const handouts = [
     summary: "Review the course through six concrete streaming decisions, Demo 07 and Demo 09 evidence, and the final-presentation checklist."
   },
   {
-    slug: "final-presentation-requirements",
-    section: "lec10",
+    slug: "final-presentation",
+    section: "lec11",
     category: "Project",
-    title: "Final Presentation Requirements",
-    kind: "md",
-    file: "handouts/final-presentation-requirements.md",
-    createdAt: "Created at 4:52 PM PDT on August 6, 2026",
-    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    title: "Final Presentation",
+    kind: "html",
+    file: "handouts/final-presentation.html",
+    createdAt: "Created at 2:03 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:03 PM PDT on August 8, 2026",
     wide: true,
-    summary: "Presentation timing, five-part elevator pitch, attendance reminder, bonus links, team speaking split, Q&A, and hard-stop rules."
-  },
-  {
-    slug: "final-presentation-rubric",
-    section: "lec11",
-    category: "Rubric",
-    title: "Final Presentation Rubric",
-    kind: "md",
-    file: "handouts/final-presentation-rubric.md",
-    createdAt: "Created at 1:16 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
-    wide: true,
-    summary: "Atomic 20-point presentation rubric plus three optional presentation-specific bonus points."
-  },
-  {
-    slug: "final-presentation-schedule",
-    section: "lec11",
-    category: "Schedule",
-    title: "Final Presentation Schedule",
-    kind: "md",
-    file: "handouts/final-presentation-schedule.md",
-    createdAt: "Created at 1:16 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 1:16 PM PDT on August 8, 2026",
-    wide: true,
-    summary: "Frozen randomized order and exact presentation times for all eight teams and four individual projects."
-  },
-  {
-    slug: "final-presentation-peer-reviews",
-    section: "lec11",
-    category: "Extra Credit",
-    title: "Final Presentation Peer-Review Extra Credit",
-    kind: "md",
-    file: "handouts/final-presentation-peer-reviews.md",
-    createdAt: "Created at 1:20 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
-    wide: true,
-    summary: "Atomic rules and copyable template for earning up to two individual points by reviewing three other projects."
+    standalone: true,
+    summary: "One page for presentation timing, five-slide outline, 20-point rubric, schedule, bonus, peer reviews, and attendance."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -856,6 +821,15 @@ const handouts = [
   //   summary: "Lecture slides handout (PDF)."
   // }
 ];
+
+// Keep previously published URLs working while the presentation contract has
+// one canonical page and one manifest entry.
+const handoutAliases = Object.freeze({
+  "final-presentation-requirements": "final-presentation",
+  "final-presentation-rubric": "final-presentation",
+  "final-presentation-schedule": "final-presentation",
+  "final-presentation-peer-reviews": "final-presentation"
+});
 
 // Compact chronological entry point for the Handouts page. Local links refer
 // to the handout manifest by slug so filenames and routes still have one owner.
@@ -960,20 +934,15 @@ const lectureRoadmap = [
       slug: "lec10-course-recap",
       label: "Lecture slides"
     },
-    materials: [
-      { slug: "final-presentation-requirements", label: "Final presentation requirements" }
-    ]
+    materials: []
   },
   {
     section: "lec11",
     slides: {
-      slug: "final-presentation-rubric",
-      label: "Presentation rubric"
+      slug: "final-presentation",
+      label: "Final Presentation"
     },
-    materials: [
-      { slug: "final-presentation-schedule", label: "Presentation schedule" },
-      { slug: "final-presentation-peer-reviews", label: "Peer-review extra credit" }
-    ]
+    materials: []
   }
 ];
 
@@ -1374,7 +1343,8 @@ async function typesetMath(root) {
 }
 
 async function renderHandout(slug) {
-  const meta = handouts.find((h) => h.slug === slug);
+  const canonicalSlug = handoutAliases[slug] || slug;
+  const meta = handouts.find((h) => h.slug === canonicalSlug);
   const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
   content.className = meta && meta.wide ? "content wide" : "content";
 

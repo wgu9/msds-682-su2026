@@ -23,8 +23,8 @@ Canvas is the official submission platform.
 | Area | Maximum extra credit | Authoritative rules |
 |---|---:|---|
 | Written report and code | **+3 points** | [Final Written Report and Code Rubric](#/handouts/final-project-rubric) |
-| Final presentation | **+3 points** | [Final Presentation Rubric](#/handouts/final-presentation-rubric) |
-| Three individual peer reviews | **+2 points** | [Peer-Review Extra-Credit Rules](#/handouts/final-presentation-peer-reviews) |
+| Final presentation | **+3 points** | [Final Presentation](#/handouts/final-presentation) |
+| Three individual peer reviews | **+2 points** | [Final Presentation](#/handouts/final-presentation) |
 | **Maximum Final Project bonus** | **+8 points** | Bonus cannot replace missing base requirements. |
 
 The Final Project base remains 50% of the course grade. The values above are
@@ -252,8 +252,8 @@ dependency folders, and unrelated large files.
 
 The written report and code package is graded with the published
 [20-Point Final Written Report and Code Rubric](#/handouts/final-project-rubric).
-The rubric contains 20 independently scored base criteria and up to 3 optional
-bonus points. Bonus evidence cannot replace a missing base requirement.
+The rubric contains eight 2–3 point categories and up to 3 optional bonus
+points. Bonus evidence cannot replace a missing base requirement.
 
 - [ ] The README gives setup, one minimum review path, expected output,
       validation, and cleanup.
@@ -287,13 +287,7 @@ For a two-person project:
 
 ## Final presentation
 
-The presentation is worth **20% of the course grade**. The authoritative
-timing, team speaking split, required story, evidence expectations, and Q&A
-format are published in the
-[Final Presentation Requirements](#/handouts/final-presentation-requirements).
-The project order and start times are in the
-[Final Presentation Schedule](#/handouts/final-presentation-schedule), and the
-presentation is scored with the
-[20-Point Final Presentation Rubric](#/handouts/final-presentation-rubric).
-Students may also complete the optional
-[Peer-Review Extra Credit](#/handouts/final-presentation-peer-reviews).
+The presentation is worth **20% of the course grade**. Use the single
+[Final Presentation page](#/handouts/final-presentation) for timing, the
+recommended five-slide story, the 20-point rubric, project order, Q&A, bonus,
+and optional peer-review extra credit.
