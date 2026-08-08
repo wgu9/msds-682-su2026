@@ -322,6 +322,12 @@ const handoutSections = [
     label: "Lecture 10",
     title: "Review Session and Final Presentation",
     summary: "Review the course and prepare the final presentation through event, order, resume, contract, state and time, and output."
+  },
+  {
+    id: "lec11",
+    label: "Lecture 11",
+    title: "Final Review and Project Workshop",
+    summary: "Review final-project scoring, practice the concise presentation story, confirm the schedule, and prepare peer feedback."
   }
 ];
 
@@ -803,7 +809,7 @@ const handouts = [
   },
   {
     slug: "final-presentation-rubric",
-    section: "lec10",
+    section: "lec11",
     category: "Rubric",
     title: "Final Presentation Rubric",
     kind: "md",
@@ -815,7 +821,7 @@ const handouts = [
   },
   {
     slug: "final-presentation-schedule",
-    section: "lec10",
+    section: "lec11",
     category: "Schedule",
     title: "Final Presentation Schedule",
     kind: "md",
@@ -827,7 +833,7 @@ const handouts = [
   },
   {
     slug: "final-presentation-peer-reviews",
-    section: "lec10",
+    section: "lec11",
     category: "Extra Credit",
     title: "Final Presentation Peer-Review Extra Credit",
     kind: "md",
@@ -955,8 +961,16 @@ const lectureRoadmap = [
       label: "Lecture slides"
     },
     materials: [
-      { slug: "final-presentation-requirements", label: "Final presentation requirements" },
-      { slug: "final-presentation-rubric", label: "Presentation rubric" },
+      { slug: "final-presentation-requirements", label: "Final presentation requirements" }
+    ]
+  },
+  {
+    section: "lec11",
+    slides: {
+      slug: "final-presentation-rubric",
+      label: "Presentation rubric"
+    },
+    materials: [
       { slug: "final-presentation-schedule", label: "Presentation schedule" },
       { slug: "final-presentation-peer-reviews", label: "Peer-review extra credit" }
     ]
