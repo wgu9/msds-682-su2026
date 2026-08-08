@@ -942,6 +942,33 @@ tbody tr:hover {
   min-width: 0;
 }
 
+.handout .presentation-schedule-wrap {
+  margin-top: 16px;
+}
+
+.handout .presentation-schedule {
+  min-width: 1180px;
+  table-layout: fixed;
+}
+
+.handout .presentation-schedule th,
+.handout .presentation-schedule td {
+  white-space: nowrap;
+}
+
+.handout .presentation-schedule th:nth-child(1) { width: 12%; }
+.handout .presentation-schedule th:nth-child(2) { width: 55%; }
+.handout .presentation-schedule th:nth-child(3) { width: 33%; }
+
+.route-final-presentation .page {
+  max-width: 1240px;
+}
+
+.route-final-presentation .content.wide,
+.route-final-presentation .handout-wide {
+  max-width: none;
+}
+
 .handout code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: 0.88em;

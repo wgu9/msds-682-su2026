@@ -803,7 +803,7 @@ const handouts = [
     kind: "html",
     file: "handouts/final-presentation.html",
     createdAt: "Created at 2:03 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:18 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:28 PM PDT on August 8, 2026",
     wide: true,
     summary: "One concise handout for presentation timing, rubric, schedule, bonus, peer reviews, and attendance."
   }
@@ -1407,6 +1407,10 @@ async function render() {
   const isHome = parsed.kind === "static" && parsed.route === "/";
   document.body.classList.toggle("route-home", isHome);
   document.body.classList.toggle("route-internal", !isHome);
+  document.body.classList.toggle(
+    "route-final-presentation",
+    parsed.kind === "handout" && parsed.slug === "final-presentation"
+  );
   setActiveNav(parsed.nav);
 
   if (parsed.kind === "handout") {
