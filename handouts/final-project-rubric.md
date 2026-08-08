@@ -17,11 +17,18 @@ For a two-person team, both students receive the same written-package score.
 | **4. Evidence and reproducibility** | Includes validation or evaluation, the bounded AI role and verification, exact review steps, expected output, organized files, and documented ownership or team contributions. | **5** |
 |  | **Base total** | **20** |
 
-## Optional Final-Package Bonus: Up to 3 Points
+## Optional Final-Package Bonus: 3 Points
 
-Award up to **3 points** for clearly labeled, verifiable work beyond the required
-minimum, such as failure recovery, a controlled method comparison, or an
-automated reviewer command. Bonus cannot replace a missing base category.
+Award **+3 points** for one clearly labeled extension beyond the required
+minimum when all three items are present:
+
+- a working implementation;
+- exact steps the TA can run; and
+- saved output or screenshots showing the result.
+
+Eligible examples are a failure-recovery demonstration or a controlled method
+comparison using the same input and a named metric. If all three items are not
+present, do not award the bonus. Bonus cannot replace a missing base category.
 
 The maximum written-package score is **23 points: 20 base + 3 bonus**.
 Late-policy deductions are applied separately.
