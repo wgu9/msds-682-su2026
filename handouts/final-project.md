@@ -7,12 +7,11 @@ AI-assisted workflow.
 The goal is not to use the largest number of tools. The goal is to build one
 complete path that another person can understand, review, and verify.
 
-> **[UPDATED · August 8, 2026] Final grading handouts:** Use the new
-> [Final Written Report and Code Rubric](#/handouts/final-project-rubric) and
-> [Final Presentation Schedule and Rubrics](#/handouts/final-presentation).
-> Both base rubrics now use four 5-point categories. Only the written package
-> has optional bonus points, up to +3. Project weights, deadlines, team rules,
-> and submission requirements did not change.
+<aside class="handout-update-banner" aria-label="Updated final grading information">
+  <strong>UPDATED · AUGUST 8, 2026</strong>
+  <p><strong>New handouts:</strong> <a href="#/handouts/final-project-rubric">Written Report and Code Rubric</a> · <a href="#/handouts/final-presentation">Presentation Schedule and Rubrics</a></p>
+  <p><strong>Changed:</strong> both rubrics are 4 × 5 points; only the written package has up to +3 bonus. <strong>Unchanged:</strong> weights, deadlines, team rules, and submission requirements.</p>
+</aside>
 
 ## Milestones
 

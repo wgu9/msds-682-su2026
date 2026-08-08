@@ -1151,6 +1151,35 @@ tbody tr:hover {
   border-left-color: #e2a51f;
 }
 
+.handout-update-banner {
+  margin: 1.5rem 0 1.8rem;
+  padding: 1rem 1.15rem;
+  border: 2px solid #e2a51f;
+  border-left-width: 8px;
+  border-radius: 8px;
+  background: var(--gold-soft);
+  color: var(--ink);
+}
+
+.handout-update-banner > strong:first-child {
+  display: inline-block;
+  margin-bottom: 0.7rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 4px;
+  background: #6b4600;
+  color: #ffffff;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.handout-update-banner p {
+  margin-bottom: 0.45rem;
+}
+
+.handout-update-banner p:last-child {
+  margin-bottom: 0;
+}
+
 @media (max-width: 860px) {
   .handout-flow {
     grid-template-columns: 1fr;

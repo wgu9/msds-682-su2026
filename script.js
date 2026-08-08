@@ -624,7 +624,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project.md",
     createdAt: "Created at 4:01 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 2:52 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 3:00 PM PDT on August 8, 2026",
     wide: true,
     summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
   },
