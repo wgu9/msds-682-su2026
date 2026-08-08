@@ -7,6 +7,13 @@ AI-assisted workflow.
 The goal is not to use the largest number of tools. The goal is to build one
 complete path that another person can understand, review, and verify.
 
+> **[UPDATED · August 8, 2026] Final grading handouts:** Use the new
+> [Final Written Report and Code Rubric](#/handouts/final-project-rubric) and
+> [Final Presentation Schedule and Rubrics](#/handouts/final-presentation).
+> Both base rubrics now use four 5-point categories. Only the written package
+> has optional bonus points, up to +3. Project weights, deadlines, team rules,
+> and submission requirements did not change.
+
 ## Milestones
 
 | Deliverable | Course weight | Deadline |
@@ -24,9 +31,6 @@ Canvas is the official submission platform.
 |---|---:|---|
 | Written report and code | **+3 points** | [Final Written Report and Code Rubric](#/handouts/final-project-rubric) |
 | **Maximum Final Project bonus** | **+3 points** | Bonus cannot replace missing base requirements. |
-
-The Final Project base remains 50% of the course grade. The optional bonus
-applies only to the written report and code package.
 
 Late policy for project deliverables:
 
@@ -285,5 +289,5 @@ For a two-person project:
 ## Final presentation
 
 The presentation is worth **20% of the course grade**. Use the single
-[Final Presentation page](#/handouts/final-presentation) for timing, the
+[Final Presentation Schedule and Rubrics](#/handouts/final-presentation) for timing, the
 20-point rubric, project order, and Q&A.

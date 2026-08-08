@@ -123,7 +123,7 @@ const pages = {
               <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
               <td>Final class and project presentations</td>
-              <td><a href="#/handouts/final-presentation">Published presentation page</a>; report/code due Aug 14, 11:59 PM PDT</td>
+              <td><a href="#/handouts/final-presentation">Final Presentation Schedule and Rubrics</a>; report/code due Aug 14, 11:59 PM PDT</td>
             </tr>
           </tbody>
         </table>
@@ -153,7 +153,7 @@ const pages = {
           <div class="milestone-list">
             <div><strong>Proposal</strong><span>Due Tue Aug 4, 2026 · 11:59 PM PDT · 10% course weight</span></div>
             <div><strong>Report/code</strong><span>Due Aug 14, 2026 · 11:59 PM PDT</span></div>
-            <div><strong>Presentation</strong><span><a href="#/handouts/final-presentation">Open the format, rubric, and schedule</a></span></div>
+            <div><strong>Presentation</strong><span><a href="#/handouts/final-presentation">Open the schedule and rubrics</a></span></div>
           </div>
           <p><a class="download-link" href="#/handouts/final-project-proposal-template">Open proposal template</a> · <a href="#/handouts/final-project-proposal-rubric">Open 10-point proposal rubric</a> · <a href="#/handouts/final-project">Open full project requirements</a></p>
         </article>
@@ -624,7 +624,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project.md",
     createdAt: "Created at 4:01 PM PDT on July 27, 2026",
-    lastUpdatedAt: "Last updated at 1:20 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:52 PM PDT on August 8, 2026",
     wide: true,
     summary: "Student-facing contract for the proposal, streaming product, bounded AI element, review path, final package, and presentation."
   },
@@ -799,11 +799,11 @@ const handouts = [
     slug: "final-presentation",
     section: "lec11",
     category: "Handout",
-    title: "Final Presentation",
+    title: "Final Presentation Schedule and Rubrics",
     kind: "html",
     file: "handouts/final-presentation.html",
     createdAt: "Created at 2:03 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:40 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:52 PM PDT on August 8, 2026",
     wide: true,
     summary: "One concise handout for final-project links, presentation timing, four-category rubric, schedule, and Q&A."
   }
@@ -930,7 +930,7 @@ const lectureRoadmap = [
     section: "lec11",
     slides: null,
     materials: [
-      { slug: "final-presentation", label: "Final presentation handout" }
+      { slug: "final-presentation", label: "Final presentation schedule and rubrics" }
     ]
   }
 ];
