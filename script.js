@@ -676,7 +676,7 @@ const handouts = [
     kind: "md",
     file: "handouts/final-project-rubric.md",
     createdAt: "Created at 1:16 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:03 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:18 PM PDT on August 8, 2026",
     wide: true,
     summary: "Simplified eight-category final-package rubric: 20 base points plus three optional bonus points."
   },
@@ -798,15 +798,14 @@ const handouts = [
   {
     slug: "final-presentation",
     section: "lec11",
-    category: "Project",
+    category: "Handout",
     title: "Final Presentation",
     kind: "html",
     file: "handouts/final-presentation.html",
     createdAt: "Created at 2:03 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:03 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:18 PM PDT on August 8, 2026",
     wide: true,
-    standalone: true,
-    summary: "One page for presentation timing, five-slide outline, 20-point rubric, schedule, bonus, peer reviews, and attendance."
+    summary: "One concise handout for presentation timing, rubric, schedule, bonus, peer reviews, and attendance."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -821,15 +820,6 @@ const handouts = [
   //   summary: "Lecture slides handout (PDF)."
   // }
 ];
-
-// Keep previously published URLs working while the presentation contract has
-// one canonical page and one manifest entry.
-const handoutAliases = Object.freeze({
-  "final-presentation-requirements": "final-presentation",
-  "final-presentation-rubric": "final-presentation",
-  "final-presentation-schedule": "final-presentation",
-  "final-presentation-peer-reviews": "final-presentation"
-});
 
 // Compact chronological entry point for the Handouts page. Local links refer
 // to the handout manifest by slug so filenames and routes still have one owner.
@@ -938,11 +928,10 @@ const lectureRoadmap = [
   },
   {
     section: "lec11",
-    slides: {
-      slug: "final-presentation",
-      label: "Final Presentation"
-    },
-    materials: []
+    slides: null,
+    materials: [
+      { slug: "final-presentation", label: "Final presentation handout" }
+    ]
   }
 ];
 
@@ -1076,6 +1065,7 @@ function lectureRoadmapHtml() {
 
     const identity = lectureIdentity(section);
     const links = [lecture.slides, ...lecture.materials]
+      .filter(Boolean)
       .map(lectureRoadmapLinkHtml)
       .join("");
 
@@ -1114,7 +1104,11 @@ function handoutsListBody() {
 }
 
 const handoutRouteAliases = Object.freeze({
-  "lec7-stateful-stream-processing": "lec7b-stateful-stream-processing"
+  "lec7-stateful-stream-processing": "lec7b-stateful-stream-processing",
+  "final-presentation-requirements": "final-presentation",
+  "final-presentation-rubric": "final-presentation",
+  "final-presentation-schedule": "final-presentation",
+  "final-presentation-peer-reviews": "final-presentation"
 });
 
 const fallbackRoute = "/";
@@ -1343,8 +1337,7 @@ async function typesetMath(root) {
 }
 
 async function renderHandout(slug) {
-  const canonicalSlug = handoutAliases[slug] || slug;
-  const meta = handouts.find((h) => h.slug === canonicalSlug);
+  const meta = handouts.find((h) => h.slug === slug);
   const backLink = '<p class="back-link"><a href="#/handouts">&larr; All handouts</a></p>';
   content.className = meta && meta.wide ? "content wide" : "content";
 

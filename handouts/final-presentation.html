@@ -1,287 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MSDS 682 final presentation requirements, rubric, schedule, bonus, and peer-review rules.">
-  <title>MSDS 682 · Final Presentation</title>
-  <style>
-    :root {
-      --ink: #17181a;
-      --muted: #667085;
-      --paper: #f6f6f3;
-      --panel: #ffffff;
-      --line: #dedfd9;
-      --green: #00543c;
-      --green-dark: #003b2a;
-      --green-soft: #eaf2ef;
-      --gold: #fdbb30;
-      --gold-soft: #fff6dc;
-      --blue: #315fca;
-      --blue-soft: #edf2ff;
-      --shadow: 0 10px 32px rgba(23, 24, 26, 0.06);
-      --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    }
+<h1>Final Presentation</h1>
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font-family: var(--sans);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--green); text-underline-offset: 3px; }
-    a:hover { color: var(--green-dark); }
-    a:focus-visible { outline: 3px solid rgba(0, 84, 60, 0.28); outline-offset: 3px; }
-    main { width: min(1180px, calc(100% - 40px)); margin: 30px auto 70px; }
-    header.hero {
-      padding: clamp(28px, 5vw, 62px);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-top: 8px solid var(--green);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-    .kicker {
-      margin: 0 0 10px;
-      color: var(--green);
-      font: 700 0.82rem/1.2 var(--mono);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    h1 { margin: 0; font-size: clamp(2.6rem, 7vw, 5.5rem); line-height: 0.98; letter-spacing: -0.045em; }
-    .lede { max-width: 760px; margin: 20px 0 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
-    .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
-    .fact { padding: 16px; background: var(--green-soft); border-radius: 12px; }
-    .fact b { display: block; color: var(--green-dark); font-size: 1.05rem; }
-    .fact span { color: var(--muted); font-size: 0.92rem; }
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin: 18px 0 34px;
-      padding: 12px;
-      background: rgba(246, 246, 243, 0.94);
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      backdrop-filter: blur(8px);
-    }
-    nav a { padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; font-weight: 700; text-decoration: none; }
-    section { margin-top: 44px; scroll-margin-top: 80px; }
-    h2 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -0.03em; }
-    h3 { margin: 0 0 8px; font-size: 1.15rem; }
-    .section-lede { margin: 0 0 22px; color: var(--muted); max-width: 800px; }
-    .grid2, .grid3, .grid5 { display: grid; gap: 14px; }
-    .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-    .card { padding: 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
-    .card .num { display: inline-grid; place-items: center; width: 30px; height: 30px; margin-bottom: 12px; border-radius: 50%; background: var(--green); color: white; font: 700 0.88rem var(--mono); }
-    .card p { margin: 0; color: var(--muted); }
-    .big-number { display: block; margin: 5px 0; color: var(--green); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; line-height: 1; }
-    .callout { margin-top: 18px; padding: 18px 20px; border-left: 5px solid var(--gold); background: var(--gold-soft); border-radius: 0 12px 12px 0; }
-    .callout strong { color: #6d4700; }
-    .table-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
-    table { width: 100%; border-collapse: collapse; font-size: 0.96rem; }
-    th, td { padding: 13px 15px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-    th { color: var(--muted); background: #fafaf8; font: 700 0.78rem/1.3 var(--mono); letter-spacing: 0.05em; text-transform: uppercase; }
-    tbody tr:last-child td { border-bottom: 0; }
-    td.points { width: 74px; color: var(--green); font-weight: 800; text-align: center; white-space: nowrap; }
-    .score-rule { padding: 16px; border: 1px solid #cdd8f2; background: var(--blue-soft); border-radius: 12px; }
-    .score-rule b { color: var(--blue); }
-    .score-rule p { margin: 6px 0 0; color: var(--muted); }
-    .bonus { border-top: 5px solid var(--gold); }
-    .review-template { padding: 16px 18px; background: #20242b; color: #eef0f4; border-radius: 12px; font: 0.9rem/1.7 var(--mono); white-space: pre-wrap; }
-    .footer { margin-top: 48px; padding: 24px; color: white; background: var(--green-dark); border-radius: 14px; }
-    .footer a { color: white; }
+<p><strong>Thursday, August 13, 2026 · 5:30–7:20 PM PDT</strong><br>
+In person · 101 Howard · Room 529</p>
 
-    @media (max-width: 900px) {
-      .facts, .grid5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid3 { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 620px) {
-      main { width: min(100% - 24px, 1180px); margin-top: 12px; }
-      header.hero { padding: 24px 20px; }
-      .facts, .grid2, .grid5 { grid-template-columns: 1fr; }
-      nav { position: static; padding: 8px 0; }
-      th, td { padding: 10px; font-size: 0.88rem; }
-    }
-    @media print {
-      body { background: white; }
-      main { width: 100%; margin: 0; }
-      nav { display: none; }
-      header.hero, .card, .table-wrap { box-shadow: none; }
-      section { break-inside: avoid; }
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <header class="hero">
-      <p class="kicker">Lecture 11 · Final Project Closeout</p>
-      <h1>Final Presentation</h1>
-      <p class="lede">One page for the presentation format, scoring, schedule, bonus, peer reviews, and final-week attendance.</p>
-      <div class="facts">
-        <div class="fact"><b>Thursday · Aug 13</b><span>5:30–7:20 PM PDT</span></div>
-        <div class="fact"><b>In person</b><span>101 Howard · Room 529</span></div>
-        <div class="fact"><b>20 + 3</b><span>Base presentation + bonus</span></div>
-        <div class="fact"><b>Peer reviews · +2</b><span>Three other projects</span></div>
-      </div>
-    </header>
+<h2>Presentation format</h2>
 
-    <nav aria-label="Page sections">
-      <a href="#format">Format</a>
-      <a href="#rubric">Rubric</a>
-      <a href="#bonus">Bonus</a>
-      <a href="#schedule">Schedule</a>
-      <a href="#reviews">Peer reviews</a>
-      <a href="#attendance">Attendance</a>
-    </nav>
+<table>
+  <thead>
+    <tr><th>Project format</th><th>Presentation</th><th>Q&amp;A</th><th>Total</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Individual</td><td>5 minutes</td><td>1 minute</td><td><strong>6 minutes</strong></td></tr>
+    <tr><td>Two-person team</td><td>7 minutes</td><td>1 minute</td><td><strong>8 minutes</strong></td></tr>
+  </tbody>
+</table>
 
-    <section id="format">
-      <p class="kicker">Format</p>
-      <h2>Make the shortest clear case for your project</h2>
-      <div class="grid2">
-        <article class="card">
-          <h3>Individual</h3>
-          <span class="big-number">5 + 1</span>
-          <p>Five minutes presenting, then one minute for Q&amp;A.</p>
-        </article>
-        <article class="card">
-          <h3>Two-person team</h3>
-          <span class="big-number">7 + 1</span>
-          <p>Seven minutes presenting, then one minute for Q&amp;A. Both students must speak.</p>
-        </article>
-      </div>
+<p>Both students on a two-person team must speak. Be ready before your assigned
+start time.</p>
 
-      <h3 style="margin-top:28px">Recommended five-slide elevator pitch</h3>
-      <p class="section-lede">Five slides are recommended, not required. An equivalent concise structure is acceptable.</p>
-      <div class="grid5">
-        <article class="card"><span class="num">1</span><h3>Problem</h3><p>Target user and useful decision.</p></article>
-        <article class="card"><span class="num">2</span><h3>Data</h3><p>Source and Kafka event contract.</p></article>
-        <article class="card"><span class="num">3</span><h3>System</h3><p>Streaming architecture and processor.</p></article>
-        <article class="card"><span class="num">4</span><h3>Evidence</h3><p>Result and validation or evaluation.</p></article>
-        <article class="card"><span class="num">5</span><h3>AI + lesson</h3><p>Role, verification, limitation, or next step.</p></article>
-      </div>
-      <div class="callout"><strong>Live demo is optional.</strong> A recorded result or submitted artifact is acceptable. Do not spend the presentation walking through files or reading code.</div>
-    </section>
+<h3>Recommended five-slide story</h3>
 
-    <section id="rubric">
-      <p class="kicker">Base score · 20 points</p>
-      <h2>Seven categories, not twenty tiny checkpoints</h2>
-      <p class="section-lede">The categories are the same required story already announced in Lecture 7 and the final-project requirements.</p>
-      <div class="grid2" style="margin-bottom:16px">
-        <div class="score-rule"><b>3-point category</b><p>3 complete · 2 mostly complete · 1 weak/partial · 0 missing</p></div>
-        <div class="score-rule"><b>2-point category</b><p>2 complete · 1 partial/unclear · 0 missing</p></div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Category</th><th>Full-credit evidence</th><th>Points</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1. Problem and audience</strong></td><td>States the problem and identifies the target user or decision.</td><td class="points">2</td></tr>
-            <tr><td><strong>2. Data and event contract</strong></td><td>Identifies the data source and explains the event and key fields entering Kafka.</td><td class="points">3</td></tr>
-            <tr><td><strong>3. Streaming architecture</strong></td><td>Traces the implemented path from source or replay through Kafka and processing to output.</td><td class="points">3</td></tr>
-            <tr><td><strong>4. Useful result</strong></td><td>Shows a visible end-to-end result and explains what it means.</td><td class="points">3</td></tr>
-            <tr><td><strong>5. Validation or evaluation</strong></td><td>Shows a test, metric, acceptance check, comparison, or evaluation result supporting the claim.</td><td class="points">3</td></tr>
-            <tr><td><strong>6. AI role and verification</strong></td><td>Defines the bounded AI task or AI-assisted workflow and explains how it was checked.</td><td class="points">3</td></tr>
-            <tr><td><strong>7. Lesson and delivery</strong></td><td>Ends with an evidence-based limitation, lesson, or next step and stays within the assigned slot.</td><td class="points">3</td></tr>
-            <tr><td colspan="2"><strong>Base total</strong></td><td class="points">20</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+<ol>
+  <li>Problem and target user.</li>
+  <li>Data source and Kafka event contract.</li>
+  <li>Streaming architecture.</li>
+  <li>Result and validation or evaluation evidence.</li>
+  <li>AI role, verification, lesson, and next step.</li>
+</ol>
 
-    <section id="bonus">
-      <p class="kicker">Presentation bonus · up to 3 points</p>
-      <h2>Three optional ways to go beyond the base story</h2>
-      <div class="grid3">
-        <article class="card bonus"><h3>+1 · Design tradeoff</h3><p>Name a credible alternative, the constraint, and why you chose the implemented design.</p></article>
-        <article class="card bonus"><h3>+1 · Evidence visual</h3><p>Use one accurate visual, table, or concise demonstration to connect a claim to evidence.</p></article>
-        <article class="card bonus"><h3>+1 · Technical defense</h3><p>Answer the focused Q&amp;A question with project evidence and appropriate uncertainty.</p></article>
-      </div>
-      <div class="callout"><strong>Maximum presentation score: 23.</strong> Bonus cannot replace a missing base category.</div>
-    </section>
+<p>Five slides are recommended, not required. A live demo is optional; a
+recorded result or submitted artifact is acceptable.</p>
 
-    <section id="schedule">
-      <p class="kicker">Frozen randomized order</p>
-      <h2>Presentation schedule</h2>
-      <p class="section-lede">Be ready before your assigned start time. Presentations stop at the published end time. There is no separate break.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Time</th><th>Project</th><th>Student(s)</th></tr></thead>
-          <tbody>
-            <tr><td><strong>5:30–5:40</strong></td><td>Opening remarks and instructions</td><td>All students</td></tr>
-            <tr><td>5:40–5:48</td><td>Space Weather Radio-Risk Monitor</td><td>Noam Fein · Niki Naderzad</td></tr>
-            <tr><td>5:48–5:54</td><td>Hotel Bookings</td><td>Alexander Mohun</td></tr>
-            <tr><td>5:54–6:02</td><td>Streaming Movie Recommendations</td><td>Jack Dawson · Sarah Taylor</td></tr>
-            <tr><td>6:02–6:10</td><td>Muni Vehicle Activity and Feed-Health Monitor</td><td>Chantelle Willette · Patrick Crouch</td></tr>
-            <tr><td>6:10–6:16</td><td>Real-Time Retail Sales Intelligence Pipeline</td><td>William Spagnuolo</td></tr>
-            <tr><td>6:16–6:24</td><td>Real-Time Transit Reliability Lakehouse</td><td>Borna Karimi · Aatish Lobo</td></tr>
-            <tr><td>6:24–6:32</td><td>Streaming Traffic Volume Monitor from Caltrans Live CCTV</td><td>Tom Kovalcik · Chris Monzon</td></tr>
-            <tr><td>6:32–6:40</td><td>Gate-Time Delay Risk: Streaming Flight-Delay Scoring and Alerts</td><td>Aidan Percy · Sebastian Steen</td></tr>
-            <tr><td>6:40–6:46</td><td>Bay Area Transit Delay Alerts Using Kafka</td><td>Kaio Farkouh</td></tr>
-            <tr><td>6:46–6:52</td><td>Pre-Departure Flight Delay-Risk Scoring on Kafka</td><td>Lynn Tong</td></tr>
-            <tr><td>6:52–7:00</td><td>Event-Time Correctness for Realtime Crypto Market Data</td><td>Lokesh Muvva · Joshua He</td></tr>
-            <tr><td>7:00–7:08</td><td>Artificial Streaming Anomaly Monitor</td><td>P.J. Losiewicz · Tianyi Luo</td></tr>
-            <tr><td>7:08–7:10</td><td>Transition buffer</td><td>All students</td></tr>
-            <tr><td><strong>7:10–7:20</strong></td><td>Final remarks and course close</td><td>All students</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+<h2>Presentation rubric: 20 points</h2>
 
-    <section id="reviews">
-      <p class="kicker">Individual peer-review bonus · up to 2 points</p>
-      <h2>Review three other projects</h2>
-      <div class="grid2">
-        <article class="card">
-          <h3>One complete review has three short items</h3>
-          <ol>
-            <li>One evidence-based strength.</li>
-            <li>One focused question or limitation.</li>
-            <li>One actionable suggestion.</li>
-          </ol>
-          <p>Review three distinct projects, not your own or your teammate's.</p>
-        </article>
-        <article class="card">
-          <h3>Extra-credit scale</h3>
-          <p><strong>3 complete reviews = +2</strong></p>
-          <p>2 complete reviews = +1</p>
-          <p>1 complete review = +0.5</p>
-          <p>0 complete reviews = 0</p>
-        </article>
-      </div>
-      <p class="section-lede" style="margin-top:16px">Submit one PDF or Markdown file through the Canvas peer-review location by <strong>Friday, August 14 at 11:59 PM PDT</strong>.</p>
-      <div class="review-template">Project title:
+<table>
+  <thead>
+    <tr><th>Category</th><th>Full-credit evidence</th><th>Points</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Problem and audience</strong></td><td>States the problem and identifies the target user or decision.</td><td><strong>2</strong></td></tr>
+    <tr><td><strong>Data and event contract</strong></td><td>Identifies the source and explains the event and key fields entering Kafka.</td><td><strong>3</strong></td></tr>
+    <tr><td><strong>Streaming architecture</strong></td><td>Traces the implemented path from source or replay through Kafka and processing to output.</td><td><strong>3</strong></td></tr>
+    <tr><td><strong>Useful result</strong></td><td>Shows an end-to-end result and explains what it means.</td><td><strong>3</strong></td></tr>
+    <tr><td><strong>Validation or evaluation</strong></td><td>Shows evidence supporting the project's main claim.</td><td><strong>3</strong></td></tr>
+    <tr><td><strong>AI role and verification</strong></td><td>Defines the bounded AI task or AI-assisted workflow and explains how it was checked.</td><td><strong>3</strong></td></tr>
+    <tr><td><strong>Lesson and delivery</strong></td><td>Ends with a limitation, lesson, or next step and stays within the assigned time.</td><td><strong>3</strong></td></tr>
+    <tr><td colspan="2"><strong>Base total</strong></td><td><strong>20</strong></td></tr>
+  </tbody>
+</table>
 
-Evidence-based strength:
+<h3>Optional presentation bonus: up to 3 points</h3>
 
-Focused question or limitation:
+<table>
+  <thead>
+    <tr><th>Bonus evidence</th><th>Points</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Explains one design alternative, constraint, and reason for the implemented choice.</td><td><strong>+1</strong></td></tr>
+    <tr><td>Uses one accurate visual, table, or concise demonstration to connect a claim to evidence.</td><td><strong>+1</strong></td></tr>
+    <tr><td>Answers the focused Q&amp;A question using project evidence.</td><td><strong>+1</strong></td></tr>
+  </tbody>
+</table>
 
-Actionable suggestion:</div>
-    </section>
+<p>Maximum presentation score: <strong>23 points</strong>. Bonus cannot replace a
+missing base category.</p>
 
-    <section id="attendance">
-      <p class="kicker">Final week</p>
-      <h2>Please attend both remaining classes</h2>
-      <div class="grid2">
-        <article class="card"><h3>Monday · August 10</h3><p>5:30–7:20 PM PDT on Zoom · Final review and project workshop.</p></article>
-        <article class="card"><h3>Thursday · August 13</h3><p>5:30–7:20 PM PDT in person · Final presentations and course close.</p></article>
-      </div>
-      <div class="callout"><strong>Existing course policy:</strong> attendance is required for every lecture, and attendance and professionalism remain worth 10% of the course grade.</div>
-    </section>
+<h2>Presentation schedule</h2>
 
-    <div class="footer">
-      <strong>Final written package:</strong> due Friday, August 14 at 11:59 PM PDT. Review the
-      <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project">Final Project Requirements</a>
-      and the <a href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project-rubric">simplified Written Report and Code Rubric</a>.
-    </div>
-  </main>
-</body>
-</html>
+<table>
+  <thead>
+    <tr><th>Time</th><th>Project</th><th>Student(s)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>5:30–5:40</td><td>Opening remarks and instructions</td><td>All students</td></tr>
+    <tr><td>5:40–5:48</td><td>Space Weather Radio-Risk Monitor</td><td>Noam Fein and Niki Naderzad</td></tr>
+    <tr><td>5:48–5:54</td><td>Hotel Bookings</td><td>Alexander Mohun</td></tr>
+    <tr><td>5:54–6:02</td><td>Streaming Movie Recommendations</td><td>Jack Dawson and Sarah Taylor</td></tr>
+    <tr><td>6:02–6:10</td><td>Muni Vehicle Activity and Feed-Health Monitor</td><td>Chantelle Willette and Patrick Crouch</td></tr>
+    <tr><td>6:10–6:16</td><td>Real-Time Retail Sales Intelligence Pipeline</td><td>William Spagnuolo</td></tr>
+    <tr><td>6:16–6:24</td><td>Real-Time Transit Reliability Lakehouse</td><td>Borna Karimi and Aatish Lobo</td></tr>
+    <tr><td>6:24–6:32</td><td>Streaming Traffic Volume Monitor from Caltrans Live CCTV</td><td>Tom Kovalcik and Chris Monzon</td></tr>
+    <tr><td>6:32–6:40</td><td>Gate-Time Delay Risk: Streaming Flight-Delay Scoring and Alerts</td><td>Aidan Percy and Sebastian Steen</td></tr>
+    <tr><td>6:40–6:46</td><td>Bay Area Transit Delay Alerts Using Kafka</td><td>Kaio Farkouh</td></tr>
+    <tr><td>6:46–6:52</td><td>Pre-Departure Flight Delay-Risk Scoring on Kafka</td><td>Lynn Tong</td></tr>
+    <tr><td>6:52–7:00</td><td>Event-Time Correctness for Realtime Crypto Market Data</td><td>Lokesh Muvva and Joshua He</td></tr>
+    <tr><td>7:00–7:08</td><td>Artificial Streaming Anomaly Monitor</td><td>P.J. Losiewicz and Tianyi Luo</td></tr>
+    <tr><td>7:08–7:10</td><td>Transition buffer</td><td>All students</td></tr>
+    <tr><td>7:10–7:20</td><td>Final remarks and course close</td><td>All students</td></tr>
+  </tbody>
+</table>
+
+<p>The order is randomized and frozen. There is no separate break.</p>
+
+<h2>Peer-review extra credit: up to 2 points</h2>
+
+<p>Submit short reviews of three projects other than your own. Each review must
+include:</p>
+
+<ol>
+  <li>One evidence-based strength.</li>
+  <li>One focused question or limitation.</li>
+  <li>One actionable suggestion.</li>
+</ol>
+
+<ul>
+  <li>Three complete reviews: <strong>+2 points</strong>.</li>
+  <li>Two complete reviews: <strong>+1 point</strong>.</li>
+  <li>One complete review: <strong>+0.5 point</strong>.</li>
+</ul>
+
+<p>Submit one PDF or Markdown file through Canvas by <strong>Friday, August 14 at
+11:59 PM PDT</strong>.</p>
+
+<h2>Final-week attendance</h2>
+
+<ul>
+  <li><strong>Monday, August 10, 5:30–7:20 PM PDT on Zoom:</strong> final review and project workshop.</li>
+  <li><strong>Thursday, August 13, 5:30–7:20 PM PDT in person:</strong> final presentations and course close.</li>
+</ul>
+
+<p>Attendance and professionalism remain worth 10% of the course grade.</p>
+
+<h2>Final written package</h2>
+
+<p>Due through Canvas on <strong>Friday, August 14 at 11:59 PM PDT</strong>.</p>
+
+<ul>
+  <li><a href="#/handouts/final-project">Final Project Requirements</a></li>
+  <li><a href="#/handouts/final-project-rubric">Final Written Report and Code Rubric</a></li>
+</ul>

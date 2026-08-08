@@ -7,21 +7,6 @@ themselves.
 
 For a two-person team, both students receive the same written-package score.
 
-## Simple Scoring Rule
-
-For a **3-point row**:
-
-- **3:** Complete, clear, consistent, and verifiable.
-- **2:** Mostly complete, with one material gap.
-- **1:** Present, but weak or only partly verifiable.
-- **0:** Missing or not verifiable.
-
-For a **2-point row**:
-
-- **2:** Complete and verifiable.
-- **1:** Partially complete or unclear.
-- **0:** Missing or not verifiable.
-
 Grade only the submitted ZIP and its authorized review environment. Leave a
 short note for every row that does not receive full credit.
 
