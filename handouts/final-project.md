@@ -286,4 +286,4 @@ For a two-person project:
 
 The presentation is worth **20% of the course grade**. Use the single
 [Final Presentation page](#/handouts/final-presentation) for timing, the
-recommended five-slide story, the 20-point rubric, project order, and Q&A.
+20-point rubric, project order, and Q&A.

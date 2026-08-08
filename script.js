@@ -803,9 +803,9 @@ const handouts = [
     kind: "html",
     file: "handouts/final-presentation.html",
     createdAt: "Created at 2:03 PM PDT on August 8, 2026",
-    lastUpdatedAt: "Last updated at 2:32 PM PDT on August 8, 2026",
+    lastUpdatedAt: "Last updated at 2:40 PM PDT on August 8, 2026",
     wide: true,
-    summary: "One concise handout for presentation timing, four-category rubric, schedule, and attendance."
+    summary: "One concise handout for final-project links, presentation timing, four-category rubric, schedule, and Q&A."
   }
   // PDF example (uncomment and add the file to publish):
   // {

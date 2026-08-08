@@ -957,8 +957,8 @@ tbody tr:hover {
 }
 
 .handout .presentation-schedule th:nth-child(1) { width: 12%; }
-.handout .presentation-schedule th:nth-child(2) { width: 55%; }
-.handout .presentation-schedule th:nth-child(3) { width: 33%; }
+.handout .presentation-schedule th:nth-child(2) { width: 34%; }
+.handout .presentation-schedule th:nth-child(3) { width: 54%; }
 
 .route-final-presentation .page {
   max-width: 1240px;
