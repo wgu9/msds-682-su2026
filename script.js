@@ -816,9 +816,9 @@ const handouts = [
     kind: "md",
     file: "handouts/demo11.md",
     createdAt: "Created at 1:49 PM PDT on August 9, 2026",
-    lastUpdatedAt: "Last updated at 3:51 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 4:05 PM PDT on August 9, 2026",
     wide: true,
-    summary: "Continue Demo 05 from broker acknowledgement to pending, completed, idempotent retry, and conflict through one local path and one bounded Confluent Python-client path."
+    summary: "Show why 202 is not completion, then use one request_id and status URL to observe processing and make retries safe."
   },
   {
     slug: "final-presentation",
