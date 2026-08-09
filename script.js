@@ -803,7 +803,7 @@ const handouts = [
     kind: "html",
     file: "handouts/MSDS682-Lecture11-API-Design.html",
     createdAt: "Created at 1:49 PM PDT on August 9, 2026",
-    lastUpdatedAt: "Last updated at 3:51 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 4:12 PM PDT on August 9, 2026",
     wide: true,
     standalone: true,
     summary: "Use REST and FastAPI to accept work, Kafka to retain events, and a status resource to report downstream progress."
