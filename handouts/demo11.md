@@ -1,4 +1,4 @@
-# Demo 11: Observable API for an Asynchronous Kafka Workflow
+# Demo 11: Observable API for an asynchronous Kafka workflow
 
 - **Lecture:** Lecture 11 - API Design for Streaming Systems
 - **Python:** 3.11.14
@@ -13,10 +13,9 @@
 
 > ##### KEY CONCEPT
 >
-> `202 Accepted` proves that the system accepted an asynchronous request. It
-> does not prove that business processing finished. A useful streaming API also
-> gives the client one stable ID and a direct way to observe `pending`,
-> `completed`, or `failed`.
+> `202 Accepted` confirms that the system accepted an asynchronous request. The
+> worker may still be running. The response therefore includes one stable ID
+> and a URL that returns `pending`, `completed`, or `failed`.
 
 > ##### CURRENT STATUS
 >
@@ -24,11 +23,11 @@
 > `demo11-final-20260809`. The existing Demo 05 topic accepted one Avro event,
 > one bounded Python consumer validated it, status changed from `pending` to
 > `completed`, an identical retry returned `200`, a changed retry returned
-> `409`, and `contract_passed` was `true`. No Confluent CLI, ksqlDB application,
-> or Flink statement was required. Cloud state can change, so rerun Demo 11B
-> before a future class instead of treating this dated proof as permanent.
+> `409`, and `contract_passed` was `true`. The run used the Python client. It did
+> not use the Confluent CLI, a ksqlDB application, or a Flink statement. Cloud
+> state can change, so rerun Demo 11B before a future class.
 
-## 1. Objective, expected outcome, and 16-minute route
+## 1. Goal and 16-minute route
 
 Demo 11 answers one client-facing question:
 
@@ -46,7 +45,7 @@ By the end of Demo 11, you should be able to:
   <section class="handout-flow-card">
     <span class="handout-flow-phase">Accept</span>
     <strong>POST returns 202</strong>
-    <p>FastAPI validates intent and publishes one governed event.</p>
+    <p>FastAPI validates the request and publishes one TripEventV1 event.</p>
   </section>
   <div class="handout-flow-arrow" aria-hidden="true">→</div>
   <section class="handout-flow-card">
@@ -69,7 +68,7 @@ By the end of Demo 11, you should be able to:
 | 3 | Complete one bounded worker step | Who owns business completion? | 5 minutes |
 | 4 | Retry and conflict | How does one stable ID protect meaning? | 5 minutes |
 
-Why this matters:
+Problems this contract prevents:
 
 | Without an observable result contract | Demo 11 adds | Practical value |
 |---|---|---|
@@ -80,8 +79,8 @@ Why this matters:
 
 ## 2. Relationship to Demo 05 and Demo 09
 
-Demo 05 implemented the command side and stopped at broker acknowledgement.
-Demo 11 adds the result side. It does not create a second business story.
+Demo 05 ends after Kafka acknowledges the event. Demo 11 uses the same trip
+request and event, then adds processing status and result lookup.
 
 ```text
 Demo 05                                           Demo 11
@@ -92,7 +91,7 @@ HTTP request -> validation -> Kafka ack     ->   worker -> read model -> GET sta
 | Question | Demo 05 established | Demo 11 adds |
 |---|---|---|
 | What enters? | `CreateTripRequest` | The same request contract |
-| What is retained? | `TripEventV1` in the Demo 05 topic | The same governed event |
+| What is retained? | `TripEventV1` in the Demo 05 topic | The same `TripEventV1` event |
 | What does the first response mean? | Kafka accepted the event | Work remains `pending` |
 | How does the caller observe progress? | Not covered | `GET /trip-requests/{request_id}` |
 | What makes retry safe? | Stable request identity | Same payload returns `200`; changed payload returns `409` |
@@ -104,13 +103,14 @@ downstream computation without changing the public API.
 |---|---|
 | POST/GET contract, `request_id`, Kafka event, status vocabulary | Python worker, ksqlDB application, or Flink SQL job |
 
-Demo 11 runs the Python owner live. It does not start ksqlDB or Flink.
+Demo 11 runs the Python worker. ksqlDB and Flink appear here only for the
+architecture comparison.
 
-## 3. Direct prerequisites and independence boundary
+## 3. Prerequisites and dependencies
 
-> **Start directly with the Demo 11 student ZIP.** It already includes every
-> required Demo 05 contract and publisher module. Do not download or start Demo
-> 05 separately.
+> **Start with the Demo 11 student ZIP.** It includes the required Demo 05
+> contract and publisher modules. You do not need a separate Demo 05 download
+> or process.
 
 | Requirement | Demo 11A local | Demo 11B Cloud |
 |---|---:|---:|
@@ -121,10 +121,10 @@ Demo 11 runs the Python owner live. It does not start ksqlDB or Flink.
 | Existing Demo 05 topic | No | Optional; use `--create-topic` if missing |
 | Demo 09 SQL application or compute pool | No | No |
 
-The package is **self-contained to run** but intentionally **extends the Demo
-05 contract**. There is no Demo 11 Kafka topic and no duplicated event schema.
+The ZIP runs on its own. Its request, event, schema, and topic definitions come
+from the bundled Demo 05 modules.
 
-## 4. REST, FastAPI, and streaming-system API design
+## 4. REST, FastAPI, and streaming system design
 
 <div class="handout-flow" role="group" aria-label="Three API design layers">
   <section class="handout-flow-card">
@@ -146,10 +146,10 @@ The package is **self-contained to run** but intentionally **extends the Demo
   </section>
 </div>
 
-FastAPI builds the front door. REST defines how clients use the door. Streaming
-system design defines the durable workflow behind it.
+REST defines the HTTP interface. FastAPI implements the routes and validation.
+The streaming design defines processing, retry, failure, and result lookup.
 
-## 5. One workflow, three contracts
+## 5. Three contracts in one workflow
 
 | Boundary | Contract | Minimum responsibility |
 |---|---|---|
@@ -157,8 +157,8 @@ system design defines the durable workflow behind it.
 | Kafka fact | `TripEventV1` | Retain the accepted business event |
 | HTTP status | `TripStatusResponse` | Report current workflow state |
 
-Similar fields do not make these the same model. Each contract has a different
-owner, lifecycle, and reason to change.
+Keep these models separate even when they share fields. Each one has a different
+owner and lifecycle.
 
 ```text
 Client -> POST contract -> Kafka event -> processing -> status contract -> Client
@@ -176,7 +176,7 @@ Client -> POST contract -> Kafka event -> processing -> status contract -> Clien
 | `422 Unprocessable Entity` | HTTP contract failed validation | Fix the named fields |
 | `503 Service Unavailable` | Publisher could not accept work safely | Retry later with the same ID |
 
-One rule controls retry behavior:
+Retry rule:
 
 ```text
 same request_id + same payload       -> return existing request
@@ -190,9 +190,10 @@ same request_id + different payload  -> reject with 409
 | `demo05_common.py`: request, event mapping, topic name | `demo11_common.py`: status, fingerprint, SQLite repository |
 | `demo05_app.py`: publisher interface and local publisher | `demo11_app.py`: idempotent POST and status GET |
 | `demo05_kafka.py`: AIO publisher and bounded consumer | `demo11a_*` / `demo11b_*`: bounded teaching sequences |
-| `trip_event_contract.py`: `TripEventV1` and Avro conversion | No second event or schema owner |
+| `trip_event_contract.py`: `TripEventV1` and Avro conversion | Demo 05 remains the event and schema owner |
 
-This split keeps one source of truth for the request, event, schema, and topic.
+The Demo 05 files remain the sources for the request, event, schema, and topic.
+Demo 11 owns the status repository and query flow.
 
 ## 8. Setup
 
@@ -223,13 +224,14 @@ python demo11a_local_observable_roundtrip.py \
   <li><span>Protect meaning</span><strong>Changed payload with the same ID returns 409.</strong></li>
 </ol>
 
-The final report should contain `contract_passed: true`. The local publisher is
-a deterministic teaching double; it does not claim Kafka delivery guarantees.
+The command exits successfully only when the report contains
+`contract_passed: true`. The local publisher is a deterministic teaching double
+and provides no Kafka delivery guarantee.
 
 ## 10. Demo 11B: optional real Confluent round trip
 
 Copy `.env.example` to ignored `.env`. Use the same credential types and topic
-contract as Demo 05. Demo 11 uses the Python Confluent client, not the
+contract as Demo 05. Demo 11 uses the Python Confluent client instead of the
 Confluent CLI.
 
 ```bash
@@ -245,7 +247,7 @@ python demo11b_confluent_observable_roundtrip.py \
   --create-topic
 ```
 
-| Evidence | What it proves | What it does not prove |
+| Evidence | What it proves | Limit |
 |---|---|---|
 | HTTP `202` plus broker receipt | Kafka acknowledged the event | Business processing completed |
 | Validated bounded consume | One event reached the worker safely | A production worker runs forever |
@@ -260,9 +262,9 @@ python demo11b_confluent_observable_roundtrip.py \
 | Append-oriented | Query-oriented |
 | Source for rebuilding state | Disposable local projection |
 
-The GET route reads the projection; it does not scan Kafka for every request.
-A production system may replace SQLite with another queryable store without
-changing the API contract.
+The GET route reads the projection instead of scanning Kafka. A production
+system may replace SQLite with another queryable store without changing the API
+contract.
 
 ## 12. Common mistakes
 
@@ -278,7 +280,7 @@ changing the API contract.
 
 ## 13. Review questions
 
-1. What exactly does the first `202` prove?
+1. What does the first `202` prove?
 2. Why are the request, event, and status separate contracts?
 3. Why does an identical retry return the existing request?
 4. Why does the GET route use a read model instead of scanning Kafka?
@@ -304,12 +306,12 @@ changing the API contract.
 - [ ] Any Cloud run is bounded and uses only the Python client.
 - [ ] No `.env`, key, secret, or Cloud-generated report is submitted.
 
-## 16. One-screen summary
+## 16. Summary
 
 | Design question | Demo 11 answer |
 |---|---|
 | What enters? | One validated HTTP command |
-| What is durable? | One governed Kafka event |
+| What is durable? | One `TripEventV1` Kafka event |
 | What does `202` mean? | Accepted, not completed |
 | Who completes the work? | The downstream compute owner |
 | How does the client observe it? | GET one status resource by `request_id` |

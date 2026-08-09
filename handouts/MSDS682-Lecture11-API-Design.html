@@ -286,20 +286,20 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- 1 -->
 <section class="slide title-slide"><div class="wrap">
-  <h1 class="opening-title">API Design for Streaming Systems</h1>
-  <p class="title-scope">One API Contract · Three Compute Owners</p>
+  <h1 class="opening-title">API design for streaming systems</h1>
+  <p class="title-scope">One API contract · three compute owners</p>
   <p class="deck-meta">Lecture 11 · Jeremy Gu · University of San Francisco · Summer 2026</p>
   <hr class="rule">
 </div></section>
 
 <!-- 2 -->
 <section class="slide" data-ref="L5 · Demo 05 · L9 · Demo 09 · Demo 11"><div class="wrap">
-  <h2>Complete a Contract We Already Started</h2>
+  <h2>How Lectures 5, 9, and 11 fit together</h2>
   <div class="bridge">
     <div class="unit">
       <div class="lec">Lecture 5 · Demo 05</div>
       <strong>Accept</strong>
-      <p class="note">HTTP command → governed Kafka event → broker acknowledgement.</p>
+      <p class="note">HTTP command → <code>TripEventV1</code> event → broker acknowledgement.</p>
     </div>
     <div class="unit t-purple">
       <div class="lec">Lecture 9 · Demo 09</div>
@@ -314,12 +314,12 @@ tbody tr:last-child td{border-bottom:none}
   </div>
   <div class="timebar"><span></span><span></span><span></span></div>
   <div class="timelegend"><span>36 min · concepts</span><span>16 min · demo</span><span>8 min · apply + close</span></div>
-  <div class="callout c-amber"><p>Why it matters: without observable completion, <code>202</code> becomes false success, retries create duplicates, and failures become invisible.</p></div>
+  <div class="callout c-amber"><p>Without a status contract, clients may treat <code>202</code> as completion, retry the same work, or lose track of failures.</p></div>
 </div></section>
 
 <!-- 3 -->
 <section class="slide" data-ref="L5 · FastAPI recap · L11"><div class="wrap">
-  <h2>REST, FastAPI, and Streaming Design Are Three Layers</h2>
+  <h2>REST, FastAPI, and streaming design solve different problems</h2>
   <div class="layer-stack">
     <div class="layer">
       <div class="name">REST / HTTP</div>
@@ -337,12 +337,12 @@ tbody tr:last-child td{border-bottom:none}
       <div class="example">Kafka · worker · state · retry · result</div>
     </div>
   </div>
-  <div class="callout"><p>FastAPI builds the front door. Streaming API design defines what happens behind it.</p></div>
+  <div class="callout"><p>REST defines the HTTP interface. FastAPI implements it. The streaming design defines processing, retry, and result lookup.</p></div>
 </div></section>
 
 <!-- 4 -->
 <section class="slide" data-ref="Demo 05 + Demo 09 + Demo 11"><div class="wrap">
-  <h2>The Client Sees One Contract; the Runtime Owns the Rest</h2>
+  <h2>The API stays fixed while processing runs behind it</h2>
   <div class="pipe cols-7">
     <div class="st t-blue"><div class="lbl">Client</div><strong>POST</strong><span class="q">intent</span></div>
     <div class="st"><div class="lbl">API</div><strong>Validate</strong><span class="q">command</span></div>
@@ -352,12 +352,12 @@ tbody tr:last-child td{border-bottom:none}
     <div class="st"><div class="lbl">API</div><strong>Read</strong><span class="q">GET</span></div>
     <div class="st t-blue"><div class="lbl">Client</div><strong>Observe</strong><span class="q">result</span></div>
   </div>
-  <div class="callout c-teal"><p>The API tells the truth about what the system knows now.</p></div>
+  <div class="callout c-teal"><p>The API returns current status instead of claiming that unfinished work is complete.</p></div>
 </div></section>
 
 <!-- 5 -->
 <section class="slide" data-ref="API boundary decision"><div class="wrap">
-  <h2>Choose Sync or Async From the Work Boundary</h2>
+  <h2>Choose sync or async based on the work</h2>
   <div class="tbl">
     <table>
       <thead><tr><th>Question</th><th>Synchronous response</th><th><code>202</code> + status lookup</th></tr></thead>
@@ -374,21 +374,21 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- 6 -->
 <section class="slide" data-ref="Demo 05 · HTTP status semantics"><div class="wrap">
-  <h2><code>202 Accepted</code> Is Precise, Not Vague</h2>
+  <h2><code>202 Accepted</code> means the event was accepted</h2>
   <div class="response-tree">
     <div class="request-box">POST<br><span class="mono">/trip-requests</span></div>
     <div class="responses">
-      <div class="response t-red"><code>422</code><h3>Rejected</h3><p class="note">HTTP contract invalid. Nothing published.</p></div>
+      <div class="response t-red"><code>422</code><h3>Rejected</h3><p class="note">FastAPI rejected the request. The publisher received nothing.</p></div>
       <div class="response t-red"><code>503</code><h3>Unavailable</h3><p class="note">Publisher could not accept work safely.</p></div>
-      <div class="response t-blue"><code>202</code><h3>Accepted</h3><p class="note">Broker acknowledged. Downstream work remains.</p></div>
+      <div class="response t-blue"><code>202</code><h3>Accepted</h3><p class="note">Kafka acknowledged the event. The worker has not finished.</p></div>
     </div>
   </div>
-  <div class="callout"><p><code>202</code> promises acceptance and a way to observe progress. It does not promise completion.</p></div>
+  <div class="callout"><p><code>202</code> confirms acceptance. The client still needs the status URL to check completion.</p></div>
 </div></section>
 
 <!-- 7 -->
 <section class="slide" data-ref="Demo 05 contract + Demo 11 status contract"><div class="wrap">
-  <h2>Three Contracts, Three Owners</h2>
+  <h2>Keep request, event, and status contracts separate</h2>
   <div class="contracts">
     <div class="contract">
       <div class="owner">HTTP command</div><h3>CreateTripRequest</h3>
@@ -403,12 +403,12 @@ tbody tr:last-child td{border-bottom:none}
       <div class="fields"><div class="field">request_id</div><div class="field">status</div><div class="field">updated_at + result</div></div>
     </div>
   </div>
-  <div class="callout c-purple"><p>Related fields do not make these the same contract.</p></div>
+  <div class="callout c-purple"><p>Keep these contracts separate even when they share fields.</p></div>
 </div></section>
 
 <!-- 8 -->
 <section class="slide" data-ref="Demo 11 workflow state"><div class="wrap">
-  <h2>Expose Workflow State, Not a False Success</h2>
+  <h2>Return pending, completed, or failed</h2>
   <div class="state-rail">
     <div class="state"><strong>pending</strong><p class="note">Accepted; downstream work remains.</p></div>
     <div class="arrow">→</div>
@@ -416,12 +416,12 @@ tbody tr:last-child td{border-bottom:none}
     <div class="arrow">or</div>
     <div class="state fail"><strong>failed</strong><p class="note">The caller can see a terminal failure.</p></div>
   </div>
-  <div class="callout c-teal"><p>A status URL turns eventual completion into an explicit client contract.</p></div>
+  <div class="callout c-teal"><p>The status URL lets the client check whether the worker has finished.</p></div>
 </div></section>
 
 <!-- 9 -->
 <section class="slide" data-ref="Demo 11 idempotency contract"><div class="wrap">
-  <h2>One <code>request_id</code> Connects the Workflow</h2>
+  <h2>Use one <code>request_id</code> for retry, logs, and status</h2>
   <div class="spine">
     <div class="spine-key">request_5410</div>
     <div class="spine-uses">
@@ -431,23 +431,23 @@ tbody tr:last-child td{border-bottom:none}
       <div class="use"><b>Status and result</b><span class="note">What can the client know now?</span></div>
     </div>
   </div>
-  <div class="callout"><p>Identity is part of the API contract, not an implementation detail.</p></div>
+  <div class="callout"><p>Clients reuse <code>request_id</code>, so it belongs in the public API contract.</p></div>
 </div></section>
 
 <!-- 10 -->
 <section class="slide" data-ref="Demo 11 retry evidence"><div class="wrap">
-  <h2>Retry the Intent, Not the Side Effect</h2>
+  <h2>Handle retries with <code>request_id</code> and payload</h2>
   <div class="retry-grid">
     <div class="retry t-blue"><h3>First valid request</h3><div class="code">202</div><p class="note">Publish once; create pending status.</p></div>
     <div class="retry t-teal"><h3>Same ID + same payload</h3><div class="code">200</div><p class="note">Return existing request; publish nothing new.</p></div>
     <div class="retry t-red"><h3>Same ID + changed payload</h3><div class="code">409</div><p class="note">Reject ambiguous meaning.</p></div>
   </div>
-  <div class="callout c-red"><p>Idempotency protects business meaning, not only network transport.</p></div>
+  <div class="callout c-red"><p>Compare the ID and payload before publishing so a retry cannot change the request.</p></div>
 </div></section>
 
 <!-- 11 -->
 <section class="slide" data-ref="Kafka log vs queryable projection"><div class="wrap">
-  <h2>Kafka Is the Log; the Status Store Is the View</h2>
+  <h2>Kafka stores events; the status store serves GET requests</h2>
   <div class="ownership">
     <div class="owner-box">
       <div class="kicker">Kafka</div><div class="big">Full event history</div>
@@ -459,12 +459,12 @@ tbody tr:last-child td{border-bottom:none}
       <p class="note">Query-oriented · fast point lookup · API response.</p>
     </div>
   </div>
-  <div class="callout c-teal"><p>Do not scan the Kafka log for every GET request.</p></div>
+  <div class="callout c-teal"><p>GET reads the status store instead of scanning the Kafka topic.</p></div>
 </div></section>
 
 <!-- 12 -->
 <section class="slide" data-ref="L9 · Demo 09"><div class="wrap">
-  <h2>Demo 09 Stays Behind the Same API</h2>
+  <h2>The compute owner can change without changing the API</h2>
   <div class="owner-switch">
     <div class="api-end">POST command<br><span class="mono">202 + status_url</span></div>
     <div class="engines">
@@ -474,12 +474,12 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <div class="api-end">GET status<br><span class="mono">pending | completed | failed</span></div>
   </div>
-  <div class="callout c-purple"><p>The compute owner may change. The client contract should not.</p></div>
+  <div class="callout c-purple"><p>Python, ksqlDB, and Flink use the same command and status contracts.</p></div>
 </div></section>
 
 <!-- 13 -->
 <section class="slide" data-ref="Demo 05 → Demo 11 · DRY implementation"><div class="wrap">
-  <h2>Demo 11 Reuses Demo 05 Instead of Rebuilding It</h2>
+  <h2>Demo 11 imports Demo 05 contracts and adds status</h2>
   <div class="reuse-grid">
     <div class="reuse">
       <div class="kicker">Reuse unchanged</div>
@@ -500,16 +500,16 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
   </div>
-  <div class="callout c-amber"><p>No Demo 11 Kafka topic. No duplicate schema. One new query boundary.</p></div>
+  <div class="callout c-amber"><p>Demo 11 uses the Demo 05 topic and schema. It adds a status repository and GET route.</p></div>
 </div></section>
 
 <!-- 14 -->
 <section class="slide" data-ref="Demo 11 prerequisites · dependency boundary"><div class="wrap">
-  <h2>Start With Demo 11; Bring Only What Its Path Needs</h2>
+  <h2>Demo 11 dependencies</h2>
   <div class="grid3">
     <div class="panel t-blue">
       <div class="kicker">Always required</div>
-      <h3>Self-contained ZIP</h3>
+      <h3>The ZIP contains its dependencies</h3>
       <p class="note">Python 3.11 · packaged requirements · tests · Demo 05 contract modules already included.</p>
     </div>
     <div class="panel t-teal">
@@ -519,16 +519,16 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <div class="panel t-amber">
       <div class="kicker">Not required</div>
-      <h3>No extra runtime</h3>
-      <p class="note">No Demo 05 process · Demo 09 SQL · Flink pool · Confluent CLI · new Demo 11 topic or schema.</p>
+      <h3>Excluded dependencies</h3>
+      <p class="note">You do not need a Demo 05 process, Demo 09 SQL, a Flink pool, the Confluent CLI, or a new topic or schema.</p>
     </div>
   </div>
-  <div class="callout c-purple"><p><strong>Packaging is independent; contract ownership is shared.</strong> Demo 11 runs by itself and intentionally imports the Demo 05 SSOT.</p></div>
+  <div class="callout c-purple"><p>The ZIP runs on its own. Its request and event contracts still come from Demo 05.</p></div>
 </div></section>
 
 <!-- 15 -->
 <section class="slide" data-ref="Demo 11A local · Demo 11B Confluent"><div class="wrap">
-  <h2>Live-Certified: Watch One Request Change State</h2>
+  <h2>Confluent check: one request from <code>202</code> to completed</h2>
   <div class="demo-layout">
     <div class="steps">
       <div class="demo-step"><b>1</b><span>POST → <code>202 pending</code></span></div>
@@ -551,24 +551,24 @@ tbody tr:last-child td{border-bottom:none}
       <a class="demo-link" href="https://wgu9.github.io/msds-682-su2026/#/handouts/demo11" target="_blank" rel="noopener">Open Demo 11 handout ↗</a>
     </div>
   </div>
-  <div class="callout c-teal"><p>Primary classroom path: credential-free Demo 11A. Optional proof: bounded Demo 11B with the Python client.</p></div>
+  <div class="callout c-teal"><p>Use Demo 11A in class without credentials. Demo 11B is the optional Cloud check with the Python client.</p></div>
 </div></section>
 
 <!-- 16 -->
 <section class="slide" data-ref="Final Project architecture review"><div class="wrap">
-  <h2>Apply Four Questions to Your Final Project</h2>
+  <h2>Check four API decisions in your final project</h2>
   <div class="grid4">
     <div class="panel t-blue"><div class="kicker">1 · Intent</div><h3>What enters?</h3><p class="note">Name the client and command.</p></div>
     <div class="panel t-purple"><div class="kicker">2 · Event</div><h3>What persists?</h3><p class="note">Name the topic, key, and schema.</p></div>
     <div class="panel t-teal"><div class="kicker">3 · Result</div><h3>How is completion observed?</h3><p class="note">Name the output or status view.</p></div>
     <div class="panel t-amber"><div class="kicker">4 · Retry</div><h3>What makes it safe?</h3><p class="note">Name stable identity and failure behavior.</p></div>
   </div>
-  <div class="callout c-amber"><p>If one answer is missing, the architecture still has a client-contract gap.</p></div>
+  <div class="callout c-amber"><p>A missing answer marks a gap in the client contract.</p></div>
 </div></section>
 
 <!-- 17 -->
 <section class="slide title-slide" data-ref="MSDS 682 · Lecture 11 · Summer 2026"><div class="wrap">
-  <h1 class="closing-title">Tell the Truth About What the System Knows Now</h1>
+  <h1 class="closing-title">Return current status and make retries safe</h1>
   <div class="chain"><span>accept</span><span>retain</span><span>compute</span><span class="hi">observe</span><span>retry safely</span></div>
   <hr class="rule">
 </div></section>
