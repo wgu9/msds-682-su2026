@@ -803,7 +803,7 @@ const handouts = [
     kind: "html",
     file: "handouts/MSDS682-Lecture11-API-Design.html",
     createdAt: "Created at 1:49 PM PDT on August 9, 2026",
-    lastUpdatedAt: "Last updated at 1:55 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 2:13 PM PDT on August 9, 2026",
     wide: true,
     standalone: true,
     summary: "Connect REST and FastAPI to asynchronous Kafka workflow design, then keep one client contract while Python, ksqlDB, or Flink SQL owns downstream compute."
@@ -816,7 +816,7 @@ const handouts = [
     kind: "md",
     file: "handouts/demo11.md",
     createdAt: "Created at 1:49 PM PDT on August 9, 2026",
-    lastUpdatedAt: "Last updated at 2:04 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 2:13 PM PDT on August 9, 2026",
     wide: true,
     summary: "Continue Demo 05 from broker acknowledgement to pending, completed, idempotent retry, and conflict through one local path and one bounded Confluent Python-client path."
   },

@@ -18,6 +18,16 @@
 > gives the client one stable ID and a direct way to observe `pending`,
 > `completed`, or `failed`.
 
+> ##### CURRENT STATUS
+>
+> **Live-certified on August 9, 2026** with run ID
+> `demo11-final-20260809`. The existing Demo 05 topic accepted one Avro event,
+> one bounded Python consumer validated it, status changed from `pending` to
+> `completed`, an identical retry returned `200`, a changed retry returned
+> `409`, and `contract_passed` was `true`. No Confluent CLI, ksqlDB application,
+> or Flink statement was required. Cloud state can change, so rerun Demo 11B
+> before a future class instead of treating this dated proof as permanent.
+
 ## 1. Objective, expected outcome, and 16-minute route
 
 Demo 11 answers one client-facing question:
@@ -58,6 +68,15 @@ By the end of Demo 11, you should be able to:
 | 2 | POST, then GET | What does `202` prove? | 3 minutes |
 | 3 | Complete one bounded worker step | Who owns business completion? | 5 minutes |
 | 4 | Retry and conflict | How does one stable ID protect meaning? | 5 minutes |
+
+Why this matters:
+
+| Without an observable result contract | Demo 11 adds | Practical value |
+|---|---|---|
+| `202` is mistaken for success | Explicit `pending`, `completed`, and `failed` | Honest client behavior |
+| A timeout creates duplicate work | Stable ID plus payload comparison | Safe retry |
+| The API is tied to one worker | Fixed API around a replaceable compute owner | Easier system evolution |
+| Operators cannot connect request to result | One ID across API, Kafka, logs, and status | Faster diagnosis |
 
 ## 2. Relationship to Demo 05 and Demo 09
 
