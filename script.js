@@ -115,8 +115,8 @@ const pages = {
               <td>11</td>
               <td><strong>Mon · Aug 10</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
-              <td>Final review and project workshop</td>
-              <td>Course review, project troubleshooting, begin presentations if needed</td>
+              <td>API Design for Streaming Systems and Project Workshop</td>
+              <td>Demo 11 observable async API; job-search preparation and final-project questions</td>
             </tr>
             <tr>
               <td>12</td>
@@ -326,8 +326,8 @@ const handoutSections = [
   {
     id: "lec11",
     label: "Lecture 11",
-    title: "Final Review and Project Workshop",
-    summary: "Review final-project scoring, practice the concise presentation story, and confirm the schedule."
+    title: "API Design for Streaming Systems and Project Workshop",
+    summary: "Complete Demo 05 with an observable asynchronous API, connect the contract to Demo 09 compute owners, then discuss job-search preparation and final-project questions."
   }
 ];
 
@@ -796,6 +796,31 @@ const handouts = [
     summary: "Review the course through six concrete streaming decisions, Demo 07 and Demo 09 evidence, and the final-presentation checklist."
   },
   {
+    slug: "lec11-api-design",
+    section: "lec11",
+    category: "Slides",
+    title: "Lecture 11: API Design for Streaming Systems",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture11-API-Design.html",
+    createdAt: "Created at 1:49 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 1:55 PM PDT on August 9, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Connect REST and FastAPI to asynchronous Kafka workflow design, then keep one client contract while Python, ksqlDB, or Flink SQL owns downstream compute."
+  },
+  {
+    slug: "demo11",
+    section: "lec11",
+    category: "Demo",
+    title: "Demo 11: Observable API for an Asynchronous Kafka Workflow",
+    kind: "md",
+    file: "handouts/demo11.md",
+    createdAt: "Created at 1:49 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 1:55 PM PDT on August 9, 2026",
+    wide: true,
+    summary: "Continue Demo 05 from broker acknowledgement to pending, completed, idempotent retry, and conflict through one local path and one bounded Confluent Python-client path."
+  },
+  {
     slug: "final-presentation",
     section: "lec11",
     category: "Handout",
@@ -928,8 +953,12 @@ const lectureRoadmap = [
   },
   {
     section: "lec11",
-    slides: null,
+    slides: {
+      slug: "lec11-api-design",
+      label: "Lecture slides"
+    },
     materials: [
+      { slug: "demo11", label: "Demo 11" },
       { slug: "final-presentation", label: "Final presentation schedule and rubrics" }
     ]
   }
