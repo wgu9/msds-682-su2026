@@ -115,8 +115,8 @@ const pages = {
               <td>11</td>
               <td><strong>Mon · Aug 10</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag zoom">Zoom</span></td>
-              <td>API Design for Streaming Systems and Project Workshop</td>
-              <td>Demo 11 observable async API; job-search preparation and final-project questions</td>
+              <td>Lecture 11A/11B: API Design and Interview Preparation</td>
+              <td>Lecture 11A observable async API; Lecture 11B interview preparation and final-project questions</td>
             </tr>
             <tr>
               <td>12</td>
@@ -324,10 +324,16 @@ const handoutSections = [
     summary: "Review the course and prepare the final presentation through event, order, resume, contract, state and time, and output."
   },
   {
-    id: "lec11",
-    label: "Lecture 11",
-    title: "API Design for Streaming Systems and Project Workshop",
-    summary: "Complete Demo 05 with an observable asynchronous API, connect the contract to Demo 09 compute owners, then discuss job-search preparation and final-project questions."
+    id: "lec11a",
+    label: "Lecture 11A",
+    title: "API Design for Streaming Systems",
+    summary: "Complete Demo 05 with an observable asynchronous API and connect the client contract to the Demo 09 compute owners."
+  },
+  {
+    id: "lec11b",
+    label: "Lecture 11B",
+    title: "Interview Preparation",
+    summary: "Turn the final project into relevant, concise, and verifiable evidence for applications, interviews, follow-up, offers, and resumes."
   }
 ];
 
@@ -796,21 +802,21 @@ const handouts = [
     summary: "Review the course through six concrete streaming decisions, Demo 07 and Demo 09 evidence, and the final-presentation checklist."
   },
   {
-    slug: "lec11-api-design",
-    section: "lec11",
+    slug: "lec11a-api-design",
+    section: "lec11a",
     category: "Slides",
-    title: "Lecture 11: API design for streaming systems",
+    title: "Lecture 11A: API design for streaming systems",
     kind: "html",
-    file: "handouts/MSDS682-Lecture11-API-Design.html",
+    file: "handouts/MSDS682-Lecture11A-API-Design.html",
     createdAt: "Created at 1:49 PM PDT on August 9, 2026",
-    lastUpdatedAt: "Last updated at 4:12 PM PDT on August 9, 2026",
+    lastUpdatedAt: "Last updated at 5:04 PM PDT on August 10, 2026",
     wide: true,
     standalone: true,
     summary: "Use REST and FastAPI to accept work, Kafka to retain events, and a status resource to report downstream progress."
   },
   {
     slug: "demo11",
-    section: "lec11",
+    section: "lec11a",
     category: "Demo",
     title: "Demo 11: Observable API for an asynchronous Kafka workflow",
     kind: "md",
@@ -821,8 +827,21 @@ const handouts = [
     summary: "Show why 202 is not completion, then use one request_id and status URL to observe processing and make retries safe."
   },
   {
+    slug: "lec11b-interview-preparation",
+    section: "lec11b",
+    category: "Slides",
+    title: "Lecture 11B: Interview preparation",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture11B-Interview-Preparation.html",
+    createdAt: "Created at 4:29 PM PDT on August 10, 2026",
+    lastUpdatedAt: "Last updated at 5:13 PM PDT on August 10, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Follow the complete candidate journey from target role and evidence package through applications, interviews, written-offer review, negotiation, and signature."
+  },
+  {
     slug: "final-presentation",
-    section: "lec11",
+    section: "lec11b",
     category: "Handout",
     title: "Final Presentation Schedule and Rubrics",
     kind: "html",
@@ -952,13 +971,22 @@ const lectureRoadmap = [
     materials: []
   },
   {
-    section: "lec11",
+    section: "lec11a",
     slides: {
-      slug: "lec11-api-design",
-      label: "Lecture slides"
+      slug: "lec11a-api-design",
+      label: "Lecture 11A slides"
     },
     materials: [
-      { slug: "demo11", label: "Demo 11" },
+      { slug: "demo11", label: "Demo 11" }
+    ]
+  },
+  {
+    section: "lec11b",
+    slides: {
+      slug: "lec11b-interview-preparation",
+      label: "Lecture 11B slides"
+    },
+    materials: [
       { slug: "final-presentation", label: "Final presentation schedule and rubrics" }
     ]
   }
@@ -1134,6 +1162,7 @@ function handoutsListBody() {
 
 const handoutRouteAliases = Object.freeze({
   "lec7-stateful-stream-processing": "lec7b-stateful-stream-processing",
+  "lec11-api-design": "lec11a-api-design",
   "final-presentation-requirements": "final-presentation",
   "final-presentation-rubric": "final-presentation",
   "final-presentation-schedule": "final-presentation",
