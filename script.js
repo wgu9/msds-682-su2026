@@ -122,8 +122,8 @@ const pages = {
               <td>12</td>
               <td><strong>Thu · Aug 13</strong><span class="table-secondary">5:30–7:20 PM PDT</span></td>
               <td><span class="tag in-person">In person</span><span class="table-secondary">101 Howard · 529</span></td>
-              <td>Final class and project presentations</td>
-              <td><a href="#/handouts/final-presentation">Final Presentation Schedule and Rubrics</a>; report/code due Aug 14, 11:59 PM PDT</td>
+              <td>Lecture 12: Final Project Presentations</td>
+              <td><a href="#/handouts/lec12-final-project-presentations">Lecture 12 slides</a>; <a href="#/handouts/final-presentation">Final Presentation Schedule and Rubrics</a>; report/code due Aug 14, 11:59 PM PDT</td>
             </tr>
           </tbody>
         </table>
@@ -334,6 +334,12 @@ const handoutSections = [
     label: "Lecture 11B",
     title: "Interview Preparation",
     summary: "Turn the final project into relevant, concise, and verifiable evidence for applications, interviews, follow-up, offers, and resumes."
+  },
+  {
+    id: "lec12",
+    label: "Lecture 12",
+    title: "Final Project Presentations",
+    summary: "Use the published presentation format, 20-point rubric, frozen order, and final class schedule."
   }
 ];
 
@@ -841,7 +847,7 @@ const handouts = [
   },
   {
     slug: "final-presentation",
-    section: "lec11b",
+    section: "lec12",
     category: "Handout",
     title: "Final Presentation Schedule and Rubrics",
     kind: "html",
@@ -850,6 +856,19 @@ const handouts = [
     lastUpdatedAt: "Last updated at 2:52 PM PDT on August 8, 2026",
     wide: true,
     summary: "One concise handout for final-project links, presentation timing, four-category rubric, schedule, and Q&A."
+  },
+  {
+    slug: "lec12-final-project-presentations",
+    section: "lec12",
+    category: "Slides",
+    title: "Lecture 12: Final Project Presentations",
+    kind: "html",
+    file: "handouts/MSDS682-Lecture12-Final-Project-Presentations.html",
+    createdAt: "Created at 3:19 PM PDT on August 13, 2026",
+    lastUpdatedAt: "Last updated at 4:17 PM PDT on August 13, 2026",
+    wide: true,
+    standalone: true,
+    summary: "Celebrate the final class, connect Lectures 1–11 into one end-to-end journey, review the published rubric, follow the calendar, and close with an optimistic send-off."
   }
   // PDF example (uncomment and add the file to publish):
   // {
@@ -985,6 +1004,14 @@ const lectureRoadmap = [
     slides: {
       slug: "lec11b-interview-preparation",
       label: "Lecture 11B slides"
+    },
+    materials: []
+  },
+  {
+    section: "lec12",
+    slides: {
+      slug: "lec12-final-project-presentations",
+      label: "Lecture 12 slides"
     },
     materials: [
       { slug: "final-presentation", label: "Final presentation schedule and rubrics" }
