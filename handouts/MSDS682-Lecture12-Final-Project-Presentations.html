@@ -67,7 +67,7 @@ p{margin-bottom:12px}
 .course-stage:nth-of-type(7) .lecture-chip{color:var(--teal)}
 .course-stage:nth-of-type(9) .lecture-chip{color:var(--amber)}
 .course-stage h3{min-height:58px;margin-bottom:17px;font-size:clamp(20px,1.4vw,25px)}
-.course-stage p{margin:0;color:var(--muted);font-size:clamp(14px,.95vw,17px);line-height:1.45}
+.course-stage p{margin:0;color:var(--muted);font-size:clamp(16px,1vw,18px);line-height:1.4}
 .course-stage b{color:var(--ink)}
 .course-arrow{display:grid;place-items:center;color:#98a2b3;font-size:clamp(28px,2.4vw,40px);font-weight:700}
 .journey-takeaway{margin-top:18px;padding:14px 18px;border-left:5px solid var(--blue);
@@ -192,22 +192,22 @@ p{margin-bottom:12px}
   <h2>We built the full path from event to evidence</h2>
   <p class="journey-sub">Each course block added one responsibility to the same streaming system.</p>
   <div class="course-map">
-    <div class="course-stage" data-build="1"><span class="lecture-chip">L1</span>
-      <h3>Frame the question</h3><p>Decide why freshness matters. Name the <b>event</b> and the useful result.</p></div>
-    <div class="course-arrow" data-build="1">→</div>
-    <div class="course-stage" data-build="1"><span class="lecture-chip">L2 · L3 · L4</span>
-      <h3>Persist + replay</h3><p><b>Topics · keys · partitions</b><br>Consume · offset · replay<br>Avro · Schema Registry</p></div>
+    <div class="course-stage" data-build="1"><span class="lecture-chip">L1 · L2</span>
+      <h3>Frame + publish</h3><p>Define why freshness matters. Publish <b>keyed events</b> to durable Kafka topics.</p></div>
     <div class="course-arrow" data-build="2">→</div>
-    <div class="course-stage" data-build="2"><span class="lecture-chip">L5 · L6 · L7 · L8 · L9</span>
-      <h3>Accept + compute</h3><p>FastAPI and Connect bring events in. <b>Join, state, event time, and recovery</b> shape the system. Python, ksqlDB, or Flink SQL owns compute.</p></div>
+    <div class="course-stage" data-build="2"><span class="lecture-chip">L3 · L4</span>
+      <h3>Consume + contract</h3><p>Replay with offsets. Protect the event contract with <b>Avro + Schema Registry</b>.</p></div>
     <div class="course-arrow" data-build="3">→</div>
-    <div class="course-stage" data-build="3"><span class="lecture-chip">L10 · L11A</span>
-      <h3>Verify + serve</h3><p>Support a claim with <b>metrics and evidence</b>. Expose async completion through 202, status, identity, and safe retry.</p></div>
+    <div class="course-stage" data-build="3"><span class="lecture-chip">L5 · L6 · L7</span>
+      <h3>Connect + process</h3><p>Expose APIs, connect sources, then <b>join and recover state</b> using event time.</p></div>
     <div class="course-arrow" data-build="4">→</div>
-    <div class="course-stage" data-build="4"><span class="lecture-chip">L11B</span>
-      <h3>Explain + present</h3><p>Turn architecture, code, result, and limitation into a <b>verifiable project story</b>.</p></div>
+    <div class="course-stage" data-build="4"><span class="lecture-chip">L8 · L9</span>
+      <h3>Design + choose</h3><p>Learn from 2023 projects. Design authorized <b>RAG/MCP</b> boundaries. Compare Python, ksqlDB, and Flink SQL.</p></div>
+    <div class="course-arrow" data-build="5">→</div>
+    <div class="course-stage" data-build="5"><span class="lecture-chip">L10 · L11</span>
+      <h3>Verify + explain</h3><p>Verify claims with evidence. Serve status safely. Explain results and limits.</p></div>
   </div>
-  <div class="journey-takeaway" data-build="4">You can now design, build, verify, and explain an end-to-end streaming system.</div>
+  <div class="journey-takeaway" data-build="5">You can now design, build, verify, and explain an end-to-end streaming system.</div>
 </div></section>
 
 <section class="slide briefing-slide" data-ref="Opening remarks and final actions"><div class="wrap">
@@ -338,8 +338,11 @@ p{margin-bottom:12px}
       updatePager();}
   })},{threshold:[.55]});
   slides.forEach(function(slide){observer.observe(slide)});
+  document.querySelectorAll('.todo-link').forEach(function(link){
+    link.addEventListener('click',function(){link.blur()});
+  });
   document.addEventListener('keydown',function(event){
-    if(event.target.closest('a,button,input,textarea,select'))return;
+    if(event.target.closest('button,input,textarea,select'))return;
     if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(event.key)>=0){
       event.preventDefault();var slide=slides[active];
       if(!reduced&&stepOf(slide)<maxStep(slide))setStep(slide,stepOf(slide)+1);else show(active+1,false);
