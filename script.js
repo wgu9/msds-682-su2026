@@ -865,7 +865,7 @@ const handouts = [
     kind: "html",
     file: "handouts/MSDS682-Lecture12-Final-Project-Presentations.html",
     createdAt: "Created at 3:19 PM PDT on August 13, 2026",
-    lastUpdatedAt: "Last updated at 4:17 PM PDT on August 13, 2026",
+    lastUpdatedAt: "Last updated at 4:59 PM PDT on August 13, 2026",
     wide: true,
     standalone: true,
     summary: "Celebrate the final class, connect Lectures 1–11 into one end-to-end journey, review the published rubric, follow the calendar, and close with an optimistic send-off."

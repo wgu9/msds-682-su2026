@@ -86,6 +86,23 @@ p{margin-bottom:12px}
 .room-row:nth-child(4) .room-number{background:var(--amber-soft);color:var(--amber)}
 .room-row strong{font-size:clamp(21px,1.45vw,26px)}
 .room-row span:last-child{color:var(--muted);font-size:clamp(16px,1.1vw,20px)}
+.briefing-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(390px,.88fr);gap:34px;
+  align-items:start;margin-top:22px}
+.briefing-grid .room-note{margin:0}
+.briefing-grid .room-row{grid-template-columns:44px 1fr;gap:5px 14px;min-height:78px;padding:10px 4px}
+.briefing-grid .room-row strong{font-size:clamp(18px,1.25vw,22px)}
+.briefing-grid .room-row span:last-child{grid-column:2;font-size:clamp(14px,.95vw,17px)}
+.todo-card{padding:22px 24px;border:1px solid #d8def8;border-top:6px solid var(--blue);
+  border-radius:18px;background:var(--panel);box-shadow:var(--shadow)}
+.todo-card h3{margin-bottom:8px;font-size:clamp(24px,1.8vw,31px)}
+.todo-item{display:grid;grid-template-columns:30px 1fr;gap:13px;padding:17px 0;border-top:1px solid var(--line)}
+.check-box{width:25px;height:25px;margin-top:2px;border:2px solid var(--blue);border-radius:5px;background:#fff}
+.todo-when{display:block;margin-bottom:5px;color:var(--blue);font:800 clamp(12px,.8vw,14px) var(--mono);
+  letter-spacing:.05em;text-transform:uppercase}
+.todo-copy p{margin:0 0 8px;font-size:clamp(16px,1.12vw,20px);line-height:1.35}
+.todo-detail{display:block;margin-top:-2px;color:var(--muted);font-size:clamp(13px,.86vw,15px)}
+.todo-link{color:var(--blue);font-size:clamp(14px,.92vw,16px);font-weight:800;text-decoration:none}
+.todo-link:hover,.todo-link:focus{text-decoration:underline;text-underline-offset:3px}
 .rubric{display:grid;margin-top:20px;border-top:1px solid var(--line)}
 .rubric-row{display:grid;grid-template-columns:52px 310px 1fr;gap:22px;align-items:center;
   min-height:96px;padding:15px 8px;border-bottom:1px solid var(--line)}
@@ -127,6 +144,16 @@ p{margin-bottom:12px}
   .course-stage p{font-size:12px;line-height:1.3}.journey-takeaway{margin-top:9px;padding:9px 11px;font-size:15px}
   .room-row{grid-template-columns:42px 1fr;gap:10px;min-height:0;padding:10px 4px}
   .room-row span:last-child{grid-column:2}
+  .briefing-grid{grid-template-columns:1fr;gap:9px;margin-top:8px}
+  .briefing-grid .room-note{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;border-top:0}
+  .briefing-grid .room-row{grid-template-columns:28px 1fr;gap:2px 7px;padding:7px;border:1px solid var(--line);
+    border-radius:9px}.briefing-grid .room-number{width:25px;height:25px;font-size:11px}
+  .briefing-grid .room-row strong{font-size:14px}.briefing-grid .room-row span:last-child{font-size:11px}
+  .todo-card{padding:10px 12px;border-top-width:4px}.todo-card h3{margin-bottom:4px;font-size:18px}
+  .todo-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .todo-item{grid-template-columns:22px 1fr;gap:7px;padding:8px 0}.check-box{width:19px;height:19px}
+  .todo-when{font-size:9px}.todo-copy p{margin-bottom:4px;font-size:12px}.todo-detail{font-size:10px}
+  .todo-link{font-size:11px}
   .rubric-row{grid-template-columns:42px 1fr;gap:10px;min-height:0;padding:9px 4px}
   .rubric-row span:last-child{grid-column:2}
   .schedule-head,.slot{grid-template-columns:105px 1fr;gap:10px}
@@ -183,18 +210,36 @@ p{margin-bottom:12px}
   <div class="journey-takeaway" data-build="4">You can now design, build, verify, and explain an end-to-end streaming system.</div>
 </div></section>
 
-<section class="slide" data-ref="Opening remarks"><div class="wrap">
+<section class="slide briefing-slide" data-ref="Opening remarks and final actions"><div class="wrap">
   <div class="kicker">Before we begin</div>
   <h2>Relax. This is a conversation.</h2>
-  <div class="room-note">
-    <div class="room-row"><span class="room-number">01</span><strong>Bring one laptop per project</strong>
-      <span>Two-person teams come up together.</span></div>
-    <div class="room-row"><span class="room-number">02</span><strong>I will take brief notes</strong>
-      <span>Your presentation score is out of 20 points.</span></div>
-    <div class="room-row"><span class="room-number">03</span><strong>Attendance is 4 points today</strong>
-      <span>If you are here, you receive the attendance points.</span></div>
-    <div class="room-row"><span class="room-number">04</span><strong>Stay, listen, and show respect</strong>
-      <span>Learn from how your classmates designed and explained their systems.</span></div>
+  <div class="briefing-grid">
+    <div class="room-note">
+      <div class="room-row"><span class="room-number">01</span><strong>Bring one laptop per project</strong>
+        <span>Two-person teams come up together.</span></div>
+      <div class="room-row"><span class="room-number">02</span><strong>I will take brief notes</strong>
+        <span>Your presentation score is out of 20 points.</span></div>
+      <div class="room-row"><span class="room-number">03</span><strong>Attendance is 4 points today</strong>
+        <span>If you are here, you receive the attendance points.</span></div>
+      <div class="room-row"><span class="room-number">04</span><strong>Stay, listen, and show respect</strong>
+        <span>Learn from how your classmates designed and explained their systems.</span></div>
+    </div>
+    <aside class="todo-card" aria-label="Two final actions">
+      <h3>Two final actions</h3>
+      <div class="todo-list">
+        <div class="todo-item"><span class="check-box" aria-hidden="true"></span><div class="todo-copy">
+          <span class="todo-when">Before presentations</span>
+          <p>Add your presentation link to the class spreadsheet.</p>
+          <span class="todo-detail">Google Slides or a Google Drive link.</span>
+          <a class="todo-link" href="https://docs.google.com/spreadsheets/d/1ju5dKRgHAZZCMAuRSAeHLcL7ss9R_X7CujPLJdz-YnQ/edit?gid=0#gid=0" target="_blank" rel="noopener">Open spreadsheet ↗</a>
+        </div></div>
+        <div class="todo-item"><span class="check-box" aria-hidden="true"></span><div class="todo-copy">
+          <span class="todo-when">Tomorrow · Aug 14 · 11:59 PM PDT</span>
+          <p>Submit your final report and code package to Canvas.</p>
+          <a class="todo-link" href="https://wgu9.github.io/msds-682-su2026/#/handouts/final-project" target="_blank" rel="noopener">Review final requirements ↗</a>
+        </div></div>
+      </div>
+    </aside>
   </div>
 </div></section>
 
